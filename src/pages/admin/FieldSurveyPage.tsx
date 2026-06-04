@@ -1,66 +1,193 @@
-import { CalendarCheck, ClipboardList } from 'lucide-react';
-import { PageHeader } from '../../components/common/PageHeader';
-import { ProgressBar } from '../../components/common/ProgressBar';
-import { MockMapPanel } from '../../components/maps/MockMapPanel';
-import { fieldSurveyAssignments, scoreFactors, userTypes } from '../../data/mockData';
+import { CalendarCheck, Check, ChevronDown, Clock3, MapPin, Plus, Search } from 'lucide-react';
+import fieldSurveyMapImage from '../../../asset/e6483cec-45b9-4427-b86a-d1354ee3e459.png';
+import { fieldSurveyAssignments } from '../../data/mockData';
+
+const assignments = [
+  {
+    team: 'A팀',
+    area: fieldSurveyAssignments[0]?.area ?? '감천문화마을 입구',
+    points: '12개 지점',
+    status: '진행중',
+    tone: 'teal',
+  },
+  {
+    team: 'B팀',
+    area: '초량이바구길 급경사',
+    points: '8개 지점',
+    status: '대기',
+    tone: 'orange',
+  },
+  {
+    team: 'C팀',
+    area: '부산역 복지 산복도로',
+    points: '9개 지점',
+    status: '완료',
+    tone: 'green',
+  },
+  {
+    team: 'D팀',
+    area: '영도 절영로 보행로',
+    points: '6개 지점',
+    status: '검토',
+    tone: 'blue',
+  },
+];
+
+const checklistItems = [
+  {
+    title: '사전 3D 이상 촬영',
+    description: '계단 · 장애 · 위험요소 근접사진',
+  },
+  {
+    title: '경사도 측정',
+    description: '평균 · 최대 경사도 입력',
+  },
+  {
+    title: '보도폭 기록',
+    description: '최소 통행 폭과 장애물 위치',
+  },
+  {
+    title: '시민제보 매칭',
+    description: '중복 제보와 현장 사진 연결',
+  },
+];
+
+const assignmentTone: Record<string, { badge: string; chip: string; row: string }> = {
+  teal: {
+    badge: 'bg-civic-50 text-civic-700',
+    chip: 'bg-civic-50 text-civic-700',
+    row: 'border-civic-100 bg-civic-50/25',
+  },
+  orange: {
+    badge: 'bg-orange-50 text-orange-600',
+    chip: 'bg-orange-50 text-orange-600',
+    row: 'border-orange-100 bg-orange-50/25',
+  },
+  green: {
+    badge: 'bg-emerald-50 text-emerald-600',
+    chip: 'bg-emerald-50 text-emerald-600',
+    row: 'border-emerald-100 bg-emerald-50/25',
+  },
+  blue: {
+    badge: 'bg-blue-50 text-action-600',
+    chip: 'bg-blue-50 text-action-600',
+    row: 'border-blue-100 bg-blue-50/25',
+  },
+};
 
 export function FieldSurveyPage() {
   return (
-    <div className="space-y-6">
-      <PageHeader eyebrow="현장조사 일정" title="조사 배정과 체크리스트" description="MVP 구간 현장조사 일정, 조사 항목, 사용자 유형별 위험 가중치를 정리합니다." />
-
-      <section className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
-        <MockMapPanel title="현장조사 대상 지도" subtitle="감천·초량·부산역 집중 조사 구간" />
-
-        <div className="app-card p-5">
-          <h2 className="flex items-center gap-2 text-lg font-bold text-navy-950">
-            <CalendarCheck className="h-5 w-5 text-action-600" aria-hidden="true" />
-            조사 배정
-          </h2>
-          <div className="mt-4 space-y-3">
-            {fieldSurveyAssignments.map((assignment) => (
-              <article key={assignment.id} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <strong className="text-sm text-navy-950">{assignment.area}</strong>
-                  <span className="text-xs font-bold text-action-600">{assignment.date}</span>
-                </div>
-                <p className="mt-1 text-xs text-slate-500">{assignment.inspector}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {assignment.focus.map((item) => (
-                    <span key={item} className="rounded-full bg-white px-2.5 py-1 text-xs font-bold text-slate-600">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
+    <div
+      data-page="field-survey"
+      className="flex h-[calc(100vh-8px)] min-h-[760px] flex-col gap-4 overflow-hidden pb-0 pt-3"
+    >
+      <header className="flex h-[78px] shrink-0 items-start justify-between gap-5">
+        <div className="min-w-0">
+          <p className="text-[12px] font-black leading-4 text-civic-700">현장조사 · 데이터 갱신</p>
+          <h1 className="text-[31px] font-black leading-9 text-navy-950">현장조사 일정 및 검수 배정</h1>
+          <p className="mt-1 text-[13px] font-semibold text-slate-500">
+            MVP 구간의 현장조사 동선을 만들고 사진 검수 담당자를 배정합니다.
+          </p>
         </div>
+
+        <div className="flex shrink-0 items-center gap-3 pt-1">
+          <label className="relative block">
+            <span className="sr-only">지역, 위험유형, 리포트 검색</span>
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+            <input
+              type="search"
+              placeholder="지역, 위험유형, 리포트 검색"
+              className="h-11 w-[390px] rounded-2xl border border-blue-100 bg-white pl-11 pr-4 text-xs font-bold text-slate-700 shadow-sm outline-none placeholder:text-slate-400 focus:border-action-500 focus:ring-2 focus:ring-action-500/20"
+            />
+          </label>
+          <button type="button" className="inline-flex h-11 items-center gap-2 rounded-2xl border border-blue-100 bg-white px-4 text-xs font-black text-navy-800 shadow-sm">
+            부산광역시
+            <ChevronDown className="h-4 w-4 text-slate-400" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="inline-flex h-11 items-center gap-2 rounded-2xl bg-action-500 px-5 text-xs font-black text-white shadow-[0_10px_18px_rgba(36,119,255,0.25)] hover:bg-action-600"
+          >
+            <Plus className="h-4 w-4" aria-hidden="true" />
+            일정 생성
+          </button>
+        </div>
+      </header>
+
+      <section className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_430px] gap-5">
+        <section className="flex min-h-0 flex-col rounded-[24px] border border-blue-100/70 bg-white p-7 shadow-[0_18px_45px_rgba(33,91,145,0.08)]">
+          <div className="flex h-[52px] shrink-0 items-start justify-between gap-4">
+            <div>
+              <h2 className="text-[19px] font-black leading-6 text-navy-950">오늘의 조사 대상 지도</h2>
+              <p className="mt-1 text-[12px] font-semibold text-slate-500">감천문화마을 · 초량이바구길 · 부산역 복합 산복도로</p>
+            </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-black text-action-600">
+              <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+              추천 동선
+            </span>
+          </div>
+
+          <div className="relative mt-4 min-h-0 flex-1 overflow-hidden rounded-[18px] border border-blue-100 bg-blue-50">
+            <img src={fieldSurveyMapImage} alt="부산 현장조사 대상 mock 지도" className="h-full w-full object-cover" />
+          </div>
+        </section>
+
+        <aside className="flex min-h-0 flex-col rounded-[24px] border border-blue-100/70 bg-white p-7 shadow-[0_18px_45px_rgba(33,91,145,0.08)]">
+          <div className="flex h-[52px] shrink-0 items-start justify-between gap-4">
+            <h2 className="text-[19px] font-black leading-6 text-navy-950">현장조사 배정</h2>
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-black text-slate-400">
+              <Clock3 className="h-3.5 w-3.5" aria-hidden="true" />
+              오늘 09:00 기준
+            </span>
+          </div>
+
+          <div className="mt-4 grid flex-1 content-start gap-4">
+            {assignments.map((assignment) => {
+              const tone = assignmentTone[assignment.tone];
+
+              return (
+                <article
+                  key={assignment.team}
+                  className={`grid min-h-[100px] grid-cols-[56px_minmax(0,1fr)_auto] items-center gap-4 rounded-[18px] border px-5 ${tone.row}`}
+                >
+                  <span className={`grid h-11 w-11 place-items-center rounded-full text-[13px] font-black ${tone.badge}`}>{assignment.team}</span>
+                  <div className="min-w-0">
+                    <strong className="block truncate text-[15px] font-black text-navy-950">{assignment.area}</strong>
+                    <span className="mt-1 block text-[12px] font-bold text-slate-500">{assignment.points}</span>
+                  </div>
+                  <span className={`rounded-full px-3 py-1.5 text-[11px] font-black ${tone.chip}`}>{assignment.status}</span>
+                </article>
+              );
+            })}
+          </div>
+        </aside>
       </section>
 
-      <section className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-        <div className="app-card p-5">
-          <h2 className="flex items-center gap-2 text-lg font-bold text-navy-950">
-            <ClipboardList className="h-5 w-5 text-civic-700" aria-hidden="true" />
-            조사 체크리스트
-          </h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {scoreFactors.slice(0, 6).map((factor) => (
-              <article key={factor.label} className="rounded-xl border border-slate-100 bg-slate-50 p-4">
-                <strong className="text-sm text-navy-950">{factor.label}</strong>
-                <p className="mt-2 text-xs leading-5 text-slate-600">사진, 위치, 수치, 관리자 메모를 mock으로 기록합니다.</p>
-              </article>
-            ))}
-          </div>
+      <section
+        className="flex h-[172px] shrink-0 flex-col rounded-[24px] border border-blue-100/70 bg-white px-7 py-5 shadow-[0_18px_45px_rgba(33,91,145,0.08)]"
+        style={{ height: 172 }}
+      >
+        <div className="flex shrink-0 items-center justify-between">
+          <h2 className="text-[19px] font-black text-navy-950">조사 체크리스트</h2>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-civic-50 px-3 py-1.5 text-[11px] font-black text-civic-700">
+            <CalendarCheck className="h-3.5 w-3.5" aria-hidden="true" />
+            필수 항목
+          </span>
         </div>
 
-        <div className="app-card p-5">
-          <h2 className="text-lg font-bold text-navy-950">사용자 유형별 위험 가중치</h2>
-          <div className="mt-5 space-y-4">
-            {userTypes.slice(0, 5).map((type, index) => (
-              <ProgressBar key={type.id} label={type.label} value={92 - index * 9} tone={index % 2 === 0 ? 'teal' : 'blue'} />
-            ))}
-          </div>
+        <div className="mt-4 grid min-h-0 flex-1 grid-cols-4 gap-5">
+          {checklistItems.map((item) => (
+            <article key={item.title} className="grid min-h-0 grid-cols-[42px_minmax(0,1fr)] gap-4 rounded-[18px] border border-blue-100 bg-slate-50/70 px-5 py-4">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-civic-50 text-civic-700">
+                <Check className="h-4 w-4 stroke-[3]" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <strong className="block truncate text-[14px] font-black text-navy-950">{item.title}</strong>
+                <p className="mt-1.5 line-clamp-2 text-[12px] font-semibold leading-5 text-slate-500">{item.description}</p>
+                <span className="mt-2 inline-flex rounded-full bg-civic-50 px-2.5 py-1 text-[10px] font-black text-civic-700">필수</span>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </div>

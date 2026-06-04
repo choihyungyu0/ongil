@@ -7,6 +7,7 @@ import { FieldSurveyPage } from './pages/admin/FieldSurveyPage';
 import { ImprovementsPage } from './pages/admin/ImprovementsPage';
 import { LayersPage } from './pages/admin/LayersPage';
 import { PhotoAnalysisPage } from './pages/admin/PhotoAnalysisPage';
+import { PriorityManagementPage } from './pages/admin/PriorityManagementPage';
 import { ReportExportPage } from './pages/admin/ReportExportPage';
 import { ReportsPage } from './pages/admin/ReportsPage';
 import { ZonesPage } from './pages/admin/ZonesPage';
@@ -19,6 +20,7 @@ export default function App() {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboardPage />} />
         <Route path="zones" element={<ZonesPage />} />
+        <Route path="priorities" element={<PriorityManagementPage />} />
         <Route path="reports" element={<ReportsPage />} />
         <Route path="analysis" element={<AnalysisPage />} />
         <Route path="photo-analysis" element={<PhotoAnalysisPage />} />

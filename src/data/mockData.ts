@@ -57,6 +57,17 @@ export type CitizenReport = {
   summary: string;
 };
 
+export type ReportReviewItem = {
+  id: string;
+  receivedAt: string;
+  location: string;
+  aiTags: string[];
+  confidence: number;
+  duplicates: number;
+  managementStatus: '검수 필요' | '접수' | '긴급' | '검토' | '조치 예정' | '모니터링';
+  photoKey: 'busNight' | 'tactileDamage' | 'treeWalkway' | 'tactilePath' | 'busStop' | 'bollard';
+};
+
 export type RouteOption = {
   id: string;
   title: string;
@@ -449,6 +460,89 @@ export const citizenReports: CitizenReport[] = [
   },
 ];
 
+export const reportReviewItems: ReportReviewItem[] = [
+  {
+    id: '#R-2048',
+    receivedAt: '오늘 09:42',
+    location: '감천문화마을 입구',
+    aiTags: ['계단', '단차'],
+    confidence: 0.91,
+    duplicates: 12,
+    managementStatus: '검수 필요',
+    photoKey: 'tactilePath',
+  },
+  {
+    id: '#R-2041',
+    receivedAt: '오늘 08:15',
+    location: '부산역 중앙대로',
+    aiTags: ['점자블록 파손'],
+    confidence: 0.87,
+    duplicates: 8,
+    managementStatus: '접수',
+    photoKey: 'tactileDamage',
+  },
+  {
+    id: '#R-2035',
+    receivedAt: '어제 18:21',
+    location: '초량 산복도로',
+    aiTags: ['급경사', '쉼터 부족'],
+    confidence: 0.86,
+    duplicates: 15,
+    managementStatus: '긴급',
+    photoKey: 'treeWalkway',
+  },
+  {
+    id: '#R-2029',
+    receivedAt: '어제 14:10',
+    location: '남포동 횡단보도',
+    aiTags: ['횡단보도 위험'],
+    confidence: 0.82,
+    duplicates: 5,
+    managementStatus: '검토',
+    photoKey: 'bollard',
+  },
+  {
+    id: '#R-2018',
+    receivedAt: '05.19 11:30',
+    location: '자갈치시장 앞',
+    aiTags: ['볼라드 간격'],
+    confidence: 0.79,
+    duplicates: 3,
+    managementStatus: '조치 예정',
+    photoKey: 'busStop',
+  },
+  {
+    id: '#R-2011',
+    receivedAt: '05.18 16:12',
+    location: '영도 흰여울 계단길',
+    aiTags: ['계단'],
+    confidence: 0.78,
+    duplicates: 9,
+    managementStatus: '모니터링',
+    photoKey: 'busNight',
+  },
+  {
+    id: '#R-2007',
+    receivedAt: '05.18 10:24',
+    location: '부산역 복지관 진입로',
+    aiTags: ['보행폭 부족', '단차'],
+    confidence: 0.76,
+    duplicates: 6,
+    managementStatus: '검수 필요',
+    photoKey: 'tactileDamage',
+  },
+  {
+    id: '#R-1998',
+    receivedAt: '05.17 20:05',
+    location: '초량시장 버스정류장',
+    aiTags: ['야간 조도', '노면 파손'],
+    confidence: 0.74,
+    duplicates: 4,
+    managementStatus: '접수',
+    photoKey: 'busNight',
+  },
+];
+
 export const routeOptions: RouteOption[] = [
   {
     id: 'route-fast',
@@ -664,5 +758,130 @@ export const reportPreviews: ReportPreview[] = [
     period: '2026년 5월',
     keyFindings: ['단차 제보 반복', '점자블록 단절 2곳', '횡단 안전성 양호'],
     exportType: '복지기관 리포트',
+  },
+];
+
+export type PriorityDangerZone = {
+  id: string;
+  rank: number;
+  name: string;
+  location: string;
+  risks: string[];
+  accessScore: number;
+  duplicateReports: number;
+  improvementNeed: number;
+  status: '긴급' | '검토' | '접수' | '예정' | '모니터링';
+};
+
+export const priorityDangerZones: PriorityDangerZone[] = [
+  {
+    id: 'priority-001',
+    rank: 1,
+    name: '초량이바구길 급경사',
+    location: '동구 초량동 865',
+    risks: ['급경사', '쉼터 부족'],
+    accessScore: 42,
+    duplicateReports: 38,
+    improvementNeed: 92,
+    status: '긴급',
+  },
+  {
+    id: 'priority-002',
+    rank: 2,
+    name: '감천문화마을 입구',
+    location: '사하구 감내2로',
+    risks: ['계단', '횡단보도'],
+    accessScore: 46,
+    duplicateReports: 32,
+    improvementNeed: 88,
+    status: '긴급',
+  },
+  {
+    id: 'priority-003',
+    rank: 3,
+    name: '부산역 중앙대로',
+    location: '동구 중앙대로 206',
+    risks: ['점자블록', '단차'],
+    accessScore: 53,
+    duplicateReports: 28,
+    improvementNeed: 78,
+    status: '검토',
+  },
+  {
+    id: 'priority-004',
+    rank: 4,
+    name: '남포동 보행로',
+    location: '중구 광복로',
+    risks: ['횡단보도', '야간 조도'],
+    accessScore: 57,
+    duplicateReports: 22,
+    improvementNeed: 74,
+    status: '검토',
+  },
+  {
+    id: 'priority-005',
+    rank: 5,
+    name: '영도 봉래동 계단길',
+    location: '영도구 봉래나루로',
+    risks: ['계단', '단차'],
+    accessScore: 59,
+    duplicateReports: 18,
+    improvementNeed: 70,
+    status: '검토',
+  },
+  {
+    id: 'priority-006',
+    rank: 6,
+    name: '부산대병원 진입로',
+    location: '서구 구덕로',
+    risks: ['보도블록'],
+    accessScore: 64,
+    duplicateReports: 15,
+    improvementNeed: 55,
+    status: '접수',
+  },
+  {
+    id: 'priority-007',
+    rank: 7,
+    name: '자갈치시장 앞 보행로',
+    location: '중구 자갈치해안로',
+    risks: ['볼라드'],
+    accessScore: 68,
+    duplicateReports: 12,
+    improvementNeed: 50,
+    status: '접수',
+  },
+  {
+    id: 'priority-008',
+    rank: 8,
+    name: '부산시민공원 북문',
+    location: '부산진구 시민공원로',
+    risks: ['점자블록'],
+    accessScore: 71,
+    duplicateReports: 10,
+    improvementNeed: 46,
+    status: '예정',
+  },
+  {
+    id: 'priority-009',
+    rank: 9,
+    name: '광안리 해변로',
+    location: '수영구 광안해변로',
+    risks: ['횡단보도'],
+    accessScore: 73,
+    duplicateReports: 9,
+    improvementNeed: 40,
+    status: '모니터링',
+  },
+  {
+    id: 'priority-010',
+    rank: 10,
+    name: '해운대 구남로',
+    location: '해운대구 구남로',
+    risks: ['보도블록'],
+    accessScore: 75,
+    duplicateReports: 8,
+    improvementNeed: 36,
+    status: '모니터링',
   },
 ];

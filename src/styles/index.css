@@ -1,3 +1,10 @@
+@import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+@import '@fontsource/pretendard/400.css';
+@import '@fontsource/pretendard/500.css';
+@import '@fontsource/pretendard/600.css';
+@import '@fontsource/pretendard/700.css';
+@import '@fontsource/pretendard/800.css';
+@import '@fontsource/pretendard/900.css';
 @import './tokens.css';
 
 @tailwind base;
@@ -5,8 +12,22 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-family:
+      'Pretendard Variable',
+      Pretendard,
+      'Noto Sans KR',
+      Inter,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+  }
+
   body {
     @apply min-h-screen bg-slate-100 text-slate-900;
+    font-feature-settings: 'ss01' 1, 'tnum' 1;
   }
 
   a {
@@ -20,10 +41,22 @@
 
 @layer components {
   .app-card {
-    @apply rounded-2xl border border-slate-200 bg-white shadow-card;
+    @apply rounded-2xl border border-blue-100/70 bg-white shadow-card;
   }
 
   .soft-chip {
     @apply inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700;
+  }
+
+  .route-screen-fit {
+    min-height: 860px;
+  }
+
+  @media (min-width: 1000px) {
+    .route-screen-fit {
+      height: calc(56.25vw - 20px);
+      max-height: 1060px;
+      min-height: 0;
+    }
   }
 }
