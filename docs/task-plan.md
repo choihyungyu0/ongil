@@ -8,41 +8,38 @@
 - Add `AGENTS.md`.
 - Add product and UI scope docs.
 - Add mock data foundation.
-- Add common, mobile, admin, map, page, and style directories.
-- Add placeholder routes for citizen and admin screens.
+- Add common, admin, map, page, and style directories.
 - Add build and lint scripts.
 
-## Phase 2: Mobile Prototype
-
-- Build polished mobile app frame.
-- Implement onboarding by mobility profile.
-- Implement search and route comparison.
-- Implement active navigation mock.
-- Implement On-gil Scan report flow.
-- Implement profile and preference states.
-
-## Phase 3: Admin Prototype
+## Phase 2: Admin Prototype
 
 - Build dashboard shell.
 - Implement risk heatmap view.
 - Implement dangerous zone table.
 - Implement citizen report review view.
+- Implement AI photo analysis mock.
 - Implement risk analysis charts.
-- Implement route package management.
+- Implement route package comparison.
 - Implement improvement priority board.
+- Implement field survey schedule.
 - Implement layer controls.
 - Implement report export preview.
 
-## Phase 4: Presentation Polish
+## Phase 3: Presentation Polish
 
 - Improve responsive behavior.
-- Add empty/loading/error-like mock states.
+- Add empty/loading/error-like mock states where useful.
 - Add stronger visual hierarchy.
 - Add Korean microcopy polish.
 - Verify accessibility contrast and keyboard navigation.
-- Prepare demo narrative from mobile route to admin insight to export report.
+- Prepare demo narrative from admin dashboard to report review, improvement tracking, and export preview.
 
-## Phase 5: Future Real Integrations
+## Removed Scope
+
+- Citizen/mobile screens were removed from the current implementation.
+- `/mobile` routes should not be recreated unless explicitly requested.
+
+## Future Real Integrations
 
 These are out of scope for this frontend prototype, but can be planned later:
 

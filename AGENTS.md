@@ -6,6 +6,8 @@ Busan On-gil AI is a frontend-only React and TypeScript prototype for a Busan wa
 
 The prototype is for startup and competition presentation use. It should feel polished enough to demo, while staying simple enough for a beginner developer to continue.
 
+Current implementation scope is admin-only. Do not add citizen/mobile screens or `/mobile` routes unless the user explicitly asks to bring them back.
+
 ## Absolute Rules
 
 - Frontend-only prototype.
@@ -30,7 +32,6 @@ The prototype is for startup and competition presentation use. It should feel po
 ## UI Fidelity Rules
 
 - Use a clean civic-tech look: teal/cyan, deep navy, bright blue CTAs, and very light blue-gray backgrounds.
-- Mobile screens should feel like app mockups.
 - Admin screens should feel like a practical government dashboard SaaS.
 - Cards can use white backgrounds, subtle borders, rounded corners, and soft shadows.
 - Use abstract mock maps made with HTML/CSS/SVG lines, pins, heatmap blobs, and labels.
@@ -63,10 +64,8 @@ The prototype is for startup and competition presentation use. It should feel po
 ## File Organization Rules
 
 - Shared UI components: `src/components/common/`
-- Citizen/mobile components: `src/components/mobile/`
 - Admin dashboard components: `src/components/admin/`
 - Abstract map components: `src/components/maps/`
-- Citizen/mobile pages: `src/pages/mobile/`
 - Admin pages: `src/pages/admin/`
 - Global styles: `src/styles/`
 - Mock data: `src/data/mockData.ts`
@@ -95,8 +94,9 @@ Use `npm.cmd` on Windows PowerShell if the local execution policy blocks `npm`.
 ## Review Checklist
 
 - Routes load without blank screens.
-- `/` redirects to `/mobile`.
-- Mobile and admin areas have distinct navigation.
+- `/` redirects to `/admin`.
+- No `/mobile` routes or citizen/mobile screen files are present.
+- Admin navigation loads all dashboard screens.
 - Korean UI labels are present.
 - Mock data is imported from `src/data/mockData.ts`.
 - No backend, database, auth, real AI, or real map API was added.

@@ -5,6 +5,8 @@ dist
 .DS_Store
 *.log
 .vite-dev.err
+.chrome-*
 *.tsbuildinfo
 pdf-reference-page.png
 .pdf-reference-page.png
+*-check.png

@@ -1,5 +1,7 @@
 import {
   BarChart3,
+  CalendarCheck,
+  Camera,
   FileDown,
   FileText,
   Layers,
@@ -15,8 +17,10 @@ const navItems = [
   { to: '/admin/zones', label: '위험구간', icon: MapPinned },
   { to: '/admin/reports', label: '시민제보', icon: FileText },
   { to: '/admin/analysis', label: '분석', icon: BarChart3 },
+  { to: '/admin/photo-analysis', label: 'AI 사진 분석', icon: Camera },
   { to: '/admin/routes', label: '루트 패키지', icon: Route },
   { to: '/admin/improvements', label: '개선 우선순위', icon: Wrench },
+  { to: '/admin/field-survey', label: '현장조사', icon: CalendarCheck },
   { to: '/admin/layers', label: '지도 레이어', icon: Layers },
   { to: '/admin/report-export', label: '리포트 내보내기', icon: FileDown },
 ];
@@ -28,8 +32,10 @@ export function AdminLayout() {
         <aside className="hidden w-72 shrink-0 border-r border-slate-200 bg-navy-950 p-5 text-white lg:block">
           <div className="rounded-2xl bg-white/8 p-4">
             <p className="text-sm font-bold text-cyan-200">Busan On-gil AI</p>
-            <h1 className="mt-2 text-xl font-bold tracking-normal">온길 대시보드</h1>
-            <p className="mt-2 text-xs leading-5 text-slate-300">지자체·관광기관용 보행접근성 mock 관제</p>
+            <h1 className="mt-2 text-xl font-bold tracking-normal">온길 관리자 대시보드</h1>
+            <p className="mt-2 text-xs leading-5 text-slate-300">
+              지자체·관광기관용 보행접근성 데이터 관제 프로토타입
+            </p>
           </div>
 
           <nav className="mt-6 space-y-1" aria-label="관리자 화면">
@@ -54,13 +60,8 @@ export function AdminLayout() {
 
         <main className="min-w-0 flex-1">
           <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur lg:hidden">
-            <div className="flex items-center justify-between gap-3">
-              <strong className="text-sm text-navy-950">온길 대시보드</strong>
-              <NavLink to="/mobile" className="rounded-full bg-navy-950 px-3 py-1.5 text-xs font-bold text-white">
-                Mobile
-              </NavLink>
-            </div>
-            <nav className="mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="관리자 모바일 메뉴">
+            <strong className="text-sm text-navy-950">온길 관리자 대시보드</strong>
+            <nav className="mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="관리자 좁은 화면 메뉴">
               {navItems.map(({ to, label, end }) => (
                 <NavLink
                   key={to}

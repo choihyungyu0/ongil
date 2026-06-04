@@ -1,34 +1,75 @@
+import { ClipboardCheck } from 'lucide-react';
 import { PageHeader } from '../../components/common/PageHeader';
-import { improvementPriorities } from '../../data/mockData';
+import { improvementPriorities, type ImprovementStage } from '../../data/mockData';
 
-const urgencyTone: Record<string, string> = {
-  긴급: 'bg-rose-50 text-rose-700',
-  높음: 'bg-amber-50 text-amber-700',
+const columns: ImprovementStage[] = ['검토 대기', '예산 협의', '공사 진행', '완료'];
+
+const columnTone: Record<ImprovementStage, string> = {
+  '검토 대기': 'border-slate-200 bg-slate-50',
+  '예산 협의': 'border-blue-200 bg-blue-50',
+  '공사 진행': 'border-amber-200 bg-amber-50',
+  완료: 'border-emerald-200 bg-emerald-50',
 };
 
 export function ImprovementsPage() {
+  const selected = improvementPriorities[0];
+
   return (
     <div className="space-y-6">
-      <PageHeader eyebrow="개선 우선순위" title="정비 후보 액션" description="민원, 접근성 점수, 제보 신뢰도를 바탕으로 한 mock 정비 우선순위입니다." />
+      <PageHeader eyebrow="개선 추적" title="보행환경 개선 칸반" description="검토 대기부터 완료까지 개선 과제를 단계별로 추적하는 mock 화면입니다." />
 
-      <section className="space-y-3">
-        {improvementPriorities.map((item, index) => (
-          <article key={item.id} className="app-card flex flex-col gap-4 p-5 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-start gap-4">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-navy-950 text-sm font-bold text-white">
-                {index + 1}
-              </span>
-              <div>
-                <h2 className="text-lg font-bold text-navy-950">{item.area}</h2>
-                <p className="mt-1 text-sm text-slate-700">{item.action}</p>
-                <p className="mt-2 text-xs text-slate-500">{item.impact}</p>
+      <section className="grid gap-5 xl:grid-cols-[1fr_340px]">
+        <div className="grid gap-4 lg:grid-cols-4">
+          {columns.map((column) => (
+            <section key={column} className={`min-h-[520px] rounded-2xl border p-4 ${columnTone[column]}`}>
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-bold text-navy-950">{column}</h2>
+                <span className="rounded-full bg-white px-2 py-1 text-xs font-bold text-slate-600">
+                  {improvementPriorities.filter((item) => item.stage === column).length}
+                </span>
               </div>
+              <div className="mt-4 space-y-3">
+                {improvementPriorities
+                  .filter((item) => item.stage === column)
+                  .map((item) => (
+                    <article key={item.id} className="rounded-xl border border-white bg-white p-4 shadow-sm">
+                      <p className="text-xs font-bold text-slate-500">{item.id}</p>
+                      <h3 className="mt-2 text-sm font-bold text-navy-950">{item.area}</h3>
+                      <p className="mt-2 text-sm leading-5 text-slate-600">{item.action}</p>
+                      <div className="mt-3 flex items-center justify-between gap-3">
+                        <span className="text-xs font-bold text-rose-600">{item.urgency}</span>
+                        <span className="text-xs text-slate-500">{item.owner}</span>
+                      </div>
+                    </article>
+                  ))}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <aside className="app-card h-fit p-5">
+          <h2 className="flex items-center gap-2 text-lg font-bold text-navy-950">
+            <ClipboardCheck className="h-5 w-5 text-civic-700" aria-hidden="true" />
+            선택 개선안
+          </h2>
+          <div className="mt-5 space-y-4">
+            <div>
+              <p className="text-xs font-bold text-slate-500">구간</p>
+              <p className="mt-1 text-base font-bold text-navy-950">{selected.area}</p>
             </div>
-            <span className={`w-fit rounded-full px-3 py-1.5 text-xs font-bold ${urgencyTone[item.urgency]}`}>
-              {item.urgency}
-            </span>
-          </article>
-        ))}
+            <div>
+              <p className="text-xs font-bold text-slate-500">권장 조치</p>
+              <p className="mt-1 text-sm leading-6 text-slate-700">{selected.action}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold text-slate-500">기대 효과</p>
+              <p className="mt-1 text-sm leading-6 text-slate-700">{selected.impact}</p>
+            </div>
+            <button type="button" className="w-full rounded-2xl bg-action-500 px-4 py-3 text-sm font-bold text-white">
+              조치 계획 mock 등록
+            </button>
+          </div>
+        </aside>
       </section>
     </div>
   );

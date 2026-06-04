@@ -5,7 +5,13 @@
 - Product source: `docs/busan_ongil_ai_final_revised_form.docx`
 - Visual reference: `docs/부산창업경진대회 3차 ui.pdf`
 
-The PDF is included in the repository as the visual reference. Local extraction tools available in this environment could not read text or render usable page previews from it, so this scope uses the product document plus the requested design direction as the baseline. Future UI tasks can inspect the PDF manually and refine component details.
+The PDF is included in the repository as the visual reference. Local extraction tools available in this environment could not read text or render usable page previews from it, so this scope uses the product document plus the requested design direction as the baseline.
+
+## Current Scope
+
+The current implementation is admin-only. All citizen/mobile screens and `/mobile` routes have been removed.
+
+Do not recreate mobile screens unless the user explicitly asks for them again.
 
 ## Visual Direction
 
@@ -15,60 +21,25 @@ The PDF is included in the repository as the visual reference. Local extraction 
 - Background: light blue-gray.
 - Cards: white, compact, rounded, soft shadow.
 - Admin: structured dashboard SaaS style.
-- Mobile: polished app mockup style.
+- Screens should remain responsive; on narrow widths the admin layout can stack and use horizontal navigation.
 
 ## Navigation Scope
 
-### Citizen Mobile Routes
-
-- `/mobile`
-- `/mobile/onboarding`
-- `/mobile/search`
-- `/mobile/routes`
-- `/mobile/navigation`
-- `/mobile/report`
-- `/mobile/profile`
-
 ### Admin Routes
 
+- `/` redirects to `/admin`
 - `/admin`
 - `/admin/zones`
 - `/admin/reports`
 - `/admin/analysis`
+- `/admin/photo-analysis`
 - `/admin/routes`
 - `/admin/improvements`
+- `/admin/field-survey`
 - `/admin/layers`
 - `/admin/report-export`
 
 ## Screen Intent
-
-### Mobile Home
-
-Show the user's current accessibility context, nearby risks, a mock map, and quick entry points for route search and reporting.
-
-### Onboarding
-
-Let the user choose a mobility profile such as wheelchair user, visually impaired user, elderly user, stroller user, temporarily injured user, or vulnerable tourist.
-
-### Search
-
-Show destination search, user type filters, avoid-condition chips, and recommended places.
-
-### Routes
-
-Compare mock route options with accessibility scores, walking time, slopes, stairs, and risk summaries.
-
-### Navigation
-
-Show active route guidance, current segment risk, step list, and abstract map progress.
-
-### Report
-
-Show photo-based scan/report preview with mock AI labels and confidence values.
-
-### Profile
-
-Show mobility type, saved preferences, recent reports, and route defaults.
 
 ### Admin Dashboard
 
@@ -76,31 +47,39 @@ Show KPI cards, abstract heatmap, high-risk zones, report trends, and improvemen
 
 ### Zones
 
-List dangerous zones by district, risk mix, score, confidence, and recommended action.
+List dangerous zones by district, risk mix, score, confidence, priority score, status, and recommended action.
 
 ### Reports
 
-Show citizen reports, mock AI classification, review status, and confidence.
+Show citizen reports, mock AI classification, review status, confidence, and location preview.
 
 ### Analysis
 
-Show risk type distribution, score factors, and area-level insights.
+Show risk type distribution, score factors, district comparison, and area-level insights.
+
+### Photo Analysis
+
+Show a visual mock of AI photo analysis with CSS bounding boxes, confidence bars, recommendations, and processing checklist.
 
 ### Admin Routes
 
-Show route packages for tourist sites, hospitals, welfare centers, and event venues.
+Compare fast, safe, stair-free, and gentle route packages for public institutions and tourism organizations.
 
 ### Improvements
 
-Show ranked improvement priorities and expected impact.
+Show improvement priorities in kanban-style stages with selected task details.
+
+### Field Survey
+
+Show survey assignments, checklist cards, and user-type risk weighting for field work.
 
 ### Layers
 
-Show map layer toggles such as slope, stairs, curbs, tactile paving, reports, lighting, and shelters.
+Show map layer toggles such as slope, stairs, curbs, tactile paving, reports, lighting, and shelters, plus district comparison.
 
 ### Report Export
 
-Show a printable/exportable report preview using mock diagnosis data.
+Show report settings, printable preview, output option cards, and visual-only download action.
 
 ## Map Rules
 
@@ -114,7 +93,3 @@ Show a printable/exportable report preview using mock diagnosis data.
 - Use Korean labels for UI.
 - Use measured wording for safety-related claims.
 - Prefer "참고", "위험 가능성", "접근성 점수", "개선 필요", and "상대적으로 이동이 어려운 구간".
-
-## Current Baseline Status
-
-The first implementation should provide route-ready placeholder pages and mock data. Later work should replace placeholders with fuller interaction and visual fidelity.
