@@ -264,12 +264,14 @@ function MonthlyTrendPanel() {
       </div>
       <div className="mt-3 flex min-h-0 flex-1 items-end gap-4 px-1">
         {monthlyBars.map((bar) => (
-          <div key={bar.label} className="flex min-w-0 flex-1 flex-col items-center gap-2">
-            <span
-              className="w-full max-w-[28px] rounded-t-[10px]"
-              style={{ height: `${bar.value}%`, background: bar.color }}
-              aria-label={`${bar.label} 위험유형 지수 ${bar.value}`}
-            />
+          <div key={bar.label} className="flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-2">
+            <div className="flex min-h-0 w-full flex-1 items-end justify-center">
+              <span
+                className="w-full max-w-[28px] rounded-t-[10px]"
+                style={{ height: `${bar.value}%`, background: bar.color }}
+                aria-label={`${bar.label} 위험유형 지수 ${bar.value}`}
+              />
+            </div>
             <span className="text-[10px] font-black text-slate-400">{bar.label}</span>
           </div>
         ))}
@@ -323,7 +325,7 @@ function RiskTypeCards() {
 
 export function AdminDashboardPage() {
   return (
-    <div className="flex h-[calc(100vh-8px)] min-h-[900px] flex-col gap-3 overflow-hidden">
+    <div className="dashboard-screen-fit">
       <header className="flex flex-col gap-2 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <p className="text-[10px] font-black leading-3 text-civic-700">PC 환경 · 지자체/행정 담당자용</p>
@@ -361,7 +363,10 @@ export function AdminDashboardPage() {
         ))}
       </section>
 
-      <section className="grid min-h-0 flex-1 gap-3 xl:grid-cols-[minmax(0,1fr)_300px]">
+      <section
+        className="dashboard-main-grid grid shrink-0 gap-3 xl:grid-cols-[minmax(0,1fr)_300px]"
+        style={{ height: 'calc(100vh - 320px)' }}
+      >
         <HeatmapPanel />
         <div className="grid min-h-0 grid-rows-[minmax(0,1fr)_minmax(0,1fr)] gap-3">
           <TopZonePanel />

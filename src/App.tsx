@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AdminLayout } from './components/admin/AdminLayout';
+import { AccessibilityComparisonPage } from './pages/admin/AccessibilityComparisonPage';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { AdminRoutesPage } from './pages/admin/AdminRoutesPage';
 import { AnalysisPage } from './pages/admin/AnalysisPage';
@@ -19,6 +20,7 @@ export default function App() {
 
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboardPage />} />
+        <Route path="accessibility-comparison" element={<AccessibilityComparisonPage />} />
         <Route path="zones" element={<ZonesPage />} />
         <Route path="priorities" element={<PriorityManagementPage />} />
         <Route path="reports" element={<ReportsPage />} />

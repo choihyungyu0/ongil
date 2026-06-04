@@ -652,49 +652,102 @@ export const photoAnalysis = {
 
 export const improvementPriorities = [
   {
-    id: 'P-01',
+    id: 'I-129',
     area: '감천문화마을 입구',
-    action: '계단 없는 우회 안내 사인 설치',
-    impact: '관광약자 접근성 개선',
-    urgency: '긴급',
-    owner: '사하구 관광시설팀',
-    stage: '예산 협의' as ImprovementStage,
+    action: '경사로 정비 필요',
+    impact: '관광약자와 고령자의 접근성 점수 개선',
+    urgency: '개선 검토',
+    owner: '사하구 보행환경팀',
+    stage: '검토 대기' as ImprovementStage,
+    district: '사하구 감천동',
+    targetUser: '관광약자·고령자',
+    budget: '2.4억',
+    due: '2026.07 검토',
+    progress: 32,
   },
   {
-    id: 'P-02',
-    area: '부산역 7번 출구',
-    action: '점자블록 단절 구간 보수',
-    impact: '시각장애 보행 안전 참고도 향상',
-    urgency: '높음',
+    id: 'I-130',
+    area: '부산역 북항 산책도로',
+    action: '손잡이 정비',
+    impact: '휠체어 이용자와 임시 부상자의 이동 부담 완화',
+    urgency: '개선 검토',
     owner: '동구 도로관리팀',
-    stage: '공사 진행' as ImprovementStage,
+    stage: '검토 대기' as ImprovementStage,
+    district: '동구 초량동',
+    targetUser: '휠체어 이용자',
+    budget: '1.8억',
+    due: '2026.07 검토',
+    progress: 28,
   },
   {
-    id: 'P-03',
-    area: '초량 산복도로 정류장',
-    action: '야간 조명 보강',
-    impact: '고령자 야간 보행 위험 완화',
-    urgency: '높음',
+    id: 'I-128',
+    area: '초량 이바구길',
+    action: '쉼터 설치 필요',
+    impact: '고령자와 관광약자의 휴식 간격 개선',
+    urgency: '개선 필요',
     owner: '동구 생활안전팀',
-    stage: '검토 대기' as ImprovementStage,
+    stage: '예산 협의' as ImprovementStage,
+    district: '동구 초량동',
+    targetUser: '고령자·관광약자',
+    budget: '3.1억',
+    due: '2026.08 협의',
+    progress: 48,
   },
   {
-    id: 'P-04',
-    area: '자갈치시장 횡단부',
-    action: '미끄럼 방지 포장',
-    impact: '혼잡 시간대 낙상 위험 완화',
-    urgency: '보통',
+    id: 'I-124',
+    area: '남항시장 주변',
+    action: '횡단보도턱 개선',
+    impact: '유모차 동반자와 휠체어 이용자의 단차 부담 완화',
+    urgency: '개선 필요',
+    owner: '영도구 교통행정팀',
+    stage: '예산 협의' as ImprovementStage,
+    district: '영도구 남항동',
+    targetUser: '유모차 동반자',
+    budget: '1.6억',
+    due: '2026.08 협의',
+    progress: 52,
+  },
+  {
+    id: 'I-126',
+    area: '영도 보행로',
+    action: '보도블록 교체 공사',
+    impact: '파손 포장으로 인한 넘어짐 위험 참고도 개선',
+    urgency: '개선 필요',
+    owner: '영도구 도로관리팀',
+    stage: '공사 진행' as ImprovementStage,
+    district: '영도구 봉래동',
+    targetUser: '고령자·시각장애인',
+    budget: '2.9억',
+    due: '2026.09 공사',
+    progress: 72,
+  },
+  {
+    id: 'I-125',
+    area: '대청동 보도',
+    action: '볼라드 간격 조정',
+    impact: '휠체어 이용자의 보행폭 확보',
+    urgency: '개선 필요',
     owner: '중구 교통행정팀',
-    stage: '검토 대기' as ImprovementStage,
+    stage: '공사 진행' as ImprovementStage,
+    district: '중구 대청동',
+    targetUser: '휠체어 이용자',
+    budget: '0.9억',
+    due: '2026.09 공사',
+    progress: 78,
   },
   {
-    id: 'P-05',
-    area: '부산시민공원 남문',
-    action: '보행·자전거 동선 분리 표지',
-    impact: '이용자 충돌 위험 감소',
-    urgency: '낮음',
-    owner: '부산진구 공원관리팀',
+    id: 'I-121',
+    area: '부전동 횡단보도',
+    action: '점자 블록 정비 완료',
+    impact: '시각장애 보행자의 접근성 점수 개선',
+    urgency: '개선 완료',
+    owner: '부산진구 도로관리팀',
     stage: '완료' as ImprovementStage,
+    district: '부산진구 부전동',
+    targetUser: '시각장애인',
+    budget: '1.2억',
+    due: '2026.05 완료',
+    progress: 100,
   },
 ];
 
@@ -884,4 +937,89 @@ export const priorityDangerZones: PriorityDangerZone[] = [
     improvementNeed: 36,
     status: '모니터링',
   },
+];
+
+export type AccessibilityLayerItem = {
+  id: string;
+  label: string;
+  dateLabel: string;
+  enabled: boolean;
+  tone: 'cyan' | 'blue' | 'orange' | 'violet' | 'emerald' | 'rose' | 'sky' | 'amber';
+};
+
+export type AccessibilityComparisonSummary = {
+  label: string;
+  value: string;
+  caption: string;
+  trend: string;
+  tone: 'cyan' | 'blue' | 'rose' | 'emerald';
+};
+
+export type AccessibilityDistrictComparison = {
+  rank: number;
+  district: string;
+  issue: string;
+  score: number;
+};
+
+export type AccessibilityRiskShare = {
+  label: string;
+  value: number;
+  color: string;
+};
+
+export type AccessibilityUserImpact = {
+  label: string;
+  value: number;
+  color: string;
+};
+
+export const accessibilityLayerItems: AccessibilityLayerItem[] = [
+  { id: 'dem', label: 'DEM 고도·경사도', dateLabel: '2025.05.20', enabled: true, tone: 'cyan' },
+  { id: 'road', label: '도로망·보행로', dateLabel: '2025.05.19', enabled: true, tone: 'blue' },
+  { id: 'crosswalk', label: '횡단보도·신호등', dateLabel: '2025.05.18', enabled: true, tone: 'orange' },
+  { id: 'facility', label: '장애인 편의시설', dateLabel: '2025.05.18', enabled: true, tone: 'violet' },
+  { id: 'survey', label: '현장조사 사진', dateLabel: '오늘 07건', enabled: true, tone: 'emerald' },
+  { id: 'report-density', label: '시민제보 밀도', dateLabel: '최근 30일', enabled: true, tone: 'rose' },
+  { id: 'shelter', label: '쉼터·벤치 위치', dateLabel: '검수 필요', enabled: false, tone: 'sky' },
+  { id: 'lighting', label: '야간 조도 데이터', dateLabel: '대기', enabled: false, tone: 'amber' },
+];
+
+export const accessibilityComparisonSummary: AccessibilityComparisonSummary[] = [
+  { label: '분석 구간', value: '12,248', caption: '전체', trend: '전월 대비 +8.3%', tone: 'cyan' },
+  { label: '평균 접근성', value: '62.4점', caption: '부산시 평균', trend: '전월 대비 +2.1', tone: 'blue' },
+  { label: '고위험 구간', value: '1,248', caption: '관리 우선', trend: '전월 대비 +4.0%', tone: 'rose' },
+  { label: '개선 완료', value: '632', caption: '올해 누적', trend: '전월 대비 +8.7%', tone: 'emerald' },
+];
+
+export const accessibilityDistrictComparisons: AccessibilityDistrictComparison[] = [
+  { rank: 1, district: '중구', issue: '급경사·계단 밀집', score: 58 },
+  { rank: 2, district: '서구', issue: '감천문화마을 단차', score: 61 },
+  { rank: 3, district: '동구', issue: '산복도로 접근성', score: 64 },
+  { rank: 4, district: '영도구', issue: '보도블록 파손', score: 67 },
+  { rank: 5, district: '부산진구', issue: '볼라드 간격', score: 69 },
+];
+
+export const accessibilityRiskShares: AccessibilityRiskShare[] = [
+  { label: '급경사', value: 31, color: '#ff4d55' },
+  { label: '계단·단차', value: 24, color: '#ff8a2a' },
+  { label: '점자블록', value: 18, color: '#7b61ff' },
+  { label: '보도파손', value: 15, color: '#2477ff' },
+  { label: '쉼터부족', value: 12, color: '#18c5ad' },
+];
+
+export const accessibilityUserImpacts: AccessibilityUserImpact[] = [
+  { label: '휠체어', value: 91, color: '#18c5ad' },
+  { label: '고령자', value: 84, color: '#2477ff' },
+  { label: '시각장애', value: 72, color: '#7b61ff' },
+  { label: '유모차', value: 68, color: '#ff8a2a' },
+  { label: '관광약자', value: 63, color: '#22c55e' },
+];
+
+export const accessibilityMapDistricts = [
+  { district: '중구', score: 58, tone: 'rose' },
+  { district: '서구', score: 61, tone: 'orange' },
+  { district: '동구', score: 64, tone: 'amber' },
+  { district: '영도구', score: 67, tone: 'blue' },
+  { district: '남구', score: 72, tone: 'emerald' },
 ];

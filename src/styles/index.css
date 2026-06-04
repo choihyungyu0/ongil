@@ -52,10 +52,57 @@
     min-height: 860px;
   }
 
+  .dashboard-screen-fit {
+    display: flex;
+    min-height: 900px;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow: visible;
+  }
+
+  .dashboard-main-grid {
+    min-height: 0;
+  }
+
+  .access-comparison-screen {
+    min-height: 900px;
+  }
+
+  .improvements-screen-fit {
+    min-height: 860px;
+  }
+
+  .reports-detail-screen {
+    min-height: 920px;
+  }
+
   @media (min-width: 1000px) {
     .route-screen-fit {
       height: calc(100vh - 20px);
       min-height: 0;
+    }
+
+    .dashboard-screen-fit {
+      min-height: 0;
+    }
+
+    .dashboard-main-grid {
+      height: calc(100vh - 320px);
+    }
+
+    .access-comparison-screen {
+      height: calc(100vh - 20px);
+      min-height: 0;
+    }
+
+    .improvements-screen-fit {
+      height: calc(100vh - 20px);
+      min-height: 0;
+    }
+
+    .reports-detail-screen {
+      height: calc(100vh - 16px);
+      min-height: 920px;
     }
   }
 }

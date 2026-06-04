@@ -1,15 +1,18 @@
-import { CalendarDays, FileDown, FileText, LayoutDashboard, ListChecks, MapPinned, Route, Settings } from 'lucide-react';
+import { CalendarDays, ClipboardCheck, FileDown, FileText, GitCompareArrows, LayoutDashboard, ListChecks, MapPinned, Route, ScanSearch, Settings } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import onGilLogo from '../../../asset/1.png';
 
 const navItems = [
   { to: '/admin', label: '대시보드', icon: LayoutDashboard, end: true },
+  { to: '/admin/accessibility-comparison', label: '접근성 비교', icon: GitCompareArrows },
   { to: '/admin/zones', label: '위험구간 관리', icon: MapPinned },
+  { to: '/admin/improvements', label: '개선 관리', icon: ClipboardCheck },
   { to: '/admin/field-survey', label: '현장조사 일정', icon: CalendarDays },
   { to: '/admin/priorities', label: '우선순위 관리', icon: ListChecks },
   { to: '/admin/reports', label: '제보 관리', icon: FileText },
+  { to: '/admin/photo-analysis', label: 'AI 분석', icon: ScanSearch },
   { to: '/admin/report-export', label: '리포트 출력', icon: FileDown },
-  { to: '/admin/routes', label: '무장애 경로', icon: Route },
+  { to: '/admin/routes', label: '온길 루트', icon: Route },
   { to: '/admin/layers', label: '설정', icon: Settings },
 ];
 
