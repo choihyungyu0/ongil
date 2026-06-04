@@ -112,7 +112,7 @@ export function AdminRoutesPage() {
   const recommendedRoute = routeOptions.find((route) => route.recommended) ?? routeOptions[1];
 
   return (
-    <div className="route-screen-fit grid grid-rows-[78px_148px_minmax(0,1fr)] gap-4 overflow-hidden">
+    <div className="route-screen-fit grid h-[1060px] grid-rows-[78px_148px_minmax(0,1fr)] gap-4 overflow-hidden">
       <header className="flex items-start justify-between gap-5">
         <div className="min-w-0 pt-3">
           <p className="text-[12px] font-black leading-4 text-civic-700">환승점 · 시민이동 지도 서비스</p>

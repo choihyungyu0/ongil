@@ -2,10 +2,7 @@ import {
   Check,
   ChevronDown,
   Download,
-  FileText,
-  Link2,
   MapPinned,
-  Printer,
   Search,
   Share2,
   Sparkles,
@@ -78,17 +75,11 @@ const priorityRows = [
   { place: '부산역 연결 보행로', detail: '점자블록 손상, 혼잡', score: '4.1', badge: '접수' },
 ];
 
-const deliveryCards = [
-  { icon: FileText, title: 'PDF 보고서', text: '회의 제출용', tone: 'bg-blue-50 text-action-600' },
-  { icon: Printer, title: '인쇄 최적화', text: 'A4 1쪽 요약', tone: 'bg-slate-100 text-navy-800' },
-  { icon: Link2, title: '공유 링크', text: '검토자 열람용', tone: 'bg-teal-50 text-teal-700' },
-];
-
 export function ReportExportPage() {
   const report = reportPreviews[0];
 
   return (
-    <div className="report-export-screen flex flex-col gap-4 overflow-hidden">
+    <div className="report-export-screen flex flex-col gap-4">
       <header className="flex shrink-0 items-start justify-between gap-5">
         <div>
           <p className="text-sm font-black text-civic-700">PC 환경 · 시민제보/AI 검수</p>
@@ -120,7 +111,7 @@ export function ReportExportPage() {
         </div>
       </header>
 
-      <section className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[500px_minmax(0,1fr)]">
+      <section className="grid min-h-0 flex-1 gap-5 xl:min-h-[960px] xl:grid-cols-[500px_minmax(0,1fr)]">
         <aside className="app-card flex min-h-0 flex-col overflow-hidden p-5">
           <div className="flex items-center justify-between">
             <div>
@@ -146,7 +137,7 @@ export function ReportExportPage() {
             </div>
           </div>
 
-          <div className="mt-5 min-h-0 flex-1">
+          <div className="mt-5">
             <p className="text-xs font-black text-slate-400">포함 항목</p>
             <div className="mt-3 space-y-3">
               {reportItems.map((item) => (
@@ -248,8 +239,8 @@ export function ReportExportPage() {
             ))}
           </div>
 
-          <div className="mt-4 grid min-h-0 flex-1 gap-4 xl:grid-cols-[minmax(0,1fr)_420px]">
-            <section className="flex min-h-0 flex-col rounded-2xl border border-blue-100 bg-white p-4">
+          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1fr)_420px]">
+            <section className="rounded-2xl border border-blue-100 bg-white p-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-black text-navy-950">개선 우선순위 미리보기</h3>
                 <span className="rounded-full bg-rose-50 px-3 py-1 text-xs font-black text-rose-600">TOP 3</span>
@@ -270,23 +261,6 @@ export function ReportExportPage() {
                 ))}
               </div>
 
-              <div className="mt-4 grid flex-1 gap-3 xl:grid-cols-3">
-                {deliveryCards.map(({ icon: Icon, title, text, tone }) => (
-                  <button
-                    key={title}
-                    type="button"
-                    className="flex min-h-[112px] items-center gap-3 rounded-2xl border border-blue-50 bg-white px-4 text-left shadow-sm transition hover:border-action-200 hover:bg-blue-50/40"
-                  >
-                    <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl ${tone}`}>
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <span>
-                      <span className="block text-sm font-black text-navy-950">{title}</span>
-                      <span className="mt-1 block text-xs font-bold text-slate-500">{text}</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
             </section>
 
             <section className="flex min-h-0 flex-col rounded-2xl border border-blue-100 bg-slate-50 p-4">
@@ -311,15 +285,11 @@ export function ReportExportPage() {
                   <p className="mt-2 text-base font-black text-navy-950">보행환경팀</p>
                 </div>
               </div>
-              <div className="mt-3 flex flex-1 flex-col justify-center rounded-2xl border border-cyan-100 bg-civic-50 p-4">
-                <p className="text-sm font-black leading-6 text-civic-800">
-                  리포트는 mock data 기반 시연용이며, 안전을 보장하지 않습니다. 현장 조사 배정과 개선 우선순위 검토를 돕는 참고 자료로 표시됩니다.
-                </p>
-              </div>
             </section>
           </div>
         </article>
       </section>
+
     </div>
   );
 }

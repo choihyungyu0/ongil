@@ -237,7 +237,7 @@ function MapPreviewCard() {
 
 function ReportsOverview({ onOpenDetail }: { onOpenDetail: (reportId: string) => void }) {
   return (
-    <div className="reports-overview-screen flex h-[calc(100vh-16px)] min-h-[920px] flex-col gap-4 overflow-hidden py-0">
+    <div className="reports-overview-screen flex flex-col gap-4 overflow-hidden py-0">
       <header className="flex shrink-0 flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <p className="text-[12px] font-black leading-4 text-civic-700">PC 환경 · 시민제보/AI 검수</p>
@@ -443,7 +443,7 @@ function ReportDetailDashboard({
   onBack: () => void;
 }) {
   return (
-    <div className="reports-detail-screen flex h-[calc(100vh-16px)] min-h-[920px] flex-col gap-3 overflow-hidden py-0">
+    <div className="reports-detail-screen flex flex-col gap-3 overflow-hidden py-0">
       <header className="flex shrink-0 flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
         <div className="min-w-0">
           <button type="button" onClick={onBack} className="mb-1 inline-flex items-center gap-1.5 text-[12px] font-black text-civic-700 hover:text-civic-600">
@@ -471,8 +471,14 @@ function ReportDetailDashboard({
   );
 }
 
+function getInitialDetailReportId() {
+  const reportId = new URLSearchParams(window.location.search).get('report');
+
+  return reportInboxItems.some((report) => report.id === reportId) ? reportId : null;
+}
+
 export function ReportsPage() {
-  const [detailReportId, setDetailReportId] = useState<string | null>(null);
+  const [detailReportId, setDetailReportId] = useState<string | null>(getInitialDetailReportId);
   const selectedReport = reportInboxItems.find((report) => report.id === detailReportId) ?? reportInboxItems[0];
 
   if (detailReportId) {
