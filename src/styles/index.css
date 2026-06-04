@@ -54,8 +54,7 @@
 
   @media (min-width: 1000px) {
     .route-screen-fit {
-      height: calc(56.25vw - 20px);
-      max-height: 1060px;
+      height: calc(100vh - 20px);
       min-height: 0;
     }
   }
