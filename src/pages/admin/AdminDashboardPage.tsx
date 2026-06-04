@@ -262,12 +262,12 @@ function MonthlyTrendPanel() {
         <h2 className="text-sm font-black text-navy-950">월별 위험유형 추이</h2>
         <span className="text-[11px] font-black text-slate-400">최근 6개월</span>
       </div>
-      <div className="mt-2 flex flex-1 items-end gap-4 px-1">
+      <div className="mt-3 flex min-h-0 flex-1 items-end gap-4 px-1">
         {monthlyBars.map((bar) => (
           <div key={bar.label} className="flex min-w-0 flex-1 flex-col items-center gap-2">
             <span
               className="w-full max-w-[28px] rounded-t-[10px]"
-              style={{ height: `${Math.round(bar.value * 0.43)}px`, background: bar.color }}
+              style={{ height: `${bar.value}%`, background: bar.color }}
               aria-label={`${bar.label} 위험유형 지수 ${bar.value}`}
             />
             <span className="text-[10px] font-black text-slate-400">{bar.label}</span>
