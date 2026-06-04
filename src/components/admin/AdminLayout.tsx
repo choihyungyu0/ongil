@@ -1,10 +1,10 @@
-import { CalendarDays, ClipboardCheck, FileDown, FileText, GitCompareArrows, LayoutDashboard, ListChecks, MapPinned, Route, ScanSearch, Settings } from 'lucide-react';
+import { CalendarDays, ClipboardCheck, FileDown, FileText, Layers, LayoutDashboard, ListChecks, MapPinned, Route, ScanSearch, Settings } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import onGilLogo from '../../../asset/1.png';
 
 const navItems = [
   { to: '/admin', label: '대시보드', icon: LayoutDashboard, end: true },
-  { to: '/admin/accessibility-comparison', label: '접근성 비교', icon: GitCompareArrows },
+  { to: '/admin/settings', label: '설정', icon: Settings },
   { to: '/admin/zones', label: '위험구간 관리', icon: MapPinned },
   { to: '/admin/improvements', label: '개선 관리', icon: ClipboardCheck },
   { to: '/admin/field-survey', label: '현장조사 일정', icon: CalendarDays },
@@ -13,13 +13,13 @@ const navItems = [
   { to: '/admin/photo-analysis', label: 'AI 분석', icon: ScanSearch },
   { to: '/admin/report-export', label: '리포트 출력', icon: FileDown },
   { to: '/admin/routes', label: '온길 루트', icon: Route },
-  { to: '/admin/layers', label: '설정', icon: Settings },
+  { to: '/admin/layers', label: '레이어 관리', icon: Layers },
 ];
 
 export function AdminLayout() {
   return (
-    <div className="admin-shell-fit min-h-screen bg-[#eef5fb]">
-      <div className="admin-shell-fit flex min-h-screen">
+    <div className="admin-shell-fit bg-[#eef5fb]">
+      <div className="admin-shell-fit flex">
         <aside className="hidden w-[155px] shrink-0 border-r border-blue-100/70 bg-white px-3 pb-4 pt-7 text-slate-700 shadow-[8px_0_24px_rgba(33,91,145,0.04)] md:flex md:flex-col">
           <div className="flex items-center gap-2 px-1">
             <img src={onGilLogo} alt="" className="h-6 w-6 shrink-0 object-contain" />

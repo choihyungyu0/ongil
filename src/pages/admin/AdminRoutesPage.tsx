@@ -88,22 +88,22 @@ const guideSteps = [
 
 function MetricCard({ card }: { card: (typeof routeCards)[number] }) {
   return (
-    <article className="flex h-full min-h-0 flex-col justify-between rounded-[22px] border border-blue-100/70 bg-white px-6 py-5 shadow-[0_18px_35px_rgba(33,91,145,0.08)]">
+    <article className="flex h-full min-h-0 flex-col justify-between overflow-hidden rounded-[22px] border border-blue-100/70 bg-white px-6 py-4 shadow-[0_18px_35px_rgba(33,91,145,0.08)]">
       <div className="flex items-start justify-between gap-3">
         <h2 className="text-[15px] font-black leading-5 text-navy-950">{card.title}</h2>
-        <span className={`rounded-full px-3 py-1 text-[11px] font-black ${card.badgeTone}`}>{card.badge}</span>
+        <span className={`rounded-full px-3 py-1 text-[11px] font-black leading-4 ${card.badgeTone}`}>{card.badge}</span>
       </div>
-      <div className="mt-5 grid grid-cols-[1fr_1fr] gap-5">
+      <div className="mt-4 grid grid-cols-[1fr_1fr] gap-5">
         <div>
           <p className="text-[26px] font-black leading-none text-navy-950">{card.distance}</p>
-          <p className="mt-2 text-[11px] font-extrabold text-slate-400">{card.distanceLabel}</p>
+          <p className="mt-1 text-[11px] font-extrabold leading-4 text-slate-400">{card.distanceLabel}</p>
         </div>
         <div>
           <p className="text-[26px] font-black leading-none text-navy-950">{card.risk}</p>
-          <p className="mt-2 text-[11px] font-extrabold text-slate-400">{card.riskLabel}</p>
+          <p className="mt-1 text-[11px] font-extrabold leading-4 text-slate-400">{card.riskLabel}</p>
         </div>
       </div>
-      <p className="mt-4 text-[11px] font-bold text-slate-400">{card.note}</p>
+      <p className="mt-3 text-[11px] font-bold leading-4 text-slate-400">{card.note}</p>
     </article>
   );
 }
@@ -112,7 +112,7 @@ export function AdminRoutesPage() {
   const recommendedRoute = routeOptions.find((route) => route.recommended) ?? routeOptions[1];
 
   return (
-    <div className="route-screen-fit grid grid-rows-[78px_136px_minmax(0,1fr)] gap-4 overflow-hidden">
+    <div className="route-screen-fit grid grid-rows-[78px_148px_minmax(0,1fr)] gap-4 overflow-hidden">
       <header className="flex items-start justify-between gap-5">
         <div className="min-w-0 pt-3">
           <p className="text-[12px] font-black leading-4 text-civic-700">환승점 · 시민이동 지도 서비스</p>

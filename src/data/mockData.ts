@@ -1023,3 +1023,144 @@ export const accessibilityMapDistricts = [
   { district: '영도구', score: 67, tone: 'blue' },
   { district: '남구', score: 72, tone: 'emerald' },
 ];
+
+export type AdminSettingSummary = {
+  label: string;
+  value: string;
+  caption: string;
+  tone: 'blue' | 'cyan' | 'emerald' | 'amber';
+};
+
+export type AdminSettingCategory = {
+  id: string;
+  label: string;
+  description: string;
+  status: string;
+};
+
+export type AdminSettingThreshold = {
+  id: string;
+  label: string;
+  value: number;
+  unit: string;
+  description: string;
+  tone: 'blue' | 'cyan' | 'amber' | 'rose';
+};
+
+export type AdminReviewToggle = {
+  id: string;
+  title: string;
+  description: string;
+  tag: string;
+  enabled: boolean;
+};
+
+export type AdminNotificationRule = {
+  id: string;
+  event: string;
+  target: string;
+  timing: string;
+  channel: string;
+  enabled: boolean;
+};
+
+export type AdminExportProfile = {
+  id: string;
+  label: string;
+  description: string;
+  enabled: boolean;
+};
+
+export const adminSettingSummaries: AdminSettingSummary[] = [
+  { label: '기본 관할', value: '부산광역시', caption: '16개 구·군 mock 범위', tone: 'blue' },
+  { label: '온길 점수 기준', value: '62점', caption: '주의 표시 시작값', tone: 'cyan' },
+  { label: '검수 대기', value: '28건', caption: '오늘 접수 기준', tone: 'amber' },
+  { label: '리포트 서식', value: '4종', caption: '행정 공유용', tone: 'emerald' },
+];
+
+export const adminSettingCategories: AdminSettingCategory[] = [
+  { id: 'operation', label: '운영 기준', description: '관할 구역과 온길 점수 표시 기준', status: '적용 중' },
+  { id: 'scan', label: '온길 스캔', description: 'mock 분류 신뢰도와 검수 흐름', status: '검수 필요' },
+  { id: 'notification', label: '알림', description: '긴급 제보와 현장조사 안내', status: '3개 규칙' },
+  { id: 'export', label: '리포트', description: '온길 리포트 기본 출력 옵션', status: '행정용' },
+];
+
+export const adminSettingThresholds: AdminSettingThreshold[] = [
+  {
+    id: 'score-warning',
+    label: '주의 구간 표시',
+    value: 62,
+    unit: '점 이하',
+    description: '온길 점수가 낮은 구간을 보행 위험 참고 구간으로 표시합니다.',
+    tone: 'blue',
+  },
+  {
+    id: 'confidence',
+    label: 'mock 분류 신뢰도',
+    value: 78,
+    unit: '% 이상',
+    description: '사진 제보 분류 라벨을 검수 목록에 올리는 참고 기준입니다.',
+    tone: 'cyan',
+  },
+  {
+    id: 'duplicate',
+    label: '중복 제보 경보',
+    value: 6,
+    unit: '건 이상',
+    description: '같은 위치 제보가 반복될 때 담당팀 확인 대상으로 묶습니다.',
+    tone: 'amber',
+  },
+  {
+    id: 'urgent-risk',
+    label: '긴급 검토 기준',
+    value: 85,
+    unit: '% 이상',
+    description: '급경사·계단·횡단 위험이 높은 구간의 우선 확인 기준입니다.',
+    tone: 'rose',
+  },
+];
+
+export const adminReviewToggles: AdminReviewToggle[] = [
+  {
+    id: 'field-review',
+    title: '현장조사 전 검수',
+    description: '온길 스캔 결과를 담당자가 확인한 뒤 일정에 배정합니다.',
+    tag: '온길 스캔',
+    enabled: true,
+  },
+  {
+    id: 'priority-sync',
+    title: '개선 우선순위 자동 반영',
+    description: '중복 제보와 접근성 점수 변동을 우선순위 관리 화면에 반영합니다.',
+    tag: '개선 우선순위',
+    enabled: true,
+  },
+  {
+    id: 'tourist-guide',
+    title: '관광약자 안내 문구 포함',
+    description: '리포트와 온길 루트 요약에 관광약자 참고 문구를 포함합니다.',
+    tag: '온길 루트',
+    enabled: true,
+  },
+  {
+    id: 'public-source',
+    title: '외부 데이터 표시',
+    description: '현재 프로토타입에서는 실제 외부 데이터 출처를 화면에 표시하지 않습니다.',
+    tag: '시연 제한',
+    enabled: false,
+  },
+];
+
+export const adminNotificationRules: AdminNotificationRule[] = [
+  { id: 'urgent-report', event: '긴급 제보 접수', target: '구·군 담당팀', timing: '즉시', channel: '대시보드 배지', enabled: true },
+  { id: 'survey-due', event: '현장조사 하루 전', target: '현장조사 A/B팀', timing: '전일 17:00', channel: '일정 알림', enabled: true },
+  { id: 'weekly-report', event: '주간 리포트 준비', target: '행정 검토자', timing: '매주 금요일', channel: '리포트 출력', enabled: true },
+  { id: 'low-score', event: '온길 점수 급락', target: '운영 관리자', timing: '검수 후', channel: '검토 목록', enabled: false },
+];
+
+export const adminExportProfiles: AdminExportProfile[] = [
+  { id: 'summary', label: '요약 리포트', description: '핵심 지표와 개선 우선순위 중심', enabled: true },
+  { id: 'district', label: '구·군 공유본', description: '담당 구역별 위험구간과 제보 묶음', enabled: true },
+  { id: 'survey', label: '현장조사 첨부본', description: '조사 일정과 사진 검수 결과 포함', enabled: true },
+  { id: 'public-brief', label: '대외 발표용', description: 'mock 데이터 안내 문구와 비식별 요약', enabled: false },
+];

@@ -71,7 +71,7 @@ function ResultBar({ item }: { item: (typeof resultBars)[number] }) {
 
 export function PhotoAnalysisPage() {
   return (
-    <div className="flex min-h-[900px] flex-col overflow-hidden" style={{ height: 'calc(100vh - 20px)' }}>
+    <div className="flex min-h-[900px] flex-col">
       <header className="flex shrink-0 flex-col gap-3 pb-3 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <p className="text-[11px] font-black leading-4 text-civic-700">AI 분석 · On-gil Scan</p>
@@ -108,7 +108,10 @@ export function PhotoAnalysisPage() {
         </div>
       </header>
 
-      <section className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[minmax(0,1.27fr)_minmax(430px,0.73fr)]">
+      <section
+        className="grid min-h-[760px] gap-5 xl:grid-cols-[minmax(0,1.27fr)_minmax(430px,0.73fr)]"
+        style={{ height: '100vh' }}
+      >
         <article className="flex min-h-0 flex-col rounded-[22px] border border-blue-100/70 bg-white p-6 shadow-[0_18px_45px_rgba(15,29,51,0.08)]">
           <div className="flex shrink-0 items-start justify-between gap-4">
             <div>

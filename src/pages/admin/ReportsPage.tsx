@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   AlertTriangle,
+  ArrowLeft,
   CalendarDays,
   CheckCircle2,
   ChevronDown,
@@ -11,14 +12,16 @@ import {
   Merge,
   Search,
   ShieldCheck,
+  SlidersHorizontal,
 } from 'lucide-react';
 import busNightPhoto from '../../../asset/08f63d83-7fb3-40c2-b5fa-efeb7b7babf8.png';
 import tactileDamagePhoto from '../../../asset/166ffa68-77be-40bf-8119-1a42895f7ecc.png';
 import treeWalkwayPhoto from '../../../asset/464f37ab-dfc1-4fa8-b954-19e479a945be.png';
+import overviewMapImage from '../../../asset/98c5316a-7e56-4304-93da-8e5f9f0ebbd9.png';
 import tactilePathPhoto from '../../../asset/b915f762-f370-4fa6-9437-092d8f7daea1.png';
 import busStopPhoto from '../../../asset/cb44152e-dc52-498f-9458-c1f065adf032.png';
 import bollardPhoto from '../../../asset/d47adf62-6bb4-40fc-9b06-213e50e59d14.png';
-import mapPreviewImage from '../../../asset/ongil_map_second_image.png';
+import detailMapImage from '../../../asset/ongil_map_second_image.png';
 import { reportInboxItems, reportInboxStats, type ReportInboxItem, type ReportInboxStatus } from '../../data/reportInboxData';
 
 const photoByKey: Record<ReportInboxItem['photoKey'], string> = {
@@ -64,7 +67,22 @@ const detailMetrics = [
   { label: '개선 필요도', key: 'riskScore', suffix: '%', tone: 'text-orange-600' },
 ] as const;
 
-function PageControls() {
+const aiReviewSteps = [
+  {
+    title: '사진 업로드',
+    description: '위치와 사진 메타정보, 제보 설명을 함께 수집합니다.',
+  },
+  {
+    title: '위험요소 태깅',
+    description: '계단, 단차, 보도블록 파손, 점자블록 파손, 볼라드 간격 등을 분류합니다.',
+  },
+  {
+    title: '중복 제보 병합',
+    description: '동일 위치와 유형을 묶어 신뢰도와 개선 필요도를 계산합니다.',
+  },
+];
+
+function PageControls({ primaryLabel }: { primaryLabel: string }) {
   return (
     <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
       <button
@@ -94,9 +112,148 @@ function PageControls() {
         type="button"
         className="inline-flex h-10 items-center gap-2 rounded-[14px] bg-action-500 px-4 text-[12px] font-black text-white shadow-[0_10px_18px_rgba(36,119,255,0.24)] hover:bg-action-600"
       >
-        <FilePlus2 className="h-4 w-4" aria-hidden="true" />
-        제보 등록
+        {primaryLabel === '검수 일괄처리' ? <SlidersHorizontal className="h-4 w-4" aria-hidden="true" /> : <FilePlus2 className="h-4 w-4" aria-hidden="true" />}
+        {primaryLabel}
       </button>
+    </div>
+  );
+}
+
+function TagList({ tags }: { tags: string[] }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {tags.map((tag) => (
+        <span key={tag} className={`rounded-full px-2.5 py-1 text-[11px] font-black ${riskTone[tag] ?? 'bg-slate-100 text-slate-600'}`}>
+          {tag}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function OverviewReportsTable({ onOpenDetail }: { onOpenDetail: (reportId: string) => void }) {
+  return (
+    <section className="flex h-full min-h-0 flex-1 flex-col overflow-hidden rounded-[22px] border border-blue-100/70 bg-white shadow-[0_18px_45px_rgba(33,91,145,0.08)]">
+      <div className="flex shrink-0 items-center justify-between gap-4 px-7 pb-2 pt-5">
+        <h2 className="text-[17px] font-black text-navy-950">사진 기반 위험구간 제보 · AI 검수</h2>
+        <div className="flex items-center gap-2">
+          {['전체 제보', '검수 필요', '중복 병합', '조치 완료'].map((filter, index) => (
+            <button
+              key={filter}
+              type="button"
+              className={[
+                'h-8 rounded-full border px-4 text-[11px] font-black transition',
+                index === 0
+                  ? 'border-civic-100 bg-civic-50 text-civic-700'
+                  : 'border-slate-200 bg-white text-slate-500 hover:border-blue-200 hover:text-navy-900',
+              ].join(' ')}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex min-h-0 flex-1 flex-col px-6 pb-5">
+        <div className="grid grid-cols-[104px_minmax(140px,1fr)_180px_78px_70px_106px_112px] items-center gap-4 border-b border-slate-100 px-2 py-3 text-[11px] font-black text-slate-400">
+          <span>제보</span>
+          <span>위치</span>
+          <span>AI 분류</span>
+          <span>신뢰도</span>
+          <span>중복</span>
+          <span>관리 상태</span>
+          <span className="text-center">사진</span>
+        </div>
+
+        <div className="flex min-h-0 flex-1 flex-col">
+          {reportInboxItems.slice(0, 6).map((report) => (
+            <button
+              key={report.id}
+              type="button"
+              onClick={() => onOpenDetail(report.id)}
+              className="grid min-h-[82px] flex-1 grid-cols-[104px_minmax(140px,1fr)_180px_78px_70px_106px_112px] items-center gap-4 border-b border-slate-100 px-2 py-3 text-left transition last:border-b-0 hover:bg-blue-50/50 focus-visible:bg-blue-50"
+            >
+              <span>
+                <span className="block text-[13px] font-black text-navy-900">#{report.id}</span>
+                <span className="mt-1 block text-[11px] font-bold text-slate-400">{report.createdAt}</span>
+              </span>
+              <span className="truncate text-[13px] font-black text-slate-700">{report.location}</span>
+              <TagList tags={report.riskTags.slice(0, 2)} />
+              <span className="font-black text-navy-800">{report.confidence.toFixed(2)}</span>
+              <span className="text-[13px] font-black text-navy-800">{report.duplicateCount}건</span>
+              <span className={`w-fit rounded-full border px-3 py-1 text-[11px] font-black ${statusTone[report.status]}`}>
+                {report.status}
+              </span>
+              <span className="justify-self-center">
+                <span className="relative block h-[58px] w-[90px] overflow-hidden rounded-2xl shadow-sm">
+                  <img src={photoByKey[report.photoKey]} alt={`${report.location} 제보 사진`} className="h-full w-full object-cover" />
+                  <span className="absolute bottom-1.5 right-2 rounded-full bg-navy-950/55 px-2 py-0.5 text-[10px] font-black text-white">사진</span>
+                </span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AiFlowCard() {
+  return (
+    <section className="rounded-[22px] border border-blue-100/70 bg-white p-5 shadow-[0_18px_45px_rgba(33,91,145,0.08)]">
+      <div className="flex items-center justify-between">
+        <h2 className="text-[17px] font-black text-navy-950">AI 분류 흐름</h2>
+        <span className="text-[11px] font-black text-slate-400">On-gil Scan</span>
+      </div>
+
+      <ol className="mt-4 space-y-3">
+        {aiReviewSteps.map((step, index) => (
+          <li key={step.title} className="grid grid-cols-[34px_minmax(0,1fr)] gap-3">
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-civic-50 text-sm font-black text-civic-700">{index + 1}</span>
+            <span>
+              <strong className="block text-[13px] font-black text-navy-900">{step.title}</strong>
+              <span className="mt-0.5 block text-[11px] font-semibold leading-4 text-slate-500">{step.description}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+function MapPreviewCard() {
+  return (
+    <section className="flex h-full min-h-0 flex-1 flex-col rounded-[22px] border border-blue-100/70 bg-white p-5 shadow-[0_18px_45px_rgba(33,91,145,0.08)]">
+      <h2 className="shrink-0 text-[17px] font-black text-navy-950">제보 위치 미리보기</h2>
+      <div className="relative mt-4 min-h-0 flex-1 overflow-hidden rounded-2xl border border-blue-100 bg-blue-50">
+        <img src={overviewMapImage} alt="부산 제보 위치 mock 지도" className="h-full w-full object-cover" />
+      </div>
+      <div className="mt-4 rounded-2xl border border-civic-100 bg-civic-50 px-4 py-3">
+        <p className="text-[12px] font-bold leading-5 text-civic-700">관리자는 AI 판독 오류를 줄이기 위해 신뢰도와 사진 검수 상태를 함께 확인합니다.</p>
+      </div>
+    </section>
+  );
+}
+
+function ReportsOverview({ onOpenDetail }: { onOpenDetail: (reportId: string) => void }) {
+  return (
+    <div className="reports-overview-screen flex h-[calc(100vh-16px)] min-h-[920px] flex-col gap-4 overflow-hidden py-0">
+      <header className="flex shrink-0 flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
+        <div>
+          <p className="text-[12px] font-black leading-4 text-civic-700">PC 환경 · 시민제보/AI 검수</p>
+          <h1 className="text-[30px] font-black leading-9 text-navy-950">사진 기반 위험구간 제보 관리</h1>
+          <p className="text-[13px] font-semibold leading-5 text-slate-500">사진 업로드 제보를 AI가 위험유형으로 분류하고, 관리자가 검수할 수 있습니다.</p>
+        </div>
+        <PageControls primaryLabel="검수 일괄처리" />
+      </header>
+
+      <div className="grid min-h-0 flex-1 items-stretch gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <OverviewReportsTable onOpenDetail={onOpenDetail} />
+        <aside className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-4">
+          <AiFlowCard />
+          <MapPreviewCard />
+        </aside>
+      </div>
     </div>
   );
 }
@@ -128,7 +285,7 @@ function SummaryCards() {
   );
 }
 
-function ReportTable({
+function DetailReportsTable({
   selectedReport,
   onSelect,
 }: {
@@ -211,13 +368,11 @@ function ReportDetail({ report }: { report: ReportInboxItem }) {
           <div className="relative overflow-hidden rounded-[16px] bg-slate-100 shadow-sm">
             <img src={photoByKey[report.photoKey]} alt={`${report.location} 제보 사진`} className="h-full w-full object-cover" />
             <span className="absolute left-3 top-3 rounded-full bg-rose-500 px-2.5 py-1 text-[11px] font-black text-white shadow-sm">{report.id}</span>
-            <span className="absolute bottom-3 left-3 rounded-full bg-white/92 px-4 py-1.5 text-[11px] font-black text-navy-900 shadow-sm">
-              {report.riskTags[0]}
-            </span>
+            <span className="absolute bottom-3 left-3 rounded-full bg-white/92 px-4 py-1.5 text-[11px] font-black text-navy-900 shadow-sm">{report.riskTags[0]}</span>
           </div>
 
           <div className="relative overflow-hidden rounded-[16px] border border-blue-100 bg-blue-50 shadow-sm">
-            <img src={mapPreviewImage} alt="제보 위치 mock 지도" className="h-full w-full object-cover" />
+            <img src={detailMapImage} alt="제보 위치 mock 지도" className="h-full w-full object-cover" />
             <span className="absolute left-[47%] top-[33%] rounded-full bg-white px-3 py-1 text-[11px] font-black text-navy-900 shadow-[0_4px_14px_rgba(15,29,51,0.14)]">
               <span className="mr-1 inline-block h-2 w-2 rounded-full bg-rose-500" />
               {report.id}
@@ -278,25 +433,34 @@ function ReportDetail({ report }: { report: ReportInboxItem }) {
   );
 }
 
-export function ReportsPage() {
-  const [selectedReportId, setSelectedReportId] = useState(reportInboxItems[0].id);
-  const selectedReport = reportInboxItems.find((report) => report.id === selectedReportId) ?? reportInboxItems[0];
-
+function ReportDetailDashboard({
+  selectedReport,
+  onSelect,
+  onBack,
+}: {
+  selectedReport: ReportInboxItem;
+  onSelect: (reportId: string) => void;
+  onBack: () => void;
+}) {
   return (
-    <div className="reports-detail-screen flex flex-col gap-3 overflow-hidden py-0">
+    <div className="reports-detail-screen flex h-[calc(100vh-16px)] min-h-[920px] flex-col gap-3 overflow-hidden py-0">
       <header className="flex shrink-0 flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
         <div className="min-w-0">
+          <button type="button" onClick={onBack} className="mb-1 inline-flex items-center gap-1.5 text-[12px] font-black text-civic-700 hover:text-civic-600">
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            제보 관리로 돌아가기
+          </button>
           <p className="text-[12px] font-black leading-4 text-civic-700">PC 환경 · 시민제보/AI 검수</p>
           <h1 className="mt-0.5 text-[30px] font-black leading-9 text-navy-950">시민 기반 위험구간 제보함</h1>
           <p className="text-[13px] font-semibold leading-5 text-slate-500">사진·위치·위험유형 제보를 분류하고 중복 제보를 병합합니다.</p>
         </div>
-        <PageControls />
+        <PageControls primaryLabel="제보 등록" />
       </header>
 
       <SummaryCards />
 
       <div className="grid min-h-0 flex-1 gap-3 xl:grid-cols-[minmax(680px,1.05fr)_minmax(520px,0.95fr)]">
-        <ReportTable selectedReport={selectedReport} onSelect={setSelectedReportId} />
+        <DetailReportsTable selectedReport={selectedReport} onSelect={onSelect} />
         <ReportDetail report={selectedReport} />
       </div>
 
@@ -305,4 +469,15 @@ export function ReportsPage() {
       </div>
     </div>
   );
+}
+
+export function ReportsPage() {
+  const [detailReportId, setDetailReportId] = useState<string | null>(null);
+  const selectedReport = reportInboxItems.find((report) => report.id === detailReportId) ?? reportInboxItems[0];
+
+  if (detailReportId) {
+    return <ReportDetailDashboard selectedReport={selectedReport} onSelect={setDetailReportId} onBack={() => setDetailReportId(null)} />;
+  }
+
+  return <ReportsOverview onOpenDetail={setDetailReportId} />;
 }

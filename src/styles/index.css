@@ -48,6 +48,10 @@
     @apply inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700;
   }
 
+  .admin-shell-fit {
+    min-height: 100vh;
+  }
+
   .route-screen-fit {
     min-height: 860px;
   }
@@ -64,7 +68,7 @@
     min-height: 0;
   }
 
-  .access-comparison-screen {
+  .settings-screen-fit {
     min-height: 900px;
   }
 
@@ -76,7 +80,19 @@
     min-height: 920px;
   }
 
+  .reports-overview-screen {
+    min-height: 920px;
+  }
+
+  .report-export-screen {
+    min-height: 920px;
+  }
+
   @media (min-width: 1000px) {
+    .admin-shell-fit {
+      min-height: max(100vh, 56.25vw);
+    }
+
     .route-screen-fit {
       height: calc(100vh - 20px);
       min-height: 0;
@@ -90,7 +106,7 @@
       height: calc(100vh - 320px);
     }
 
-    .access-comparison-screen {
+    .settings-screen-fit {
       height: calc(100vh - 20px);
       min-height: 0;
     }
@@ -103,6 +119,16 @@
     .reports-detail-screen {
       height: calc(100vh - 16px);
       min-height: 920px;
+    }
+
+    .reports-overview-screen {
+      height: calc(100vh - 16px);
+      min-height: 920px;
+    }
+
+    .report-export-screen {
+      height: calc(100vh - 20px);
+      min-height: 0;
     }
   }
 }
