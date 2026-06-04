@@ -170,7 +170,11 @@ export function ImprovementsPage() {
   );
 
   return (
-    <div data-page="improvements" className="improvements-screen-fit flex min-h-[760px] flex-col gap-3 overflow-hidden">
+    <div
+      data-page="improvements"
+      className="improvements-screen-fit flex min-h-[760px] flex-col gap-3 overflow-hidden"
+      style={{ height: 'calc(100vh - 20px)' }}
+    >
       <header className="flex h-[76px] shrink-0 items-start justify-between gap-5 pt-2">
         <div className="min-w-0">
           <p className="text-[11px] font-black leading-4 text-civic-700">사업 계획 · 실행관리</p>
