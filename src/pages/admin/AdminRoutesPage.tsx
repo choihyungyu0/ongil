@@ -1,7 +1,6 @@
-import { ChevronDown, Search, Share2, ShieldCheck, Siren, Sparkles, Smartphone } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { ChevronDown, Search, Share2, Siren, Sparkles } from 'lucide-react';
 import { AccessibleRouteLeafletMap } from '../../components/maps/AccessibleRouteLeafletMap';
-import { citizenReports, routeOptions, userTypes } from '../../data/mockData';
+import { routeOptions } from '../../data/mockData';
 
 const routeCards = [
   {
@@ -47,14 +46,6 @@ const routeCards = [
 ];
 
 const mapFilters = ['빠른 길', '안전한 길', '계단 없는 길', '완만한 길'];
-
-const citizenRiskTypes = ['계단', '단차', '보도블록 파손', '점자블록 훼손', '볼라드 간격', '어두운 길', '공사구간', '횡단 위험'];
-
-const citizenRouteTones = [
-  { letter: 'A', border: 'border-civic-200', bg: 'bg-civic-50', chip: 'bg-civic-100 text-civic-700', text: 'text-civic-700' },
-  { letter: 'B', border: 'border-blue-100', bg: 'bg-white', chip: 'bg-blue-100 text-action-600', text: 'text-action-600' },
-  { letter: 'C', border: 'border-rose-100', bg: 'bg-white', chip: 'bg-rose-100 text-rose-600', text: 'text-rose-600' },
-];
 
 const guideSteps = [
   {
@@ -174,11 +165,6 @@ function CitizenSafeRouteView() {
                 );
               })}
             </div>
-          </div>
-
-          <div className="mt-auto hidden rounded-[16px] border border-cyan-100 bg-civic-50/90 p-4 xl:block">
-            <h2 className="text-[12px] font-black text-navy-950">경로 반영 기준</h2>
-            <p className="mt-2 text-[11px] font-bold leading-5 text-slate-600">휠체어·고령자·유모차 이용자를 기준으로 계단, 급경사, 단차 위험을 우선 회피합니다.</p>
           </div>
         </section>
 
