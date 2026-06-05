@@ -1,9 +1,15 @@
 import 'leaflet/dist/leaflet.css';
-import type { LatLngExpression } from 'leaflet';
-import { Circle, CircleMarker, MapContainer, Polyline, Popup, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
+import type { LatLngBoundsExpression, LatLngExpression } from 'leaflet';
+import { useEffect } from 'react';
+import { Circle, CircleMarker, MapContainer, Polyline, Popup, TileLayer, Tooltip, ZoomControl, useMap } from 'react-leaflet';
 import { priorityDangerZones, type PriorityDangerZone } from '../../data/mockData';
 
 const center: LatLngExpression = [35.116, 129.037];
+
+const priorityBounds: LatLngBoundsExpression = [
+  [35.083, 128.994],
+  [35.173, 129.168],
+];
 
 const zoneCoordinates: Record<string, LatLngExpression> = {
   'priority-001': [35.119, 129.037],
@@ -57,6 +63,28 @@ function markerRadius(zone: PriorityDangerZone) {
   return 6;
 }
 
+function FitPriorityMap() {
+  const map = useMap();
+
+  useEffect(() => {
+    const fitMap = () => {
+      map.invalidateSize();
+      map.fitBounds(priorityBounds, { padding: [18, 18], maxZoom: 12 });
+    };
+
+    const timer = window.setTimeout(fitMap, 90);
+    const resizeObserver = new ResizeObserver(fitMap);
+    resizeObserver.observe(map.getContainer());
+
+    return () => {
+      window.clearTimeout(timer);
+      resizeObserver.disconnect();
+    };
+  }, [map]);
+
+  return null;
+}
+
 export function PriorityLeafletMap() {
   const zones = priorityDangerZones.map((zone) => ({
     zone,
@@ -83,6 +111,7 @@ export function PriorityLeafletMap() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <ZoomControl position="bottomright" />
+        <FitPriorityMap />
         <Circle center={[35.112, 129.025]} radius={2700} pathOptions={{ color: '#fb7185', fillColor: '#fb7185', fillOpacity: 0.16, opacity: 0 }} />
         <Circle center={[35.116, 129.046]} radius={2300} pathOptions={{ color: '#f59e0b', fillColor: '#f59e0b', fillOpacity: 0.15, opacity: 0 }} />
         <Circle center={[35.153, 129.122]} radius={2700} pathOptions={{ color: '#14b8a6', fillColor: '#14b8a6', fillOpacity: 0.13, opacity: 0 }} />

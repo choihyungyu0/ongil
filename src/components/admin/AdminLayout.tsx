@@ -59,7 +59,10 @@ export function AdminLayout() {
         <main className="min-w-0 flex-1">
           <header className="sticky top-0 z-20 border-b border-blue-100 bg-white/95 px-4 py-3 backdrop-blur md:hidden">
             <strong className="text-sm text-navy-950">부산 온길 AI</strong>
-            <nav className="mt-3 flex flex-wrap gap-2 pb-1" aria-label="관리자 주요 화면 메뉴">
+            <nav
+              className="mt-3 grid w-full max-w-[calc(100vw-2rem)] grid-cols-2 gap-2 pb-1 min-[420px]:grid-cols-3"
+              aria-label="관리자 주요 화면 메뉴"
+            >
               {navItems.map(({ to, label, end }) => (
                 <NavLink
                   key={to}
@@ -67,7 +70,7 @@ export function AdminLayout() {
                   end={end}
                   className={({ isActive }) =>
                     [
-                      'shrink-0 rounded-full px-3 py-1.5 text-xs font-extrabold',
+                      'min-w-0 truncate rounded-full px-3 py-1.5 text-center text-xs font-extrabold',
                       isActive ? 'bg-blue-50 text-action-600' : 'bg-slate-100 text-slate-600',
                     ].join(' ')
                   }
