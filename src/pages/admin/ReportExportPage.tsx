@@ -100,7 +100,7 @@ const previewUsagePoints = [
 function ReportPreviewModal({ onClose }: { onClose: () => void }) {
   return (
     <div
-      className="fixed inset-0 z-[2000] flex items-center justify-center bg-navy-950/45 p-2 backdrop-blur-sm sm:p-4"
+      className="fixed inset-0 z-[2000] flex items-center justify-center overflow-hidden bg-navy-950/45 p-2 backdrop-blur-sm sm:p-4"
       role="presentation"
       onClick={onClose}
     >
@@ -108,14 +108,14 @@ function ReportPreviewModal({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="report-preview-title"
-        className="max-h-[calc(100vh-16px)] min-w-0 w-full max-w-[min(1380px,calc(100vw-16px))] overflow-hidden rounded-[28px] bg-[#eef5fb] shadow-[0_32px_80px_rgba(15,29,51,0.28)]"
+        className="max-h-[calc(100vh-16px)] min-w-0 w-[calc(100vw-16px)] max-w-[min(1380px,calc(100vw-16px))] overflow-hidden rounded-[28px] bg-[#eef5fb] shadow-[0_32px_80px_rgba(15,29,51,0.28)] sm:w-full"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex max-h-[calc(100vh-16px)] min-h-0 flex-col">
-          <header className="flex shrink-0 items-start justify-between gap-4 px-4 pb-3 pt-4 sm:px-7 sm:pt-5">
+          <header className="flex max-w-full shrink-0 items-start justify-between gap-3 px-4 pb-3 pt-4 sm:gap-4 sm:px-7 sm:pt-5">
             <div className="min-w-0">
               <p className="text-[12px] font-black text-civic-700">PC 환경 · 문서 미리보기</p>
-              <h2 id="report-preview-title" className="mt-1 text-[24px] font-black leading-7 text-navy-950 sm:text-[28px]">
+              <h2 id="report-preview-title" className="mt-1 text-[23px] font-black leading-7 text-navy-950 sm:text-[28px]">
                 분석 리포트 미리보기
               </h2>
               <p className="mt-1 text-[12px] font-semibold text-slate-500">
@@ -133,14 +133,14 @@ function ReportPreviewModal({ onClose }: { onClose: () => void }) {
           </header>
 
           <div className="min-h-0 overflow-y-auto overflow-x-hidden px-4 pb-4 sm:px-7 sm:pb-6">
-            <div className="grid min-h-0 gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+            <div className="grid min-h-0 max-w-full gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
               <article className="min-w-0 rounded-2xl bg-white p-4 shadow-[0_18px_44px_rgba(33,91,145,0.1)] sm:p-7 xl:p-8">
                 <div className="flex min-w-0 flex-col gap-4 border-b-2 border-navy-950 pb-5 sm:flex-row sm:items-start sm:justify-between sm:gap-5">
                   <div className="min-w-0">
-                    <h3 className="text-[21px] font-black leading-7 text-navy-950 sm:text-[24px] sm:leading-8">
+                    <h3 className="break-words text-[21px] font-black leading-7 text-navy-950 sm:text-[24px] sm:leading-8">
                       감천문화마을 보행취약구간 분석 리포트
                     </h3>
-                    <p className="mt-2 text-[12px] font-semibold leading-5 text-slate-500">
+                    <p className="mt-2 break-words text-[12px] font-semibold leading-5 text-slate-500">
                       부산 온길 AI · 보행취약지역 탐지·접근성 점수화 기반 행정 리포트 · 2026.05.20
                     </p>
                   </div>
@@ -150,6 +150,19 @@ function ReportPreviewModal({ onClose }: { onClose: () => void }) {
                     Report
                   </div>
                 </div>
+
+                <section className="mt-5 overflow-hidden rounded-[16px] border border-blue-100 bg-white p-3">
+                  <div className="flex items-center justify-between gap-3 px-1 pb-3">
+                    <div>
+                      <h4 className="text-[15px] font-black text-navy-950">위험권역 지도</h4>
+                      <p className="mt-1 text-[11px] font-semibold text-slate-500">실제 지도 배경 위에 보행 위험 참고 지점을 표시합니다.</p>
+                    </div>
+                    <span className="hidden rounded-full bg-civic-50 px-3 py-1 text-[10px] font-black text-civic-700 sm:inline-flex">히트맵 포함</span>
+                  </div>
+                  <div className="h-[250px] min-w-0 sm:h-[300px]">
+                    <ReportExportLeafletMap compact />
+                  </div>
+                </section>
 
                 <div className="mt-5 grid gap-4 lg:grid-cols-2">
                   <section className="rounded-[14px] border border-blue-100 bg-slate-50/70 p-4">
