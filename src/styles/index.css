@@ -761,6 +761,13 @@
     }
   }
 
+  @media (max-width: 999px) {
+    .reports-detail-screen,
+    .reports-overview-screen {
+      min-height: 0;
+    }
+  }
+
   @media (min-width: 1000px) {
     .admin-shell-fit {
       min-height: max(100vh, 56.25vw);

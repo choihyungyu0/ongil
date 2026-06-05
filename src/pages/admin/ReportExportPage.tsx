@@ -1,11 +1,14 @@
+import { useEffect, useState } from 'react';
 import {
   Check,
   ChevronDown,
   Download,
+  FileText,
   MapPinned,
   Search,
   Share2,
   Sparkles,
+  X,
 } from 'lucide-react';
 import { ReportExportLeafletMap } from '../../components/maps/ReportExportLeafletMap';
 import { reportPreviews } from '../../data/mockData';
@@ -75,8 +78,225 @@ const priorityRows = [
   { place: '부산역 연결 보행로', detail: '점자블록 손상, 혼잡', score: '4.1', badge: '접수' },
 ];
 
+const previewRiskRows = [
+  { rank: 1, label: '입구 계단·단차', value: '92%', tone: 'bg-rose-50 text-rose-600' },
+  { rank: 2, label: '전망대 진입 급경사', value: '86%', tone: 'bg-orange-50 text-orange-600' },
+  { rank: 3, label: '버스정류장 주변 점자블록', value: '78%', tone: 'bg-amber-50 text-amber-600' },
+  { rank: 4, label: '골목 보도블록 파손', value: '64%', tone: 'bg-blue-50 text-action-600' },
+  { rank: 5, label: '야간 조도 부족 구간', value: '58%', tone: 'bg-cyan-50 text-civic-700' },
+];
+
+const previewOptions = [
+  { label: '행정 문서형 PDF', caption: '표지·요약·지도 포함', icon: 'PDF', tone: 'bg-blue-50 text-action-600' },
+  { label: '위험구간 데이터', caption: '구간별 점수·제보 수', icon: 'XLS', tone: 'bg-civic-50 text-civic-700' },
+  { label: '공유 링크', caption: '내부 검토용 URL', icon: '링크', tone: 'bg-orange-50 text-orange-600' },
+];
+
+const previewUsagePoints = [
+  { label: '검토', text: '담당 부서와 현장조사 일정을 연결합니다.' },
+  { label: '근거', text: '무장애 관광 검토 패키지의 기초자료가 됩니다.' },
+];
+
+function ReportPreviewModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div
+      className="fixed inset-0 z-[2000] flex items-center justify-center bg-navy-950/45 p-2 backdrop-blur-sm sm:p-4"
+      role="presentation"
+      onClick={onClose}
+    >
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="report-preview-title"
+        className="max-h-[calc(100vh-16px)] min-w-0 w-full max-w-[min(1380px,calc(100vw-16px))] overflow-hidden rounded-[28px] bg-[#eef5fb] shadow-[0_32px_80px_rgba(15,29,51,0.28)]"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex max-h-[calc(100vh-16px)] min-h-0 flex-col">
+          <header className="flex shrink-0 items-start justify-between gap-4 px-4 pb-3 pt-4 sm:px-7 sm:pt-5">
+            <div className="min-w-0">
+              <p className="text-[12px] font-black text-civic-700">PC 환경 · 문서 미리보기</p>
+              <h2 id="report-preview-title" className="mt-1 text-[24px] font-black leading-7 text-navy-950 sm:text-[28px]">
+                분석 리포트 미리보기
+              </h2>
+              <p className="mt-1 text-[12px] font-semibold text-slate-500">
+                위험구간 지도, 접근성 점수, 개선 우선순위를 행정 문서형 화면으로 확인합니다.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-blue-100 bg-white text-slate-500 shadow-sm hover:text-navy-950"
+              aria-label="분석 리포트 미리보기 닫기"
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </header>
+
+          <div className="min-h-0 overflow-y-auto overflow-x-hidden px-4 pb-4 sm:px-7 sm:pb-6">
+            <div className="grid min-h-0 gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+              <article className="min-w-0 rounded-2xl bg-white p-4 shadow-[0_18px_44px_rgba(33,91,145,0.1)] sm:p-7 xl:p-8">
+                <div className="flex min-w-0 flex-col gap-4 border-b-2 border-navy-950 pb-5 sm:flex-row sm:items-start sm:justify-between sm:gap-5">
+                  <div className="min-w-0">
+                    <h3 className="text-[21px] font-black leading-7 text-navy-950 sm:text-[24px] sm:leading-8">
+                      감천문화마을 보행취약구간 분석 리포트
+                    </h3>
+                    <p className="mt-2 text-[12px] font-semibold leading-5 text-slate-500">
+                      부산 온길 AI · 보행취약지역 탐지·접근성 점수화 기반 행정 리포트 · 2026.05.20
+                    </p>
+                  </div>
+                  <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full border-[3px] border-civic-500 text-center text-[10px] font-black leading-3 text-civic-700 sm:h-[82px] sm:w-[82px] sm:text-[12px] sm:leading-4">
+                    On-gil
+                    <br />
+                    Report
+                  </div>
+                </div>
+
+                <div className="mt-5 grid gap-4 lg:grid-cols-2">
+                  <section className="rounded-[14px] border border-blue-100 bg-slate-50/70 p-4">
+                    <h4 className="text-[15px] font-black text-navy-950">1. 분석 요약</h4>
+                    <p className="mt-3 text-[12px] font-semibold leading-5 text-slate-600">
+                      감천문화마을 입구 및 주요 보행 동선에서 계단, 단차, 급경사, 점자블록 단절 위험이 반복 확인되었습니다.
+                      현재는 보행 위험 참고 자료이며 현장 검수와 담당 부서 확인이 필요합니다.
+                    </p>
+                  </section>
+
+                  <section className="rounded-[14px] border border-blue-100 bg-slate-50/70 p-4">
+                    <h4 className="text-[15px] font-black text-navy-950">2. 핵심 지표</h4>
+                    <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+                      {[
+                        { label: '위험구간', value: '24', tone: 'text-navy-950' },
+                        { label: '고위험', value: '8', tone: 'text-rose-600' },
+                        { label: '제보', value: '68', tone: 'text-action-600' },
+                      ].map((metric) => (
+                        <div key={metric.label} className="min-w-0 rounded-2xl border border-blue-100 bg-white px-2 py-4 text-center sm:px-3">
+                          <p className="text-[11px] font-black text-slate-400">{metric.label}</p>
+                          <p className={`mt-1 text-[24px] font-black leading-7 ${metric.tone}`}>{metric.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="rounded-[14px] border border-blue-100 bg-white p-4">
+                    <h4 className="text-[15px] font-black text-navy-950">3. 위험구간 TOP 5</h4>
+                    <div className="mt-4 grid gap-3">
+                      {previewRiskRows.map((row) => (
+                        <div key={row.label} className="grid grid-cols-[24px_minmax(0,1fr)_48px] items-center gap-3">
+                          <span className="text-[12px] font-black text-slate-500">{row.rank}</span>
+                          <span className="truncate text-[12px] font-bold text-navy-900">{row.label}</span>
+                          <span className={`rounded-full px-2 py-1 text-center text-[10px] font-black ${row.tone}`}>{row.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="rounded-[14px] border border-blue-100 bg-white p-4">
+                    <h4 className="text-[15px] font-black text-navy-950">4. 추천 개선안</h4>
+                    <p className="mt-3 text-[12px] font-semibold leading-5 text-slate-600">
+                      경사 완화, 손잡이 설치, 점자블록 정비, 쉼터 설치, 음향신호기 설치 후보를 우선 검토합니다.
+                    </p>
+                    <div className="mt-4 grid gap-3">
+                      {[
+                        { label: '경사로', width: '82%', color: 'bg-rose-500', rank: '1순위' },
+                        { label: '손잡이', width: '72%', color: 'bg-orange-500', rank: '2순위' },
+                      ].map((bar) => (
+                        <div key={bar.label} className="grid grid-cols-[62px_minmax(0,1fr)_42px] items-center gap-3">
+                          <span className="text-[12px] font-black text-slate-500">{bar.label}</span>
+                          <span className="h-2.5 overflow-hidden rounded-full bg-slate-100">
+                            <span className={`block h-full rounded-full ${bar.color}`} style={{ width: bar.width }} />
+                          </span>
+                          <span className="text-right text-[11px] font-black text-slate-500">{bar.rank}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </div>
+              </article>
+
+              <aside className="grid min-w-0 gap-4 xl:grid-rows-[auto_minmax(0,1fr)]">
+                <section className="min-w-0 rounded-2xl bg-white p-5 shadow-[0_18px_44px_rgba(33,91,145,0.1)]">
+                  <div className="flex items-start justify-between">
+                    <h3 className="text-[16px] font-black text-navy-950">출력 옵션</h3>
+                    <span className="text-[10px] font-black text-slate-400">PDF / 문서</span>
+                  </div>
+                  <div className="mt-4 grid gap-3">
+                    {previewOptions.map((option) => (
+                      <button
+                        key={option.label}
+                        type="button"
+                        className="grid min-w-0 grid-cols-[42px_minmax(0,1fr)] items-center gap-3 rounded-[14px] border border-blue-100 bg-white px-3 py-3 text-left shadow-sm hover:border-action-200 hover:bg-blue-50/40"
+                      >
+                        <span className={`grid h-9 w-9 place-items-center rounded-full text-[10px] font-black ${option.tone}`}>
+                          {option.icon}
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate text-[12px] font-black text-navy-950">{option.label}</span>
+                          <span className="mt-0.5 block truncate text-[10px] font-bold text-slate-400">{option.caption}</span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className="mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-[14px] bg-action-500 text-[12px] font-black text-white shadow-[0_12px_22px_rgba(36,119,255,0.22)] hover:bg-action-600"
+                  >
+                    <Download className="h-4 w-4" aria-hidden="true" />
+                    리포트 다운로드
+                  </button>
+                </section>
+
+                <section className="min-w-0 rounded-2xl bg-white p-5 shadow-[0_18px_44px_rgba(33,91,145,0.1)]">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-action-600" aria-hidden="true" />
+                    <h3 className="text-[16px] font-black text-navy-950">문서 활용 포인트</h3>
+                  </div>
+                  <div className="mt-4 rounded-[14px] border border-cyan-100 bg-civic-50 px-4 py-3">
+                    <p className="text-[12px] font-bold leading-5 text-civic-800">
+                      위험구간 지도, 접근성 점수, 개선 우선순위를 한 문서로 묶어 현장 검수와 예산 우선순위 판단 근거로 사용할 수 있습니다.
+                    </p>
+                  </div>
+                  <div className="mt-4 grid gap-3">
+                    {previewUsagePoints.map((point) => (
+                      <div key={point.label} className="grid grid-cols-[34px_minmax(0,1fr)] gap-3">
+                        <span className="grid h-7 w-7 place-items-center rounded-full bg-civic-50 text-[11px] font-black text-civic-700">
+                          {point.label}
+                        </span>
+                        <p className="text-[12px] font-semibold leading-5 text-slate-600">{point.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function getInitialPreviewOpen() {
+  return new URLSearchParams(window.location.search).get('preview') === '1';
+}
+
 export function ReportExportPage() {
+  const [isPreviewOpen, setIsPreviewOpen] = useState(getInitialPreviewOpen);
   const report = reportPreviews[0];
+
+  useEffect(() => {
+    if (!isPreviewOpen) {
+      return undefined;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsPreviewOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isPreviewOpen]);
 
   return (
     <div className="report-export-screen flex min-w-0 flex-col gap-3 xl:gap-4">
@@ -103,6 +323,8 @@ export function ReportExportPage() {
           </button>
           <button
             type="button"
+            onClick={() => setIsPreviewOpen(true)}
+            aria-haspopup="dialog"
             className="flex h-12 items-center gap-2 rounded-2xl bg-action-500 px-6 text-sm font-black text-white shadow-[0_12px_24px_rgba(36,119,255,0.22)]"
           >
             <Download className="h-4 w-4" aria-hidden="true" />
@@ -163,6 +385,8 @@ export function ReportExportPage() {
           <div className="mt-4 grid shrink-0 gap-2.5">
             <button
               type="button"
+              onClick={() => setIsPreviewOpen(true)}
+              aria-haspopup="dialog"
               className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-action-500 text-sm font-black text-white shadow-[0_12px_22px_rgba(36,119,255,0.2)]"
             >
               <Download className="h-4 w-4" aria-hidden="true" />
@@ -280,6 +504,8 @@ export function ReportExportPage() {
           </div>
         </article>
       </section>
+
+      {isPreviewOpen ? <ReportPreviewModal onClose={() => setIsPreviewOpen(false)} /> : null}
     </div>
   );
 }
