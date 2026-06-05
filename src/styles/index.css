@@ -688,7 +688,12 @@
   }
 
   .ongil-route-map .leaflet-tile {
-    filter: saturate(0.82) contrast(0.92) brightness(1.05);
+    filter: saturate(0.9) contrast(0.9) brightness(1.08);
+  }
+
+  .ongil-route-map--compact .leaflet-tile {
+    filter: saturate(0.72) contrast(0.88) brightness(1.14);
+    opacity: 0.86;
   }
 
   .ongil-route-map .leaflet-control-attribution {
@@ -697,6 +702,13 @@
     color: #475569;
     font-size: 9px;
     font-weight: 700;
+  }
+  .ongil-route-map--compact .leaflet-control-attribution {
+    max-width: 170px;
+    background: rgba(255, 255, 255, 0.62);
+    font-size: 8px;
+    line-height: 1.2;
+    white-space: normal;
   }
 
   .ongil-route-map .leaflet-control-zoom {
@@ -831,6 +843,143 @@
   .ongil-area-route::before {
     background: #2477ff;
   }
+  .ongil-route-point {
+    display: inline-flex;
+    width: max-content;
+    max-width: 132px;
+    align-items: center;
+    gap: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 3px 7px 3px 4px;
+    box-shadow: 0 7px 14px rgba(15, 29, 51, 0.1);
+    white-space: nowrap;
+  }
+
+  .ongil-route-point span {
+    display: block;
+    width: 8px;
+    height: 8px;
+    flex: 0 0 auto;
+    border: 1.5px solid #fff;
+    border-radius: 999px;
+    box-shadow: 0 4px 9px rgba(15, 29, 51, 0.16);
+  }
+
+  .ongil-route-point strong {
+    overflow: hidden;
+    color: #14304d;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 1.05;
+    text-overflow: ellipsis;
+  }
+
+  .ongil-route-point--risk span {
+    background: #ef4444;
+  }
+
+  .ongil-route-point--risk strong {
+    color: #b91c1c;
+  }
+
+  .ongil-route-point--safe span {
+    background: #16b8a5;
+  }
+
+  .ongil-route-point--station span {
+    background: #2477ff;
+  }
+
+  .ongil-route-point--shelter span {
+    background: #8b5cf6;
+  }
+
+  .ongil-route-point--place span {
+    background: #22c55e;
+  }
+
+  .ongil-compact-point {
+    display: inline-flex;
+    width: max-content;
+    max-width: 160px;
+    align-items: center;
+    gap: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 7px 4px 4px;
+    box-shadow: 0 8px 16px rgba(15, 29, 51, 0.1);
+    white-space: nowrap;
+  }
+
+  .ongil-compact-point span {
+    display: block;
+    width: 13px;
+    height: 13px;
+    flex: 0 0 auto;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    box-shadow: 0 5px 12px rgba(15, 29, 51, 0.18);
+  }
+
+  .ongil-compact-point strong {
+    overflow: hidden;
+    color: #14304d;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 1.05;
+    text-overflow: ellipsis;
+  }
+
+  .ongil-compact-point--risk span {
+    background: #ef4444;
+  }
+
+  .ongil-compact-point--risk strong {
+    color: #b91c1c;
+  }
+
+  .ongil-compact-point--rank span {
+    background: #ef4444;
+  }
+
+  .ongil-compact-point--rank strong {
+    color: #0b2440;
+  }
+
+  .ongil-compact-point--safe span {
+    background: #16b8a5;
+  }
+
+  .ongil-compact-point--district span {
+    background: #2477ff;
+  }
+
+  .ongil-compact-point--station span {
+    background: #2477ff;
+  }
+
+  .ongil-compact-point--warning span {
+    background: #f97316;
+  }
+
+  .ongil-compact-point--shelter span {
+    background: #8b5cf6;
+  }
+
+  .ongil-compact-point--place span {
+    background: #22c55e;
+  }
+
+  .ongil-compact-legend {
+    line-height: 1;
+  }
+
+  .ongil-compact-legend span {
+    white-space: nowrap;
+  }
 
   @media (max-width: 640px) {
     .settings-screen-fit {
@@ -867,6 +1016,20 @@
     .ongil-route-map .leaflet-control-attribution {
       max-width: 150px;
       white-space: normal;
+    }
+    .ongil-compact-point {
+      max-width: 116px;
+      gap: 4px;
+      padding: 4px 6px 4px 4px;
+    }
+
+    .ongil-compact-point strong {
+      font-size: 8px;
+    }
+
+    .ongil-compact-legend {
+      min-width: 122px;
+      padding: 0.5rem 0.625rem;
     }
   }
 
