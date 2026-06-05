@@ -1,6 +1,7 @@
-import { ChevronDown, Search, Share2, Siren, Sparkles } from 'lucide-react';
+import { ChevronDown, Search, Share2, ShieldCheck, Siren, Sparkles, Smartphone } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { AccessibleRouteLeafletMap } from '../../components/maps/AccessibleRouteLeafletMap';
-import { routeOptions } from '../../data/mockData';
+import { citizenReports, routeOptions, userTypes } from '../../data/mockData';
 
 const routeCards = [
   {
@@ -46,6 +47,14 @@ const routeCards = [
 ];
 
 const mapFilters = ['빠른 길', '안전한 길', '계단 없는 길', '완만한 길'];
+
+const citizenRiskTypes = ['계단', '단차', '보도블록 파손', '점자블록 훼손', '볼라드 간격', '어두운 길', '공사구간', '횡단 위험'];
+
+const citizenRouteTones = [
+  { letter: 'A', border: 'border-civic-200', bg: 'bg-civic-50', chip: 'bg-civic-100 text-civic-700', text: 'text-civic-700' },
+  { letter: 'B', border: 'border-blue-100', bg: 'bg-white', chip: 'bg-blue-100 text-action-600', text: 'text-action-600' },
+  { letter: 'C', border: 'border-rose-100', bg: 'bg-white', chip: 'bg-rose-100 text-rose-600', text: 'text-rose-600' },
+];
 
 const guideSteps = [
   {
@@ -102,8 +111,154 @@ function MetricCard({ card }: { card: (typeof routeCards)[number] }) {
   );
 }
 
+function CitizenSafeRouteView() {
+  const routes = routeOptions.slice(0, 3);
+  const selectedReport = citizenReports[4] ?? citizenReports[0];
+
+  return (
+    <div className="safe-route-screen-fit rounded-[28px] bg-[#edf6fb] p-3 sm:p-4">
+      <div className="grid min-h-0 gap-4 xl:h-full xl:grid-cols-[300px_minmax(0,1fr)_280px]">
+        <section className="flex min-h-0 flex-col rounded-[20px] bg-white p-5 shadow-[0_18px_45px_rgba(33,91,145,0.08)] xl:h-full">
+          <p className="text-[11px] font-black text-civic-700">시민 서비스 확장 · 웹지도</p>
+          <h1 className="mt-1 text-[22px] font-black leading-7 text-navy-950">시민용 보행안전경로 안내</h1>
+          <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">데이터 측정 이후 시민에게도 안전한 길을 비교해 안내합니다.</p>
+
+          <div className="mt-5 rounded-[16px] border border-blue-100 bg-white p-4">
+            <h2 className="text-[14px] font-black text-navy-950">경로 검색</h2>
+            <div className="mt-3 space-y-2">
+              <label className="relative block">
+                <span className="sr-only">출발지</span>
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-civic-600" aria-hidden="true" />
+                <input value="부산역" readOnly className="h-10 w-full rounded-[12px] border border-blue-100 bg-slate-50 pl-9 pr-3 text-[12px] font-bold text-navy-950 outline-none focus:border-action-500 focus:ring-2 focus:ring-action-500/20" />
+              </label>
+              <label className="relative block">
+                <span className="sr-only">도착지</span>
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-action-600" aria-hidden="true" />
+                <input value="초량이바구길" readOnly className="h-10 w-full rounded-[12px] border border-blue-100 bg-slate-50 pl-9 pr-3 text-[12px] font-bold text-navy-950 outline-none focus:border-action-500 focus:ring-2 focus:ring-action-500/20" />
+              </label>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <h2 className="text-[12px] font-black text-navy-950">사용자 유형</h2>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {userTypes.slice(0, 5).map((type, index) => (
+                <button key={type.id} type="button" className={`h-8 rounded-full border px-3 text-[11px] font-black ${index === 0 ? 'border-civic-200 bg-civic-50 text-civic-700' : 'border-blue-100 bg-white text-slate-600'}`}>
+                  {type.shortLabel}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <h2 className="text-[12px] font-black text-navy-950">경로 비교 결과</h2>
+            <div className="mt-2 space-y-3">
+              {routes.map((route, index) => {
+                const tone = citizenRouteTones[index] ?? citizenRouteTones[1];
+
+                return (
+                  <article key={route.id} className={`rounded-[14px] border ${tone.border} ${tone.bg} p-3`}>
+                    <div className="flex items-start gap-3">
+                      <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-[12px] text-[12px] font-black ${tone.chip}`}>{tone.letter}</span>
+                      <div className="min-w-0">
+                        <h3 className="text-[13px] font-black leading-5 text-navy-950">{route.title}</h3>
+                        <p className="mt-0.5 text-[11px] font-bold leading-4 text-slate-500">
+                          {route.distance} · 평균 경사 {route.slope}
+                        </p>
+                        <p className={`mt-1 text-[11px] font-black ${tone.text}`}>
+                          위험 {route.riskCount}곳 · 접근성 점수 {route.score}
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="flex min-h-0 flex-col rounded-[20px] bg-white p-5 shadow-[0_18px_45px_rgba(33,91,145,0.08)] xl:h-full">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <h2 className="text-[18px] font-black leading-6 text-navy-950">웹 지도 경로 비교</h2>
+              <p className="mt-1 text-[12px] font-bold leading-5 text-slate-500">빠른 길, 안전한 길, 계단 없는 길을 색상과 점선으로 비교합니다.</p>
+            </div>
+            <span className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full border border-blue-100 bg-white px-3 text-[11px] font-black text-slate-600">
+              <Smartphone className="h-4 w-4 text-civic-700" aria-hidden="true" />
+              시민용
+            </span>
+          </div>
+
+          <div className="mt-4 h-[420px] overflow-hidden rounded-[18px] sm:h-[520px] xl:h-auto xl:min-h-0 xl:flex-1">
+            <AccessibleRouteLeafletMap compact />
+          </div>
+        </section>
+
+        <aside className="flex min-h-0 flex-col rounded-[20px] bg-white p-5 shadow-[0_18px_45px_rgba(33,91,145,0.08)] xl:h-full">
+          <h2 className="text-[16px] font-black text-navy-950">빠른 위험구간 제보</h2>
+          <p className="mt-1 text-[11px] font-bold leading-5 text-slate-500">사진을 올리면 위치와 위험유형을 자동 기록합니다.</p>
+
+          <div className="mt-5">
+            <h3 className="text-[12px] font-black text-navy-950">위험유형 선택</h3>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {citizenRiskTypes.map((type, index) => (
+                <button key={type} type="button" className={`rounded-full px-3 py-1.5 text-[10px] font-black ${index === 0 ? 'bg-orange-100 text-orange-700' : 'bg-blue-50 text-slate-600'}`}>
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-[16px] border border-blue-100 bg-slate-50 p-4">
+            <p className="text-[12px] font-black text-navy-950">자동 저장 정보</p>
+            <p className="mt-2 text-[11px] font-bold leading-5 text-slate-500">
+              위치: {selectedReport.location}
+              <br />
+              시간: {selectedReport.createdAt}
+              <br />
+              제보 신뢰도: {selectedReport.confidence}%
+            </p>
+          </div>
+
+          <div className="mt-5 rounded-[16px] border border-amber-100 bg-amber-50 p-4">
+            <div className="flex items-start gap-3">
+              <Siren className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
+              <p className="text-[11px] font-bold leading-5 text-amber-800">이 화면은 보행 위험 참고 안내이며 안전을 보장하지 않습니다.</p>
+            </div>
+          </div>
+
+          <div className="mt-5 space-y-3">
+            <button type="button" className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-action-500 px-4 text-[12px] font-black text-white shadow-[0_12px_22px_rgba(36,119,255,0.26)] hover:bg-action-600">
+              <Share2 className="h-4 w-4" aria-hidden="true" />
+              위험구간 제보하기
+            </button>
+            <button type="button" className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-civic-200 bg-white px-4 text-[12px] font-black text-civic-700 hover:bg-civic-50">
+              <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+              내 경로에 반영
+            </button>
+          </div>
+
+          <div className="mt-auto hidden rounded-[16px] border border-blue-100 bg-slate-50 p-4 xl:block">
+            <p className="text-[12px] font-black text-navy-950">제보 처리 흐름</p>
+            <div className="mt-3 grid gap-2 text-[11px] font-bold leading-5 text-slate-600">
+              <span>1. 시민 제보 접수</span>
+              <span>2. 위험유형 검토</span>
+              <span>3. 온길 루트 참고 반영</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}
+
 export function AdminRoutesPage() {
+  const { pathname } = useLocation();
   const recommendedRoute = routeOptions.find((route) => route.recommended) ?? routeOptions[1];
+
+  if (pathname.endsWith('/safe-route')) {
+    return <CitizenSafeRouteView />;
+  }
 
   return (
     <div className="route-screen-fit grid gap-4 overflow-visible lg:grid-rows-[auto_auto_minmax(0,1fr)] lg:overflow-hidden">
