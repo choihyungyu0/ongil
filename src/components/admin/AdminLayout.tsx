@@ -59,7 +59,7 @@ export function AdminLayout() {
         <main className="min-w-0 flex-1">
           <header className="sticky top-0 z-20 border-b border-blue-100 bg-white/95 px-4 py-3 backdrop-blur md:hidden">
             <strong className="text-sm text-navy-950">부산 온길 AI</strong>
-            <nav className="mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="관리자 주요 화면 메뉴">
+            <nav className="mt-3 flex flex-wrap gap-2 pb-1" aria-label="관리자 주요 화면 메뉴">
               {navItems.map(({ to, label, end }) => (
                 <NavLink
                   key={to}
