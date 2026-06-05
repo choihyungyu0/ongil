@@ -176,7 +176,7 @@ export function PhotoAnalysisPage() {
           </div>
         </article>
 
-        <aside className="grid min-h-0 grid-rows-[minmax(0,0.93fr)_minmax(0,1.07fr)] gap-5">
+        <aside className="grid min-h-0 gap-5 xl:grid-rows-[minmax(250px,0.7fr)_minmax(490px,1.3fr)]">
           <section className="flex min-h-0 flex-col rounded-[22px] border border-blue-100/70 bg-white p-6 shadow-[0_18px_45px_rgba(15,29,51,0.08)]">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -186,14 +186,14 @@ export function PhotoAnalysisPage() {
               <span className="rounded-full bg-slate-50 px-3 py-1 text-[11px] font-black text-slate-500">검토값 요약</span>
             </div>
 
-            <div className="mt-8 grid flex-1 content-center gap-6">
+            <div className="mt-5 grid min-h-0 flex-1 content-center gap-4">
               {resultBars.map((item) => (
                 <ResultBar key={item.label} item={item} />
               ))}
             </div>
           </section>
 
-          <section className="flex min-h-0 flex-col rounded-[22px] border border-blue-100/70 bg-white p-6 shadow-[0_18px_45px_rgba(15,29,51,0.08)]">
+          <section className="flex min-h-0 flex-col overflow-hidden rounded-[22px] border border-blue-100/70 bg-white p-6 shadow-[0_18px_45px_rgba(15,29,51,0.08)]">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-[12px] font-black text-civic-700">개선 우선순위</p>
@@ -202,7 +202,7 @@ export function PhotoAnalysisPage() {
               <span className="rounded-full bg-slate-50 px-3 py-1 text-[11px] font-black text-slate-500">행정 검토 필요</span>
             </div>
 
-            <div className="mt-5 grid flex-1 content-start gap-4">
+            <div className="mt-5 grid min-h-0 flex-1 content-start gap-4 overflow-y-auto pr-1">
               {recommendations.map((item) => (
                 <article key={item.title} className="grid grid-cols-[36px_minmax(0,1fr)] gap-3 rounded-[16px] border border-slate-100 bg-slate-50/70 p-4">
                   <span className={`grid h-8 w-8 place-items-center rounded-xl ${item.tone}`}>
@@ -216,20 +216,20 @@ export function PhotoAnalysisPage() {
               ))}
             </div>
 
-            <div className="mt-5 grid shrink-0 grid-cols-2 gap-3">
+            <div className="mt-4 grid shrink-0 grid-cols-1 gap-3 sm:grid-cols-2">
               <button
                 type="button"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-action-500 px-4 text-[12px] font-black text-white shadow-[0_10px_18px_rgba(36,119,255,0.24)] hover:bg-action-600"
+                className="inline-flex h-11 min-w-0 items-center justify-center gap-2 rounded-2xl bg-action-500 px-3 text-center text-[12px] font-black leading-4 text-white shadow-[0_10px_18px_rgba(36,119,255,0.24)] hover:bg-action-600"
               >
-                <MapPin className="h-4 w-4" aria-hidden="true" />
-                개선 승인 및 접수
+                <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className="min-w-0">개선 승인 및 접수</span>
               </button>
               <button
                 type="button"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl border border-blue-100 bg-white px-4 text-[12px] font-black text-action-600 shadow-sm hover:bg-blue-50"
+                className="inline-flex h-11 min-w-0 items-center justify-center gap-2 rounded-2xl border border-blue-100 bg-white px-3 text-center text-[12px] font-black leading-4 text-action-600 shadow-sm hover:bg-blue-50"
               >
-                <FileText className="h-4 w-4" aria-hidden="true" />
-                리포트 후보로 이동
+                <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className="min-w-0">리포트 후보로 이동</span>
               </button>
             </div>
           </section>
