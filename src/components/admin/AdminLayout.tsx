@@ -1,4 +1,4 @@
-import { CalendarDays, ClipboardCheck, FileDown, FileText, LayoutDashboard, ListChecks, MapPinned, Route, ScanSearch, Settings } from 'lucide-react';
+import { CalendarDays, ClipboardCheck, FileDown, FileText, LayoutDashboard, ListChecks, MapPinned, Route, ScanSearch, Settings, Smartphone } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import onGilLogo from '../../../asset/1.png';
 
@@ -12,6 +12,7 @@ const navItems = [
   { to: '/admin/photo-analysis', label: 'AI 분석', icon: ScanSearch },
   { to: '/admin/report-export', label: '리포트 출력', icon: FileDown },
   { to: '/admin/routes', label: '온길 루트', icon: Route },
+  { to: '/admin/safe-route', label: '시민 안전경로', icon: Smartphone },
   { to: '/admin/settings', label: '설정', icon: Settings },
 ];
 
