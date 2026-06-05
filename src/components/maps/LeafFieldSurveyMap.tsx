@@ -5,50 +5,36 @@ import { useEffect } from 'react';
 import { Circle, MapContainer, Marker, Polyline, TileLayer, ZoomControl, useMap } from 'react-leaflet';
 
 const surveyBounds: LatLngBoundsExpression = [
-  [35.0925, 129.006],
-  [35.1248, 129.049],
+  [35.0948, 129.008],
+  [35.1232, 129.0485],
 ];
 
 const routeLines = [
   {
-    id: 'recommended',
-    label: '현장조사 추천 동선',
+    id: 'safe',
+    label: '안전한 길',
     color: '#18c5ad',
     weight: 8,
     positions: [
-      [35.0971, 129.0099],
-      [35.1002, 129.0142],
-      [35.1044, 129.0219],
-      [35.1085, 129.0301],
-      [35.1134, 129.0398],
-      [35.1166, 129.0443],
+      [35.102, 129.0134],
+      [35.1066, 129.0212],
+      [35.1097, 129.027],
+      [35.1132, 129.0312],
+      [35.1164, 129.0378],
+      [35.1202, 129.0432],
     ],
   },
   {
-    id: 'fast',
-    label: '빠른 길',
-    color: '#ef4444',
-    weight: 7,
-    positions: [
-      [35.098, 129.011],
-      [35.1035, 129.019],
-      [35.1089, 129.0278],
-      [35.1149, 129.036],
-      [35.1206, 129.0435],
-    ],
-  },
-  {
-    id: 'review',
-    label: '검수 연결',
+    id: 'detour',
+    label: '우회 경로',
     color: '#2477ff',
-    weight: 5,
-    dashArray: '10 10',
+    weight: 4,
+    dashArray: '8 9',
     positions: [
-      [35.0957, 129.0125],
-      [35.0984, 129.0192],
-      [35.1021, 129.0277],
-      [35.1072, 129.0355],
-      [35.1124, 129.0422],
+      [35.1097, 129.027],
+      [35.1128, 129.033],
+      [35.1164, 129.0378],
+      [35.1202, 129.0432],
     ],
   },
 ] satisfies Array<{
@@ -60,63 +46,67 @@ const routeLines = [
   positions: LatLngExpression[];
 }>;
 
-const surveySites = [
-  {
-    id: 'gamcheon',
-    number: 1,
-    label: '감천 입구',
-    labelSide: 'right',
-    tone: 'teal',
-    position: [35.0971, 129.0099],
-  },
-  {
-    id: 'slope',
-    number: 2,
-    label: '초량 위험 4.8',
-    labelSide: 'left',
-    tone: 'blue',
-    position: [35.1191, 129.0371],
-  },
-  {
-    id: 'stairs',
-    number: 3,
-    label: '계단·단차',
-    labelSide: 'right',
-    tone: 'orange',
-    position: [35.1139, 129.0355],
-  },
-  {
-    id: 'station',
-    number: 4,
-    label: '부산역 검수',
-    labelSide: 'left',
-    tone: 'purple',
-    compact: true,
-    position: [35.1152, 129.0422],
-  },
-  {
-    id: 'welfare',
-    number: 5,
-    label: '복지관 접근',
-    labelSide: 'left',
-    tone: 'green',
-    compact: true,
-    position: [35.117, 129.045],
-  },
-] satisfies Array<{
+type SurveyPoint = {
   id: string;
   number: number;
-  label: string;
-  labelSide: 'left' | 'right';
-  tone: 'teal' | 'blue' | 'orange' | 'purple' | 'green';
-  compact?: boolean;
+  title: string;
+  distance: string;
+  tone: 'teal' | 'blue' | 'orange' | 'cyan' | 'green';
   position: LatLngExpression;
-}>;
+  labelSide: 'left' | 'right';
+};
+
+const surveyPoints: SurveyPoint[] = [
+  {
+    id: 'start',
+    number: 1,
+    title: '부산역 광장 출발',
+    distance: '0m',
+    tone: 'teal',
+    position: [35.102, 129.0134],
+    labelSide: 'right',
+  },
+  {
+    id: 'gentle',
+    number: 2,
+    title: '완만한 보행구간',
+    distance: '210m',
+    tone: 'blue',
+    position: [35.1097, 129.027],
+    labelSide: 'right',
+  },
+  {
+    id: 'current',
+    number: 3,
+    title: '현재 위치',
+    distance: '420m',
+    tone: 'orange',
+    position: [35.1157, 129.0332],
+    labelSide: 'left',
+  },
+  {
+    id: 'shelter',
+    number: 4,
+    title: '쉼터 후보',
+    distance: '520m',
+    tone: 'cyan',
+    position: [35.1164, 129.0378],
+    labelSide: 'right',
+  },
+  {
+    id: 'destination',
+    number: 5,
+    title: '초량이바구길 도착',
+    distance: '610m',
+    tone: 'green',
+    position: [35.1202, 129.0432],
+    labelSide: 'right',
+  },
+];
 
 const heatZones = [
-  { id: 'gamcheon-heat', center: [35.098, 129.0115] as LatLngExpression, color: '#f59e0b', radius: 520 },
-  { id: 'cho-heat', center: [35.119, 129.0372] as LatLngExpression, color: '#ef4444', radius: 430 },
-  { id: 'station-heat', center: [35.1146, 129.0413] as LatLngExpression, color: '#f97316', radius: 330 },
+  { id: 'gentle-area', center: [35.1097, 129.027] as LatLngExpression, color: '#38bdf8', radius: 360 },
+  { id: 'shelter-area', center: [35.1164, 129.0378] as LatLngExpression, color: '#14b8a6', radius: 340 },
 ];
 
 function FitSurveyBounds() {
@@ -125,7 +115,7 @@ function FitSurveyBounds() {
   useEffect(() => {
     const fitMap = () => {
       map.invalidateSize();
-      map.fitBounds(surveyBounds, { padding: [28, 28], maxZoom: 15 });
+      map.fitBounds(surveyBounds, { padding: [20, 20], maxZoom: 15 });
     };
 
     const timer = window.setTimeout(fitMap, 80);
@@ -141,17 +131,20 @@ function FitSurveyBounds() {
   return null;
 }
 
-function createSiteIcon(site: (typeof surveySites)[number]) {
-  const isLeftLabel = site.labelSide === 'left';
+function createSurveyPointIcon(point: (typeof surveyPoints)[number]) {
+  const isLeft = point.labelSide === 'left';
 
   return L.divIcon({
-    className: 'field-survey-div-icon',
-    iconAnchor: isLeftLabel ? [150, 21] : [20, 21],
-    iconSize: [170, 42],
+    className: 'field-survey-real-div-icon',
+    iconAnchor: isLeft ? [144, 19] : [19, 19],
+    iconSize: [160, 38],
     html: `
-      <span class="field-survey-number-marker field-survey-number-marker--${site.tone} field-survey-number-marker--${site.labelSide}${site.compact ? ' field-survey-number-marker--compact' : ''}">
-        <span class="field-survey-marker-number">${site.number}</span>
-        <span class="field-survey-marker-label">${site.label}</span>
+      <span class="field-survey-real-point field-survey-real-point--${point.tone} field-survey-real-point--${point.labelSide}">
+        <span class="field-survey-real-point-badge">${point.number}</span>
+        <span class="field-survey-real-point-copy">
+          <span class="field-survey-real-point-title">${point.title}</span>
+          <span class="field-survey-real-point-distance">${point.distance}</span>
+        </span>
       </span>
     `,
   });
@@ -162,10 +155,10 @@ export function LeafFieldSurveyMap() {
     <div
       className="field-survey-real-map relative h-full min-h-[360px] overflow-hidden rounded-[18px] border border-blue-100 bg-blue-50"
       role="region"
-      aria-label="부산 현장조사 대상 실제 Leaflet 지도"
+      aria-label="부산 현장조사 대상 실제 지도"
     >
       <MapContainer
-        center={[35.109, 129.026]}
+        center={[35.109, 129.028]}
         className="h-full w-full"
         dragging
         scrollWheelZoom={false}
@@ -180,7 +173,7 @@ export function LeafFieldSurveyMap() {
           <Circle
             key={zone.id}
             center={zone.center}
-            pathOptions={{ color: zone.color, fillColor: zone.color, fillOpacity: 0.16, opacity: 0.18, weight: 2 }}
+            pathOptions={{ color: zone.color, fillColor: zone.color, fillOpacity: 0.18, opacity: 0.1, weight: 1 }}
             radius={zone.radius}
           />
         ))}
@@ -192,7 +185,7 @@ export function LeafFieldSurveyMap() {
               dashArray: route.dashArray,
               lineCap: 'round',
               lineJoin: 'round',
-              opacity: 0.9,
+              opacity: 0.95,
               weight: route.weight + 5,
             }}
             positions={route.positions}
@@ -206,37 +199,45 @@ export function LeafFieldSurveyMap() {
               dashArray: route.dashArray,
               lineCap: 'round',
               lineJoin: 'round',
-              opacity: route.id === 'recommended' ? 0.96 : 0.84,
+              opacity: 0.92,
               weight: route.weight,
             }}
             positions={route.positions}
           />
         ))}
-        {surveySites.map((site) => (
-          <Marker key={site.id} icon={createSiteIcon(site)} interactive={false} position={site.position} />
+        {surveyPoints.map((point) => (
+          <Marker
+            key={point.id}
+            icon={createSurveyPointIcon(point)}
+            interactive={false}
+            position={point.position}
+            zIndexOffset={point.id === 'shelter' ? 900 : 520 + point.number * 40}
+          />
         ))}
         <ZoomControl position="topright" />
         <FitSurveyBounds />
       </MapContainer>
 
-      <div className="field-survey-route-chip pointer-events-none absolute bottom-4 left-4 z-[500] rounded-2xl border border-white/80 bg-white/95 px-4 py-3 shadow-[0_14px_32px_rgba(15,29,51,0.14)] backdrop-blur">
-        <p className="text-[12px] font-black text-navy-950">현장조사 추천 동선</p>
-        <div className="mt-2 h-1.5 w-36 rounded-full bg-[#18c5ad]" />
+      <div className="field-survey-filter-chips pointer-events-none absolute left-4 top-4 z-[500] flex max-w-[calc(100%-5rem)] flex-wrap gap-2" role="list" aria-label="현장조사 경로 조건">
+        {['휠체어 사용자', '계단 회피', '완만한 경사', '쉼터 표시'].map((label) => (
+          <span key={label} role="listitem" className="field-survey-filter-chip">
+            {label}
+          </span>
+        ))}
       </div>
 
-      <div className="field-survey-map-legend pointer-events-none absolute bottom-4 right-4 z-[500] w-[180px] rounded-2xl border border-white/80 bg-white/95 px-4 py-3 shadow-[0_14px_32px_rgba(15,29,51,0.14)] backdrop-blur">
-        <p className="text-[12px] font-black text-navy-950">범례</p>
-        <div className="mt-3 space-y-2 text-[11px] font-black text-slate-600">
+      <div className="field-survey-map-legend pointer-events-none absolute bottom-4 left-4 z-[500] w-[300px] rounded-2xl border border-white/80 bg-white/95 px-5 py-4 shadow-[0_14px_32px_rgba(15,29,51,0.14)] backdrop-blur">
+        <div className="flex items-center gap-7 text-[13px] font-black text-slate-700">
           {routeLines.map((route) => (
             <span key={route.id} className="flex items-center gap-2">
               <span
-                className="h-1.5 w-9 rounded-full"
+                className="h-1.5 w-11 rounded-full"
                 style={{
                   backgroundColor: route.dashArray ? 'transparent' : route.color,
                   borderTop: route.dashArray ? `3px dashed ${route.color}` : undefined,
                 }}
               />
-              {route.label === '현장조사 추천 동선' ? '안전한 길' : route.label}
+              {route.label}
             </span>
           ))}
         </div>
