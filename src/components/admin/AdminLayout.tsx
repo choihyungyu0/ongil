@@ -13,6 +13,7 @@ const navItems = [
   { to: '/admin/report-export', label: '리포트 출력', icon: FileDown },
   { to: '/admin/routes', label: '온길 루트', icon: Route },
   { to: '/admin/safe-route', label: '시민 안전경로', icon: Smartphone },
+  { to: '/admin/mobile-screens', label: '모바일 화면', icon: Smartphone },
   { to: '/admin/settings', label: '설정', icon: Settings },
 ];
 
