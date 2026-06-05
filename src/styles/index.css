@@ -261,6 +261,38 @@
     font-weight: 900;
   }
 
+  @media (max-width: 640px) {
+    .dashboard-map-pin {
+      gap: 5px;
+      padding: 6px 8px;
+      font-size: 11px;
+    }
+
+    .dashboard-map-pin i {
+      height: 10px;
+      width: 10px;
+    }
+
+    .dashboard-map-place {
+      font-size: 11px;
+    }
+
+    .dashboard-map-place--strong,
+    .dashboard-map-place--station,
+    .dashboard-map-place--road {
+      font-size: 12px;
+    }
+
+    .dashboard-map-place--district {
+      font-size: 13px;
+    }
+
+    .dashboard-leaflet-map .leaflet-control-attribution {
+      max-width: 180px;
+      white-space: normal;
+    }
+  }
+
   .settings-screen-fit {
     min-height: calc(100vh - 20px);
   }
