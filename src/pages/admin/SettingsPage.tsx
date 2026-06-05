@@ -16,6 +16,8 @@ import {
   TrafficCone,
   TriangleAlert,
 } from 'lucide-react';
+import 'leaflet/dist/leaflet.css';
+import type { LatLngBoundsExpression, LatLngExpression } from 'leaflet';
 import { useEffect } from 'react';
 import { Circle, CircleMarker, MapContainer, TileLayer, Tooltip, useMap } from 'react-leaflet';
 import {
@@ -78,27 +80,34 @@ const layerIcons = {
 
 const summaryIcons = [MapPin, Gauge, TriangleAlert, CheckCircle2];
 
+const accessibilityMapBounds: LatLngBoundsExpression = [
+  [35.094, 129.006],
+  [35.126, 129.058],
+] as const;
+
 const mapLabelPoints = [
-  { label: '부산역', position: [35.1156, 129.0414] as [number, number], color: '#2477ff' },
-  { label: '초량이바구길', position: [35.1189, 129.0349] as [number, number], color: '#ff4d55' },
-  { label: '감천문화마을', position: [35.0978, 129.0107] as [number, number], color: '#18c5ad' },
-  { label: '중구', position: [35.1069, 129.0322] as [number, number], color: '#64748b' },
-  { label: '동구', position: [35.1292, 129.0451] as [number, number], color: '#64748b' },
-  { label: '영도구', position: [35.0912, 129.0679] as [number, number], color: '#64748b' },
+  { label: '초량이바구길', position: [35.1191, 129.0365] as LatLngExpression, color: '#ef4444', tone: 'strong' },
+  { label: '산복도로', position: [35.1212, 129.0502] as LatLngExpression, color: '#0f1d33', tone: 'road' },
+  { label: '서구', position: [35.1081, 129.0208] as LatLngExpression, color: '#0f1d33', tone: 'district' },
+  { label: '부산역', position: [35.1152, 129.0418] as LatLngExpression, color: '#2477ff', tone: 'station' },
+  { label: '감천문화마을', position: [35.0988, 129.0108] as LatLngExpression, color: '#0f1d33', tone: 'place' },
+  { label: '중구', position: [35.1056, 129.0328] as LatLngExpression, color: '#64748b', tone: 'district' },
+  { label: '영도구', position: [35.0952, 129.0468] as LatLngExpression, color: '#64748b', tone: 'district' },
 ] as const;
 
 const mapRiskPoints = [
-  { label: '위험도 4.8', position: [35.1179, 129.0392] as [number, number], color: '#ff4d55', radius: 220 },
-  { label: '우회 필요', position: [35.1087, 129.0251] as [number, number], color: '#2477ff', radius: 170 },
-  { label: '계단·단차', position: [35.1118, 129.0539] as [number, number], color: '#ff8a2a', radius: 180 },
-  { label: '편의시설', position: [35.116, 129.064] as [number, number], color: '#7b61ff', radius: 150 },
-  { label: '쉼터 후보', position: [35.1229, 129.0327] as [number, number], color: '#18c5ad', radius: 155 },
+  { id: 'choryang-top-risk', label: '', position: [35.1184, 129.0382] as LatLngExpression, color: '#ef4444', radius: 8, permanent: false },
+  { id: 'detour-needed', label: '보행 주의', position: [35.1087, 129.0251] as LatLngExpression, color: '#2477ff', radius: 6, permanent: false },
+  { id: 'curb-risk', label: '단차', position: [35.1138, 129.0422] as LatLngExpression, color: '#ff8a2a', radius: 6, permanent: false },
+  { id: 'shelter', label: '쉼터', position: [35.1216, 129.0492] as LatLngExpression, color: '#7b61ff', radius: 6, permanent: false },
+  { id: 'facility', label: '편의시설', position: [35.0961, 129.0456] as LatLngExpression, color: '#18c5ad', radius: 6, permanent: false },
 ] as const;
 
 const heatCircles = [
-  { center: [35.117, 129.038] as [number, number], radius: 1050, color: '#ff4d55', opacity: 0.27 },
-  { center: [35.108, 129.018] as [number, number], radius: 900, color: '#f7d95b', opacity: 0.24 },
-  { center: [35.111, 129.057] as [number, number], radius: 820, color: '#18c5ad', opacity: 0.2 },
+  { center: [35.1184, 129.0382] as LatLngExpression, radius: 900, color: '#ef4444', fillOpacity: 0.26 },
+  { center: [35.111, 129.027] as LatLngExpression, radius: 1450, color: '#facc15', fillOpacity: 0.2 },
+  { center: [35.1002, 129.0126] as LatLngExpression, radius: 1150, color: '#22c55e', fillOpacity: 0.16 },
+  { center: [35.1137, 129.042] as LatLngExpression, radius: 760, color: '#fb7185', fillOpacity: 0.14 },
 ] as const;
 
 function getRiskGradient() {
@@ -244,11 +253,19 @@ function LeafletResize() {
   const map = useMap();
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => {
+    const fitMap = () => {
       map.invalidateSize();
-    }, 0);
+      map.fitBounds(accessibilityMapBounds, { padding: [0, 0], maxZoom: 14 });
+    };
 
-    return () => window.clearTimeout(timeout);
+    const timer = window.setTimeout(fitMap, 80);
+    const resizeObserver = new ResizeObserver(fitMap);
+    resizeObserver.observe(map.getContainer());
+
+    return () => {
+      window.clearTimeout(timer);
+      resizeObserver.disconnect();
+    };
   }, [map]);
 
   return null;
@@ -256,73 +273,94 @@ function LeafletResize() {
 
 function AccessibilityLeafletMap() {
   return (
-    <div className="relative h-full min-h-[330px] overflow-hidden rounded-[14px] bg-[#dbeef7]">
+    <div
+      className="settings-leaflet-map relative h-full min-h-[330px] overflow-hidden rounded-[14px] bg-[#edf7fb]"
+      role="region"
+      aria-label="부산역과 초량이바구길 주변 접근성 점수를 Leaflet 실제 지도 위에 표시한 지도"
+    >
       <MapContainer
-        center={[35.1149, 129.0404]}
-        zoom={14}
-        minZoom={12}
-        maxZoom={18}
-        scrollWheelZoom={false}
+        center={[35.1135, 129.039]}
         className="h-full min-h-[330px] w-full"
+        dragging
+        scrollWheelZoom={false}
+        zoom={14}
+        zoomControl={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <LeafletResize />
-        {heatCircles.map((circle) => (
-          <Circle
-            key={`${circle.center[0]}-${circle.center[1]}`}
-            center={circle.center}
-            radius={circle.radius}
-            pathOptions={{
-              color: circle.color,
-              fillColor: circle.color,
-              fillOpacity: circle.opacity,
-              opacity: 0.18,
-              weight: 1,
-            }}
-          />
-        ))}
+
+        {heatCircles.flatMap((circle) =>
+          [
+            { suffix: 'outer', radius: circle.radius, opacity: circle.fillOpacity * 0.34 },
+            { suffix: 'middle', radius: circle.radius * 0.62, opacity: circle.fillOpacity * 0.66 },
+            { suffix: 'inner', radius: circle.radius * 0.32, opacity: circle.fillOpacity },
+          ].map((layer) => (
+            <Circle
+              key={`${circle.color}-${circle.radius}-${layer.suffix}`}
+              center={circle.center}
+              radius={layer.radius}
+              pathOptions={{
+                color: circle.color,
+                fillColor: circle.color,
+                fillOpacity: layer.opacity,
+                opacity: 0,
+                weight: 0,
+              }}
+            />
+          )),
+        )}
+
         {mapLabelPoints.map((item) => (
           <CircleMarker
             key={item.label}
             center={item.position}
-            radius={5}
+            radius={item.tone === 'station' ? 4 : 0.1}
             pathOptions={{
               color: item.color,
               fillColor: item.color,
-              fillOpacity: 0.9,
-              opacity: 0.9,
-              weight: 2,
+              fillOpacity: item.tone === 'station' ? 0.9 : 0,
+              opacity: item.tone === 'station' ? 0.9 : 0,
+              weight: item.tone === 'station' ? 2 : 0,
             }}
           >
-            <Tooltip permanent direction="top" offset={[0, -7]} className="ongil-map-label">
+            <Tooltip permanent direction="top" offset={[0, -6]} className={`ongil-map-label settings-map-label settings-map-label--${item.tone}`}>
               {item.label}
             </Tooltip>
           </CircleMarker>
         ))}
-        {mapRiskPoints.map((item) => (
+
+        {mapRiskPoints.map((point) => (
           <CircleMarker
-            key={item.label}
-            center={item.position}
-            radius={7}
+            key={point.id}
+            center={point.position}
+            radius={point.radius}
             pathOptions={{
-              color: item.color,
-              fillColor: '#ffffff',
+              color: '#ffffff',
+              fillColor: point.color,
               fillOpacity: 0.96,
-              opacity: 0.92,
+              opacity: 0.95,
               weight: 3,
             }}
           >
-            <Tooltip permanent direction="right" offset={[8, 0]} className="ongil-map-label ongil-map-label-risk">
-              {item.label}
-            </Tooltip>
+            {point.label && point.permanent ? (
+              <Tooltip permanent direction="right" offset={[8, 0]} className="settings-map-rank-tooltip">
+                {point.label}
+              </Tooltip>
+            ) : point.label ? (
+              <Tooltip direction="top" offset={[0, -7]} className="settings-map-rank-tooltip">
+                {point.label}
+              </Tooltip>
+            ) : (
+              null
+            )}
           </CircleMarker>
         ))}
       </MapContainer>
 
-      <div className="pointer-events-none absolute bottom-3 right-3 z-[500] rounded-[12px] border border-blue-100 bg-white/94 px-3 py-2 shadow-[0_10px_22px_rgba(15,29,51,0.12)]">
+      <div className="pointer-events-none absolute bottom-3 right-3 rounded-[12px] border border-blue-100 bg-white/94 px-3 py-2 shadow-[0_10px_22px_rgba(15,29,51,0.12)]">
         <p className="mb-1.5 text-[10px] font-black text-slate-500">범례</p>
         <div className="flex items-center gap-2">
           <span className="text-[10px] font-black text-slate-400">낮음</span>
@@ -330,9 +368,6 @@ function AccessibilityLeafletMap() {
           <span className="text-[10px] font-black text-slate-400">높음</span>
         </div>
       </div>
-      <span className="pointer-events-none absolute bottom-3 left-3 z-[500] rounded bg-white/90 px-2 py-1 text-[10px] font-black text-slate-500 shadow-sm">
-        Leaflet · OSM
-      </span>
     </div>
   );
 }
@@ -345,7 +380,7 @@ function MapComparisonPanel() {
         <p className="mt-1 text-[11px] font-semibold text-slate-500">진한 색일수록 개선 우선순위가 높습니다.</p>
       </header>
 
-      <div className="mt-3 min-h-[360px] min-w-0 flex-1 overflow-hidden rounded-[14px] border border-blue-100 bg-[#dbeef7]">
+      <div className="mt-3 min-h-[360px] min-w-0 flex-1 overflow-hidden rounded-[14px] border border-blue-100 bg-[#edf7fb]">
         <AccessibilityLeafletMap />
       </div>
 

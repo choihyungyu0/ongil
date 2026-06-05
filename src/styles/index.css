@@ -297,6 +297,73 @@
     min-height: calc(100vh - 20px);
   }
 
+  .settings-leaflet-map,
+  .settings-leaflet-map .leaflet-container {
+    height: 100%;
+    width: 100%;
+    background: #edf7fb;
+    font-family:
+      'Pretendard Variable',
+      Pretendard,
+      'Noto Sans KR',
+      Inter,
+      system-ui,
+      sans-serif;
+  }
+
+  .settings-leaflet-map .leaflet-container {
+    z-index: 0;
+  }
+
+  .settings-leaflet-map .leaflet-tile {
+    filter: saturate(0.54) contrast(0.82) brightness(1.2);
+    opacity: 0.72;
+  }
+
+  .settings-leaflet-map .leaflet-control-attribution {
+    max-width: 180px;
+    border-radius: 999px 0 0 0;
+    background: rgba(255, 255, 255, 0.72);
+    color: #64748b;
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  .settings-map-label {
+    color: #0f1d33 !important;
+    font-size: 12px !important;
+    padding: 5px 8px !important;
+  }
+
+  .settings-map-label--strong,
+  .settings-map-label--road,
+  .settings-map-label--station {
+    font-size: 13px !important;
+  }
+
+  .settings-map-label--station {
+    color: #2477ff !important;
+  }
+
+  .settings-map-rank-tooltip {
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: 0 8px 18px rgba(15, 29, 51, 0.14) !important;
+    color: #0b1220 !important;
+    font-family: inherit !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    padding: 6px 9px !important;
+  }
+
+  .settings-map-rank-tooltip::before {
+    display: none !important;
+  }
+
   .improvements-screen-fit {
     min-height: 860px;
   }
