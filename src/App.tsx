@@ -27,7 +27,6 @@ export default function App() {
         <Route path="analysis" element={<AnalysisPage />} />
         <Route path="photo-analysis" element={<PhotoAnalysisPage />} />
         <Route path="routes" element={<AdminRoutesPage />} />
-        <Route path="safe-route" element={<AdminRoutesPage />} />
         <Route path="improvements" element={<ImprovementsPage />} />
         <Route path="field-survey" element={<FieldSurveyPage />} />
         <Route path="layers" element={<Navigate to="/admin/settings" replace />} />

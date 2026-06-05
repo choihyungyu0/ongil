@@ -121,14 +121,14 @@ function ToggleSwitch({ enabled, label }: { enabled: boolean; label: string }) {
       type="button"
       aria-label={`${label} ${enabled ? '켜짐' : '꺼짐'}`}
       className={[
-        'relative h-5 w-10 shrink-0 rounded-full transition',
+        'relative h-5 w-8 shrink-0 rounded-full transition sm:w-10',
         enabled ? 'bg-civic-500' : 'bg-slate-200',
       ].join(' ')}
     >
       <span
         className={[
           'absolute top-1 h-3 w-3 rounded-full bg-white shadow-sm transition',
-          enabled ? 'left-6' : 'left-1',
+          enabled ? 'left-4 sm:left-6' : 'left-1',
         ].join(' ')}
       />
     </button>
@@ -137,7 +137,7 @@ function ToggleSwitch({ enabled, label }: { enabled: boolean; label: string }) {
 
 function LayerPanel() {
   return (
-    <aside className="flex min-h-0 w-full min-w-0 max-w-full flex-col rounded-[24px] border border-blue-100/80 bg-white/95 p-3 shadow-[0_20px_44px_rgba(33,91,145,0.08)] sm:p-4 xl:p-5">
+    <aside className="flex min-h-0 w-[340px] min-w-0 max-w-[calc(100vw-2rem)] flex-col rounded-[24px] border border-blue-100/80 bg-white/95 p-3 shadow-[0_20px_44px_rgba(33,91,145,0.08)] sm:w-full sm:max-w-full sm:p-4 xl:p-5">
       <header className="shrink-0">
         <p className="text-[11px] font-black leading-4 text-civic-700">GIS 데이터 · 레이어 설정</p>
         <h1 className="mt-1 text-[22px] font-black leading-7 text-navy-950 sm:text-[23px] xl:text-[25px]">보행접근성 데이터 레이어</h1>
@@ -159,7 +159,7 @@ function LayerPanel() {
             return (
               <article
                 key={layer.id}
-                className="grid min-h-[50px] min-w-0 grid-cols-[32px_minmax(0,1fr)_40px] items-center gap-2 rounded-[14px] border border-blue-100/70 bg-slate-50/80 px-2.5 sm:grid-cols-[36px_minmax(0,1fr)_42px] sm:gap-2.5 sm:px-3"
+                className="grid min-h-[50px] min-w-0 grid-cols-[32px_minmax(0,1fr)_32px] items-center gap-2 rounded-[14px] border border-blue-100/70 bg-slate-50/80 px-2.5 sm:grid-cols-[36px_minmax(0,1fr)_42px] sm:gap-2.5 sm:px-3"
               >
                 <span className={`grid h-8 w-8 place-items-center rounded-[12px] sm:h-9 sm:w-9 ${layerToneClass[layer.tone]}`}>
                   <Icon className="h-4 w-4" aria-hidden="true" />
@@ -430,7 +430,7 @@ function UserImpactPanel() {
 
 export function SettingsPage() {
   return (
-    <div className="settings-screen-fit grid w-full min-w-0 max-w-full gap-3 overflow-visible lg:grid-cols-[300px_minmax(0,1fr)] lg:overflow-hidden xl:grid-cols-[330px_minmax(0,1fr)] 2xl:grid-cols-[360px_minmax(0,1fr)]">
+    <div className="settings-screen-fit grid w-[calc(100vw-2rem)] min-w-0 max-w-full gap-3 overflow-visible sm:w-full lg:grid-cols-[300px_minmax(0,1fr)] lg:overflow-hidden xl:grid-cols-[330px_minmax(0,1fr)] 2xl:grid-cols-[360px_minmax(0,1fr)]">
       <LayerPanel />
 
       <main className="grid min-h-0 w-full min-w-0 max-w-full gap-3 overflow-visible lg:grid-rows-[auto_auto_minmax(0,1fr)] lg:overflow-hidden">

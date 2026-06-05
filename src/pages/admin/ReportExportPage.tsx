@@ -79,7 +79,7 @@ export function ReportExportPage() {
   const report = reportPreviews[0];
 
   return (
-    <div className="report-export-screen flex flex-col gap-3 xl:gap-4">
+    <div className="report-export-screen flex min-w-0 flex-col gap-3 xl:gap-4">
       <header className="flex shrink-0 flex-col gap-4 xl:flex-row xl:items-start xl:justify-between xl:gap-5">
         <div>
           <p className="text-sm font-black text-civic-700">PC 환경 · 시민제보/AI 검수</p>
@@ -89,7 +89,7 @@ export function ReportExportPage() {
           </p>
         </div>
 
-        <div className="hidden items-center gap-3 xl:flex">
+        <div className="hidden items-center gap-3 2xl:flex">
           <label className="flex h-12 w-[430px] items-center gap-3 rounded-2xl border border-blue-100 bg-white px-5 text-sm font-bold text-slate-500 shadow-sm">
             <Search className="h-5 w-5 text-slate-400" aria-hidden="true" />
             <span>지역, 위험유형, 리포트 검색</span>
@@ -111,8 +111,8 @@ export function ReportExportPage() {
         </div>
       </header>
 
-      <section className="grid min-h-0 flex-1 gap-4 xl:grid-cols-[470px_minmax(0,1fr)] 2xl:grid-cols-[500px_minmax(0,1fr)]">
-        <aside className="app-card flex min-h-0 flex-col overflow-hidden p-4 xl:p-5">
+      <section className="grid min-h-0 min-w-0 flex-1 gap-4 xl:grid-cols-[470px_minmax(0,1fr)] 2xl:grid-cols-[500px_minmax(0,1fr)]">
+        <aside className="app-card flex min-h-0 min-w-0 flex-col p-4 xl:p-5">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-black text-navy-950">리포트 출력 설정</h2>
@@ -131,7 +131,7 @@ export function ReportExportPage() {
                 <p className="truncate text-base font-black text-navy-950">감천문화마을</p>
                 <p className="mt-1 text-xs font-bold text-slate-500">사하구 감천동 보행취약구간</p>
               </div>
-              <button type="button" className="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-black text-action-600">
+              <button type="button" className="hidden rounded-full bg-blue-50 px-3 py-1.5 text-xs font-black text-action-600 sm:inline-flex">
                 상세
               </button>
             </div>
@@ -154,7 +154,7 @@ export function ReportExportPage() {
                     <span className="block truncate text-sm font-black text-navy-950">{item.title}</span>
                     <span className="mt-1 block truncate text-xs font-semibold text-slate-500">{item.description}</span>
                   </span>
-                  <span className={`rounded-full px-3 py-1 text-xs font-black ${item.statusTone}`}>포함</span>
+                  <span className={`hidden rounded-full px-3 py-1 text-xs font-black sm:inline-flex ${item.statusTone}`}>포함</span>
                 </button>
               ))}
             </div>
@@ -178,7 +178,7 @@ export function ReportExportPage() {
           </div>
         </aside>
 
-        <article className="app-card grid min-h-0 overflow-hidden p-4 xl:grid-rows-[auto_minmax(0,1fr)] xl:p-5">
+        <article className="app-card grid min-h-0 min-w-0 p-4 xl:grid-rows-[auto_1fr] xl:p-5">
           <div className="flex shrink-0 items-center justify-between">
             <div>
               <h2 className="text-xl font-black text-navy-950">리포트 생성 미리보기</h2>
@@ -187,9 +187,9 @@ export function ReportExportPage() {
             <span className="text-xs font-black text-slate-400">행정 문서용 요약</span>
           </div>
 
-          <div className="mt-4 grid min-h-0 gap-3 xl:grid-rows-[minmax(330px,1.15fr)_auto_minmax(0,0.95fr)]">
-            <div className="grid min-h-0 gap-4 xl:grid-cols-[minmax(430px,1.35fr)_minmax(280px,0.65fr)]">
-              <div className="min-h-[310px] xl:min-h-0">
+          <div className="mt-4 grid min-h-0 gap-3 xl:grid-rows-[auto_auto_auto]">
+            <div className="grid min-h-0 gap-4 2xl:grid-cols-[minmax(430px,1.35fr)_minmax(280px,0.65fr)]">
+              <div className="min-h-[300px] md:min-h-[340px] xl:h-[360px] xl:min-h-0 2xl:h-[400px]">
                 <ReportExportLeafletMap />
               </div>
 
@@ -230,15 +230,15 @@ export function ReportExportPage() {
               ))}
             </div>
 
-            <div className="grid min-h-0 gap-4 xl:grid-cols-[minmax(0,1fr)_400px] 2xl:grid-cols-[minmax(0,1fr)_420px]">
-              <section className="flex min-h-0 flex-col rounded-2xl border border-blue-100 bg-white p-4">
+            <div className="grid min-h-0 gap-4 2xl:grid-cols-[minmax(0,1fr)_420px]">
+              <section className="flex min-h-0 min-w-0 flex-col rounded-2xl border border-blue-100 bg-white p-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-base font-black text-navy-950">개선 우선순위 미리보기</h3>
                   <span className="rounded-full bg-rose-50 px-3 py-1 text-xs font-black text-rose-600">TOP 3</span>
                 </div>
                 <div className="mt-3 grid flex-1 content-around gap-3">
                   {priorityRows.map((row, index) => (
-                    <div key={row.place} className="grid grid-cols-[42px_1fr_64px_56px] items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3">
+                    <div key={row.place} className="grid grid-cols-[36px_minmax(0,1fr)_48px] items-center gap-2 rounded-2xl bg-slate-50 px-3 py-3 sm:grid-cols-[42px_minmax(0,1fr)_64px_56px] sm:gap-3 sm:px-4">
                       <span className="grid h-9 w-9 place-items-center rounded-xl bg-white text-sm font-black text-action-600 shadow-sm">
                         {index + 1}
                       </span>
@@ -247,13 +247,13 @@ export function ReportExportPage() {
                         <p className="mt-0.5 truncate text-xs font-semibold text-slate-500">{row.detail}</p>
                       </div>
                       <p className="text-right text-lg font-black text-rose-600">{row.score}</p>
-                      <span className="rounded-full bg-white px-2 py-1 text-center text-xs font-black text-slate-600 shadow-sm">{row.badge}</span>
+                      <span className="hidden rounded-full bg-white px-2 py-1 text-center text-xs font-black text-slate-600 shadow-sm sm:inline-block">{row.badge}</span>
                     </div>
                   ))}
                 </div>
               </section>
 
-              <section className="flex min-h-0 flex-col rounded-2xl border border-blue-100 bg-slate-50 p-4">
+              <section className="flex min-h-0 min-w-0 flex-col rounded-2xl border border-blue-100 bg-slate-50 p-4">
                 <div className="flex items-center gap-2">
                   <MapPinned className="h-5 w-5 text-action-600" aria-hidden="true" />
                   <h3 className="text-base font-black text-navy-950">출력 문서 요약</h3>

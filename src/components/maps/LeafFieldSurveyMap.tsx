@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 
 import L, { type LatLngBoundsExpression, type LatLngExpression } from 'leaflet';
 import { useEffect } from 'react';
-import { Circle, MapContainer, Marker, Polyline, TileLayer, Tooltip, ZoomControl, useMap } from 'react-leaflet';
+import { Circle, MapContainer, Marker, Polyline, TileLayer, ZoomControl, useMap } from 'react-leaflet';
 
 const surveyBounds: LatLngBoundsExpression = [
   [35.0925, 129.006],
@@ -63,62 +63,53 @@ const routeLines = [
 const surveySites = [
   {
     id: 'gamcheon',
+    number: 1,
     label: '감천 입구',
-    shortLabel: '촬',
-    detail: '경사도·계단 우회',
+    labelSide: 'right',
     tone: 'teal',
     position: [35.0971, 129.0099],
   },
   {
     id: 'slope',
+    number: 2,
     label: '초량 위험 4.8',
-    shortLabel: '급',
-    detail: '급경사 밀집',
+    labelSide: 'left',
     tone: 'blue',
     position: [35.1191, 129.0371],
   },
   {
     id: 'stairs',
+    number: 3,
     label: '계단·단차',
-    shortLabel: '계',
-    detail: '보도턱 검수',
+    labelSide: 'right',
     tone: 'orange',
     position: [35.1139, 129.0355],
   },
   {
     id: 'station',
+    number: 4,
     label: '부산역 검수',
-    shortLabel: '보',
-    detail: '복지관 접근',
+    labelSide: 'left',
     tone: 'purple',
+    compact: true,
     position: [35.1152, 129.0422],
   },
   {
     id: 'welfare',
+    number: 5,
     label: '복지관 접근',
-    shortLabel: '원',
-    detail: '이동 지원 동선',
+    labelSide: 'left',
     tone: 'green',
+    compact: true,
     position: [35.117, 129.045],
   },
 ] satisfies Array<{
   id: string;
+  number: number;
   label: string;
-  shortLabel: string;
-  detail: string;
+  labelSide: 'left' | 'right';
   tone: 'teal' | 'blue' | 'orange' | 'purple' | 'green';
-  position: LatLngExpression;
-}>;
-
-const areaLabels = [
-  { id: 'gamcheon-label', label: '감천문화마을', tone: 'place', position: [35.0984, 129.0122] },
-  { id: 'cho-label', label: '초량이바구길', tone: 'risk', position: [35.1202, 129.0358] },
-  { id: 'station-label', label: '부산역', tone: 'place', position: [35.1154, 129.0428] },
-  { id: 'road-label', label: '산복도로', tone: 'route', position: [35.1184, 129.0401] },
-] satisfies Array<{
-  id: string;
-  label: string;
-  tone: 'place' | 'risk' | 'route';
+  compact?: boolean;
   position: LatLngExpression;
 }>;
 
@@ -151,20 +142,18 @@ function FitSurveyBounds() {
 }
 
 function createSiteIcon(site: (typeof surveySites)[number]) {
-  return L.divIcon({
-    className: 'field-survey-div-icon',
-    iconAnchor: [18, 18],
-    iconSize: [36, 36],
-    html: `<span class="field-survey-marker field-survey-marker--${site.tone}">${site.shortLabel}</span>`,
-  });
-}
+  const isLeftLabel = site.labelSide === 'left';
 
-function createAreaLabelIcon(label: (typeof areaLabels)[number]) {
   return L.divIcon({
     className: 'field-survey-div-icon',
-    iconAnchor: [58, 16],
-    iconSize: [116, 32],
-    html: `<span class="field-survey-area-label field-survey-area-label--${label.tone}">${label.label}</span>`,
+    iconAnchor: isLeftLabel ? [150, 21] : [20, 21],
+    iconSize: [170, 42],
+    html: `
+      <span class="field-survey-number-marker field-survey-number-marker--${site.tone} field-survey-number-marker--${site.labelSide}${site.compact ? ' field-survey-number-marker--compact' : ''}">
+        <span class="field-survey-marker-number">${site.number}</span>
+        <span class="field-survey-marker-label">${site.label}</span>
+      </span>
+    `,
   });
 }
 
@@ -197,6 +186,20 @@ export function LeafFieldSurveyMap() {
         ))}
         {routeLines.map((route) => (
           <Polyline
+            key={`${route.id}-halo`}
+            pathOptions={{
+              color: '#ffffff',
+              dashArray: route.dashArray,
+              lineCap: 'round',
+              lineJoin: 'round',
+              opacity: 0.9,
+              weight: route.weight + 5,
+            }}
+            positions={route.positions}
+          />
+        ))}
+        {routeLines.map((route) => (
+          <Polyline
             key={route.id}
             pathOptions={{
               color: route.color,
@@ -209,15 +212,8 @@ export function LeafFieldSurveyMap() {
             positions={route.positions}
           />
         ))}
-        {areaLabels.map((label) => (
-          <Marker key={label.id} icon={createAreaLabelIcon(label)} interactive={false} position={label.position} />
-        ))}
         {surveySites.map((site) => (
-          <Marker key={site.id} icon={createSiteIcon(site)} position={site.position}>
-            <Tooltip className="field-survey-leaflet-tooltip field-survey-leaflet-tooltip--strong" direction="right" offset={[14, 0]} opacity={1} permanent>
-              <span>{site.label}</span>
-            </Tooltip>
-          </Marker>
+          <Marker key={site.id} icon={createSiteIcon(site)} interactive={false} position={site.position} />
         ))}
         <ZoomControl position="topright" />
         <FitSurveyBounds />

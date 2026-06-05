@@ -28,24 +28,28 @@ const detourCorridor: LatLngExpression[] = [
 const focusPlaces = [
   {
     label: '감천문화마을',
+    shortLabel: '감천마을',
     detail: '분석 대상지',
     position: [35.0976, 129.0107],
     tone: 'red',
   },
   {
     label: '초량이바구길',
+    shortLabel: '초량길',
     detail: '급경사 참고 구간',
     position: [35.1192, 129.0372],
     tone: 'orange',
   },
   {
     label: '부산역',
+    shortLabel: '부산역',
     detail: '보행 연결 지점',
     position: [35.1152, 129.041],
     tone: 'blue',
   },
 ] satisfies Array<{
   label: string;
+  shortLabel: string;
   detail: string;
   position: LatLngExpression;
   tone: 'red' | 'orange' | 'blue';
@@ -83,12 +87,11 @@ function FitReportMap() {
 function createPlaceIcon(place: (typeof focusPlaces)[number]) {
   return L.divIcon({
     className: 'report-export-place-icon',
-    iconAnchor: [18, 36],
-    iconSize: [170, 42],
+    iconAnchor: [16, 30],
+    iconSize: [96, 32],
     html: `
       <span class="report-export-place-marker report-export-place-marker--${place.tone}">
-        <strong>${place.label}</strong>
-        <em>${place.detail}</em>
+        <strong>${place.shortLabel}</strong>
       </span>
     `,
   });
@@ -97,7 +100,7 @@ function createPlaceIcon(place: (typeof focusPlaces)[number]) {
 export function ReportExportLeafletMap() {
   return (
     <div
-      className="report-export-leaflet-map relative h-full min-h-[300px] overflow-hidden rounded-2xl border border-blue-100 bg-blue-50 shadow-sm"
+      className="report-export-leaflet-map relative h-full min-h-[280px] overflow-hidden rounded-2xl border border-blue-100 bg-blue-50 shadow-sm"
       role="region"
       aria-label="감천문화마을 행정 리포트 실제 Leaflet 지도"
     >
@@ -123,7 +126,7 @@ export function ReportExportLeafletMap() {
             radius={7}
             pathOptions={{ color: '#ffffff', fillColor: point.color, fillOpacity: 0.96, opacity: 1, weight: 2 }}
           >
-            <Tooltip permanent direction="top" offset={[0, -9]} className="report-export-risk-tooltip">
+            <Tooltip direction="top" offset={[0, -9]} className="report-export-risk-tooltip">
               {point.label}
             </Tooltip>
             <Popup className="report-export-map-popup">
@@ -144,18 +147,18 @@ export function ReportExportLeafletMap() {
         <FitReportMap />
       </MapContainer>
 
-      <div className="pointer-events-none absolute bottom-4 left-4 z-[500] max-w-[calc(100%-96px)] rounded-2xl border border-white/80 bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
-        <p className="text-[11px] font-black text-slate-500">주요 분석 권역</p>
-        <p className="mt-1 text-sm font-black leading-5 text-navy-950">초량이바구길 · 부산역 · 감천문화마을</p>
+      <div className="report-export-map-note pointer-events-none absolute bottom-3 left-3 z-[500] max-w-[calc(100%-88px)] rounded-xl border border-white/80 bg-white/94 px-3 py-2 shadow-lg backdrop-blur">
+        <p className="text-[10px] font-black text-slate-500">주요 분석 권역</p>
+        <p className="mt-0.5 text-xs font-black leading-4 text-navy-950">초량 · 부산역 · 감천</p>
       </div>
 
-      <div className="pointer-events-none absolute right-4 top-4 z-[500] flex flex-wrap justify-end gap-2">
+      <div className="report-export-map-legend pointer-events-none absolute right-3 top-3 z-[500] flex max-w-[calc(100%-24px)] flex-wrap justify-end gap-1.5">
         {[
           ['권장 검토축', '#18c5ad'],
           ['우회 참고', '#2477ff'],
           ['위험 지점', '#f43f5e'],
         ].map(([label, color]) => (
-          <span key={label} className="inline-flex items-center gap-1.5 rounded-full border border-white/80 bg-white/95 px-3 py-1.5 text-[11px] font-black text-slate-600 shadow-sm">
+          <span key={label} className="inline-flex items-center gap-1.5 rounded-full border border-white/80 bg-white/94 px-2.5 py-1 text-[10px] font-black text-slate-600 shadow-sm">
             <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
             {label}
           </span>
