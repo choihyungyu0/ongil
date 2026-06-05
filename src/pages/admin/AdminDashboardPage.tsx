@@ -12,7 +12,7 @@ import tactileIcon from '../../../asset/image-removebg-preview (2).png';
 import tactileAltIcon from '../../../asset/image-removebg-preview (3).png';
 import stairIcon from '../../../asset/image-removebg-preview (1).png';
 import bollardIcon from '../../../asset/image-removebg-preview (6).png';
-import dashboardMapImage from '../../../asset/d44ecfd2-03aa-4757-97ae-169a227f42ac (1).png';
+import { DashboardLeafletHeatmap } from '../../components/maps/DashboardLeafletHeatmap';
 import { dangerZones } from '../../data/mockData';
 
 const metricCards = [
@@ -216,15 +216,11 @@ function HeatmapPanel() {
       </div>
 
       <div
-        className="relative mt-2 min-h-0 flex-1 overflow-hidden rounded-[14px] border border-blue-100 bg-[#dcebf4]"
+        className="relative mt-2 min-h-[240px] flex-1 overflow-hidden rounded-[14px] border border-blue-100 bg-[#dcebf4] md:min-h-0"
         role="img"
-        aria-label="부산 보행취약지역 위험도 히트맵 mock 지도"
+        aria-label="부산 보행취약지역 위험도 Leaflet mock 지도"
       >
-        <img
-          src={dashboardMapImage}
-          alt="부산 보행취약지역 히트맵 mock 지도"
-          className="h-full w-full object-cover"
-        />
+        <DashboardLeafletHeatmap />
       </div>
     </section>
   );
@@ -365,7 +361,6 @@ export function AdminDashboardPage() {
 
       <section
         className="dashboard-main-grid grid shrink-0 gap-3 xl:grid-cols-[minmax(0,1fr)_300px]"
-        style={{ height: 'calc(100vh - 320px)' }}
       >
         <HeatmapPanel />
         <div className="grid min-h-0 grid-rows-[minmax(0,1fr)_minmax(0,1fr)] gap-3">

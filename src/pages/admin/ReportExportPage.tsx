@@ -7,7 +7,7 @@ import {
   Share2,
   Sparkles,
 } from 'lucide-react';
-import reportMapImage from '../../../asset/d44ecfd2-03aa-4757-97ae-169a227f42ac.png';
+import { ReportExportLeafletMap } from '../../components/maps/ReportExportLeafletMap';
 import { reportPreviews } from '../../data/mockData';
 
 const reportItems = [
@@ -79,8 +79,8 @@ export function ReportExportPage() {
   const report = reportPreviews[0];
 
   return (
-    <div className="report-export-screen flex flex-col gap-4">
-      <header className="flex shrink-0 items-start justify-between gap-5">
+    <div className="report-export-screen flex flex-col gap-3 xl:gap-4">
+      <header className="flex shrink-0 flex-col gap-4 xl:flex-row xl:items-start xl:justify-between xl:gap-5">
         <div>
           <p className="text-sm font-black text-civic-700">PC 환경 · 시민제보/AI 검수</p>
           <h1 className="mt-1 text-[31px] font-black leading-none text-navy-950">행정 리포트 출력 설정</h1>
@@ -111,8 +111,8 @@ export function ReportExportPage() {
         </div>
       </header>
 
-      <section className="grid min-h-0 flex-1 gap-5 xl:min-h-[960px] xl:grid-cols-[500px_minmax(0,1fr)]">
-        <aside className="app-card flex min-h-0 flex-col overflow-hidden p-5">
+      <section className="grid min-h-0 flex-1 gap-4 xl:grid-cols-[470px_minmax(0,1fr)] 2xl:grid-cols-[500px_minmax(0,1fr)]">
+        <aside className="app-card flex min-h-0 flex-col overflow-hidden p-4 xl:p-5">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-black text-navy-950">리포트 출력 설정</h2>
@@ -137,14 +137,14 @@ export function ReportExportPage() {
             </div>
           </div>
 
-          <div className="mt-5">
+          <div className="mt-4 flex min-h-0 flex-1 flex-col">
             <p className="text-xs font-black text-slate-400">포함 항목</p>
-            <div className="mt-3 space-y-3">
+            <div className="mt-3 grid flex-1 content-stretch gap-2.5">
               {reportItems.map((item) => (
                 <button
                   key={item.title}
                   type="button"
-                  className="flex w-full items-center gap-3 rounded-2xl border border-blue-50 bg-white px-4 py-3.5 text-left shadow-sm transition hover:border-action-200 hover:bg-blue-50/30"
+                  className="flex h-full min-h-[68px] w-full items-center gap-3 rounded-2xl border border-blue-50 bg-white px-4 py-3 text-left shadow-sm transition hover:border-action-200 hover:bg-blue-50/30"
                   aria-pressed="true"
                 >
                   <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-2xl border ${item.tone}`}>
@@ -160,7 +160,7 @@ export function ReportExportPage() {
             </div>
           </div>
 
-          <div className="mt-5 grid shrink-0 gap-3">
+          <div className="mt-4 grid shrink-0 gap-2.5">
             <button
               type="button"
               className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-action-500 text-sm font-black text-white shadow-[0_12px_22px_rgba(36,119,255,0.2)]"
@@ -178,7 +178,7 @@ export function ReportExportPage() {
           </div>
         </aside>
 
-        <article className="app-card flex min-h-0 flex-col overflow-hidden p-5">
+        <article className="app-card grid min-h-0 overflow-hidden p-4 xl:grid-rows-[auto_minmax(0,1fr)] xl:p-5">
           <div className="flex shrink-0 items-center justify-between">
             <div>
               <h2 className="text-xl font-black text-navy-950">리포트 생성 미리보기</h2>
@@ -187,109 +187,99 @@ export function ReportExportPage() {
             <span className="text-xs font-black text-slate-400">행정 문서용 요약</span>
           </div>
 
-          <div className="mt-4 grid shrink-0 gap-5 xl:grid-cols-[560px_minmax(0,1fr)]">
-            <div className="overflow-hidden rounded-2xl border border-blue-100 bg-slate-100 shadow-sm">
-              <div className="relative h-[332px]">
-                <img src={reportMapImage} alt="감천문화마을 보행 위험구간 미리보기 지도" className="h-full w-full object-cover" />
-                <div className="absolute left-[45%] top-[28%] rounded-full bg-white px-3 py-2 text-xs font-black text-navy-950 shadow-lg">
-                  <span className="mr-1 inline-block h-2.5 w-2.5 rounded-full bg-rose-500" />
-                  분석 대상지
+          <div className="mt-4 grid min-h-0 gap-3 xl:grid-rows-[minmax(330px,1.15fr)_auto_minmax(0,0.95fr)]">
+            <div className="grid min-h-0 gap-4 xl:grid-cols-[minmax(430px,1.35fr)_minmax(280px,0.65fr)]">
+              <div className="min-h-[310px] xl:min-h-0">
+                <ReportExportLeafletMap />
+              </div>
+
+              <div className="flex min-h-0 flex-col gap-3">
+                <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-blue-100 bg-white px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-civic-600" aria-hidden="true" />
+                    <h3 className="text-sm font-black text-navy-950">리포트 목차</h3>
+                  </div>
+                  <div className="mt-3 grid flex-1 content-around gap-2.5">
+                    {summarySteps.map((step, index) => (
+                      <div key={step.title} className="grid grid-cols-[34px_1fr] gap-3">
+                        <span className="grid h-8 w-8 place-items-center rounded-full bg-civic-50 text-sm font-black text-civic-700">
+                          {index + 1}
+                        </span>
+                        <div>
+                          <p className="text-sm font-black text-navy-950">{step.title}</p>
+                          <p className="mt-0.5 text-xs font-semibold leading-5 text-slate-500">{step.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="absolute bottom-4 left-4 rounded-2xl bg-white/92 px-4 py-3 shadow-lg backdrop-blur">
-                  <p className="text-[11px] font-black text-slate-500">주요 분석 권역</p>
-                  <p className="mt-1 text-sm font-black text-navy-950">초량이바구길 · 부산역 · 감천문화마을</p>
+
+                <div className="rounded-2xl border border-cyan-100 bg-civic-50 px-4 py-3">
+                  <p className="text-sm font-black leading-5 text-civic-800">자치단체 담당자가 바로 내부 검토자료로 사용할 수 있도록 표지, 요약, 지도, 표, 개선안 순서로 정리됩니다.</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex min-h-0 flex-col gap-3">
-              <div className="rounded-2xl border border-blue-100 bg-white px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-civic-600" aria-hidden="true" />
-                  <h3 className="text-sm font-black text-navy-950">리포트 목차</h3>
+            <div className="grid gap-3 xl:grid-cols-4">
+              {metrics.map((metric) => (
+                <div key={metric.label} className="rounded-2xl border border-blue-50 bg-slate-50 px-4 py-3">
+                  <p className="text-xs font-black text-slate-400">{metric.label}</p>
+                  <p className={`mt-1 text-2xl font-black ${metric.tone}`}>{metric.value}</p>
+                  <p className="text-xs font-bold text-slate-500">{metric.caption}</p>
                 </div>
-                <div className="mt-3 space-y-2.5">
-                  {summarySteps.map((step, index) => (
-                    <div key={step.title} className="grid grid-cols-[34px_1fr] gap-3">
-                      <span className="grid h-8 w-8 place-items-center rounded-full bg-civic-50 text-sm font-black text-civic-700">
+              ))}
+            </div>
+
+            <div className="grid min-h-0 gap-4 xl:grid-cols-[minmax(0,1fr)_400px] 2xl:grid-cols-[minmax(0,1fr)_420px]">
+              <section className="flex min-h-0 flex-col rounded-2xl border border-blue-100 bg-white p-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-black text-navy-950">개선 우선순위 미리보기</h3>
+                  <span className="rounded-full bg-rose-50 px-3 py-1 text-xs font-black text-rose-600">TOP 3</span>
+                </div>
+                <div className="mt-3 grid flex-1 content-around gap-3">
+                  {priorityRows.map((row, index) => (
+                    <div key={row.place} className="grid grid-cols-[42px_1fr_64px_56px] items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white text-sm font-black text-action-600 shadow-sm">
                         {index + 1}
                       </span>
-                      <div>
-                        <p className="text-sm font-black text-navy-950">{step.title}</p>
-                        <p className="mt-0.5 text-xs font-semibold leading-5 text-slate-500">{step.text}</p>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-black text-navy-950">{row.place}</p>
+                        <p className="mt-0.5 truncate text-xs font-semibold text-slate-500">{row.detail}</p>
                       </div>
+                      <p className="text-right text-lg font-black text-rose-600">{row.score}</p>
+                      <span className="rounded-full bg-white px-2 py-1 text-center text-xs font-black text-slate-600 shadow-sm">{row.badge}</span>
                     </div>
                   ))}
                 </div>
-              </div>
+              </section>
 
-              <div className="rounded-2xl border border-cyan-100 bg-civic-50 px-4 py-3">
-                <p className="text-sm font-black text-civic-800">자치단체 담당자가 바로 내부 검토자료로 사용할 수 있도록 표지, 요약, 지도, 표, 개선안 순서로 정리됩니다.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 grid shrink-0 gap-3 xl:grid-cols-4">
-            {metrics.map((metric) => (
-              <div key={metric.label} className="rounded-2xl border border-blue-50 bg-slate-50 px-4 py-4">
-                <p className="text-xs font-black text-slate-400">{metric.label}</p>
-                <p className={`mt-1 text-2xl font-black ${metric.tone}`}>{metric.value}</p>
-                <p className="text-xs font-bold text-slate-500">{metric.caption}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1fr)_420px]">
-            <section className="rounded-2xl border border-blue-100 bg-white p-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-base font-black text-navy-950">개선 우선순위 미리보기</h3>
-                <span className="rounded-full bg-rose-50 px-3 py-1 text-xs font-black text-rose-600">TOP 3</span>
-              </div>
-              <div className="mt-3 grid gap-3">
-                {priorityRows.map((row, index) => (
-                  <div key={row.place} className="grid grid-cols-[42px_1fr_72px_58px] items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-xl bg-white text-sm font-black text-action-600 shadow-sm">
-                      {index + 1}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-black text-navy-950">{row.place}</p>
-                      <p className="mt-0.5 truncate text-xs font-semibold text-slate-500">{row.detail}</p>
-                    </div>
-                    <p className="text-right text-lg font-black text-rose-600">{row.score}</p>
-                    <span className="rounded-full bg-white px-2 py-1 text-center text-xs font-black text-slate-600 shadow-sm">{row.badge}</span>
+              <section className="flex min-h-0 flex-col rounded-2xl border border-blue-100 bg-slate-50 p-4">
+                <div className="flex items-center gap-2">
+                  <MapPinned className="h-5 w-5 text-action-600" aria-hidden="true" />
+                  <h3 className="text-base font-black text-navy-950">출력 문서 요약</h3>
+                </div>
+                <div className="mt-4 flex flex-1 flex-col justify-center rounded-2xl bg-white p-4 shadow-sm">
+                  <p className="text-xs font-black text-slate-400">리포트 제목</p>
+                  <p className="mt-2 text-lg font-black leading-6 text-navy-950">감천문화마을 보행취약구간 분석 리포트</p>
+                  <p className="mt-2 text-xs font-semibold leading-5 text-slate-500">
+                    부산 사하구 감천동 일대의 보행 위험 참고 자료입니다. 실제 행정 판단 전 현장 검수와 담당 부서 확인이 필요합니다.
+                  </p>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl bg-white p-4 shadow-sm">
+                    <p className="text-xs font-black text-slate-400">기준 기간</p>
+                    <p className="mt-2 text-base font-black text-navy-950">2026.05</p>
                   </div>
-                ))}
-              </div>
-
-            </section>
-
-            <section className="flex min-h-0 flex-col rounded-2xl border border-blue-100 bg-slate-50 p-4">
-              <div className="flex items-center gap-2">
-                <MapPinned className="h-5 w-5 text-action-600" aria-hidden="true" />
-                <h3 className="text-base font-black text-navy-950">출력 문서 요약</h3>
-              </div>
-              <div className="mt-4 rounded-2xl bg-white p-4 shadow-sm">
-                <p className="text-xs font-black text-slate-400">리포트 제목</p>
-                <p className="mt-2 text-lg font-black leading-6 text-navy-950">감천문화마을 보행취약구간 분석 리포트</p>
-                <p className="mt-2 text-xs font-semibold leading-5 text-slate-500">
-                  부산 사하구 감천동 일대의 보행 위험 참고 자료입니다. 실제 행정 판단 전 현장 검수와 담당 부서 확인이 필요합니다.
-                </p>
-              </div>
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
-                  <p className="text-xs font-black text-slate-400">기준 기간</p>
-                  <p className="mt-2 text-base font-black text-navy-950">2026.05</p>
+                  <div className="rounded-2xl bg-white p-4 shadow-sm">
+                    <p className="text-xs font-black text-slate-400">담당 부서</p>
+                    <p className="mt-2 text-base font-black text-navy-950">보행환경팀</p>
+                  </div>
                 </div>
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
-                  <p className="text-xs font-black text-slate-400">담당 부서</p>
-                  <p className="mt-2 text-base font-black text-navy-950">보행환경팀</p>
-                </div>
-              </div>
-            </section>
+              </section>
+            </div>
           </div>
         </article>
       </section>
-
     </div>
   );
 }

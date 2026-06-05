@@ -36,7 +36,7 @@ Do not recreate mobile screens unless the user explicitly asks for them again.
 - `/admin/routes`
 - `/admin/improvements`
 - `/admin/field-survey`
-- `/admin/layers`
+- `/admin/settings`
 - `/admin/report-export`
 
 ## Screen Intent
@@ -73,9 +73,9 @@ Show improvement priorities in kanban-style stages with selected task details.
 
 Show survey assignments, checklist cards, and user-type risk weighting for field work.
 
-### Layers
+### Settings
 
-Show map layer toggles such as slope, stairs, curbs, tactile paving, reports, lighting, and shelters, plus district comparison.
+Show accessibility data layer toggles and the district accessibility comparison dashboard. Legacy `/admin/layers` redirects to this screen.
 
 ### Report Export
 
