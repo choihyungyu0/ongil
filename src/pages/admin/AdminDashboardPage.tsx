@@ -218,7 +218,7 @@ function HeatmapPanel() {
       <div
         className="relative mt-2 min-h-[240px] flex-1 overflow-hidden rounded-[14px] border border-blue-100 bg-[#dcebf4] md:min-h-0"
         role="img"
-        aria-label="부산 보행취약지역 위험도 Leaflet mock 지도"
+        aria-label="부산 보행취약지역 위험도 실제 Leaflet 지도"
       >
         <DashboardLeafletHeatmap />
       </div>
