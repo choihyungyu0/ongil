@@ -111,7 +111,7 @@ export function ReportExportPage() {
         </div>
       </header>
 
-      <section className="grid min-h-0 min-w-0 flex-1 gap-4 xl:grid-cols-[470px_minmax(0,1fr)] 2xl:grid-cols-[500px_minmax(0,1fr)]">
+      <section className="grid min-h-0 min-w-0 flex-1 items-start gap-4 xl:grid-cols-[470px_minmax(0,1fr)] 2xl:grid-cols-[500px_minmax(0,1fr)] 2xl:items-stretch">
         <aside className="app-card flex min-h-0 min-w-0 flex-col p-4 xl:p-5">
           <div className="flex items-center justify-between">
             <div>
