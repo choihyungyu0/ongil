@@ -88,6 +88,10 @@
     min-height: 860px;
   }
 
+  .safe-route-screen-fit {
+    min-height: 0;
+  }
+
   .dashboard-screen-fit {
     display: flex;
     min-height: 900px;
@@ -677,6 +681,11 @@
       min-height: 0;
     }
 
+    .safe-route-screen-fit {
+      height: calc(100vh - 20px);
+      min-height: 760px;
+    }
+
     .dashboard-screen-fit {
       min-height: 0;
     }
@@ -730,6 +739,11 @@
   @media (min-width: 1600px) and (min-height: 900px) {
     .route-screen-fit {
       height: min(1060px, calc(100vh + 80px));
+    }
+
+    .safe-route-screen-fit {
+      height: calc(100vh - 20px);
+      min-height: 0;
     }
 
     .zones-top-grid {
