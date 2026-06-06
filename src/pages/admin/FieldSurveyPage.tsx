@@ -114,8 +114,8 @@ export function FieldSurveyPage() {
         </div>
       </header>
 
-      <section className="grid min-h-0 w-full max-w-full flex-1 gap-5 2xl:grid-cols-[minmax(0,1fr)_minmax(360px,430px)]">
-        <section className="flex min-w-0 flex-col rounded-[20px] border border-blue-100/70 bg-white p-4 shadow-[0_18px_45px_rgba(33,91,145,0.08)] sm:p-6 2xl:min-h-0 2xl:rounded-[24px] 2xl:p-7">
+      <section className="grid min-h-0 w-full max-w-full flex-1 gap-5 2xl:grid-cols-[minmax(0,1fr)_minmax(360px,430px)] 2xl:overflow-hidden">
+        <section className="flex min-w-0 flex-col overflow-hidden rounded-[20px] border border-blue-100/70 bg-white p-4 shadow-[0_18px_45px_rgba(33,91,145,0.08)] sm:p-6 2xl:min-h-0 2xl:rounded-[24px] 2xl:p-7">
           <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4 2xl:h-[52px]">
             <div>
               <h2 className="text-[19px] font-black leading-6 text-navy-950">오늘의 조사 대상 지도</h2>
@@ -132,7 +132,7 @@ export function FieldSurveyPage() {
           </div>
         </section>
 
-        <aside className="flex min-w-0 flex-col rounded-[20px] border border-blue-100/70 bg-white p-4 shadow-[0_18px_45px_rgba(33,91,145,0.08)] sm:p-6 2xl:min-h-0 2xl:rounded-[24px] 2xl:p-7">
+        <aside className="flex min-w-0 flex-col overflow-hidden rounded-[20px] border border-blue-100/70 bg-white p-4 shadow-[0_18px_45px_rgba(33,91,145,0.08)] sm:p-6 2xl:min-h-0 2xl:rounded-[24px] 2xl:p-7">
           <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4 2xl:h-[52px]">
             <h2 className="text-[19px] font-black leading-6 text-navy-950">현장조사 배정</h2>
             <span className="inline-flex items-center gap-1.5 text-[11px] font-black text-slate-400">
@@ -141,14 +141,14 @@ export function FieldSurveyPage() {
             </span>
           </div>
 
-          <div className="mt-4 grid flex-1 content-start gap-3 sm:grid-cols-2 2xl:grid-cols-1 2xl:gap-4">
+          <div className="mt-4 grid min-h-0 flex-1 content-start gap-3 overflow-y-auto pr-1 sm:grid-cols-2 2xl:grid-cols-1 2xl:gap-4">
             {assignments.map((assignment) => {
               const tone = assignmentTone[assignment.tone];
 
               return (
                 <article
                   key={assignment.team}
-                  className={`grid min-h-[96px] min-w-0 grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-[18px] border px-4 py-4 sm:grid-cols-[48px_minmax(0,1fr)_auto] 2xl:min-h-[100px] 2xl:grid-cols-[56px_minmax(0,1fr)_auto] 2xl:gap-4 2xl:px-5 ${tone.row}`}
+                  className={`grid min-h-[96px] min-w-0 grid-cols-[48px_minmax(0,1fr)] items-center gap-3 rounded-[18px] border px-4 py-4 sm:grid-cols-[48px_minmax(0,1fr)_auto] 2xl:min-h-[88px] 2xl:grid-cols-[56px_minmax(0,1fr)_auto] 2xl:gap-4 2xl:px-5 2xl:py-3 ${tone.row}`}
                 >
                   <span className={`grid h-11 w-11 place-items-center rounded-full text-[13px] font-black ${tone.badge}`}>{assignment.team}</span>
                   <div className="min-w-0">
