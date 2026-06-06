@@ -76,7 +76,7 @@ function PriorityRow({ zone, index }: { zone: PriorityDangerZone; index: number 
   const difficulty = Math.max(42, Math.min(92, zone.improvementNeed - 8 + index * 3));
 
   return (
-    <article className="grid h-[72px] grid-cols-[minmax(220px,1.45fr)_112px_126px_130px_96px_120px_104px] items-center gap-3 border-b border-slate-100 px-4 last:border-b-0">
+    <article className="grid h-[72px] min-w-[980px] grid-cols-[minmax(230px,1.35fr)_112px_126px_130px_96px_120px_118px] items-center gap-3 border-b border-slate-100 px-4 last:border-b-0">
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-navy-950 text-[11px] font-black text-white">
@@ -99,7 +99,7 @@ function PriorityRow({ zone, index }: { zone: PriorityDangerZone; index: number 
       </div>
       <span className={`w-fit rounded-full px-2.5 py-1 text-[10px] font-black ${difficultyTone(difficulty)}`}>{difficulty}%</span>
       <span className="truncate text-[11px] font-black text-slate-600">{owners[index % owners.length]}</span>
-      <span className={`w-fit rounded-full px-2.5 py-1 text-[10px] font-black ${statusTone(zone.status)}`}>
+      <span className={`w-fit whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-black ${statusTone(zone.status)}`}>
         {nextSteps[index % nextSteps.length]}
       </span>
     </article>
@@ -180,8 +180,8 @@ export function PriorityManagementPage() {
   return (
     <div
       data-page="priority-management"
-      className="flex min-h-[760px] flex-col gap-3 overflow-hidden"
-      style={{ height: 'calc(56.25vw - 8px)' }}
+      className="flex min-h-[760px] flex-col gap-3 overflow-visible"
+      style={{ minHeight: 'calc(56.25vw - 8px)' }}
     >
       <header className="flex h-[76px] shrink-0 items-start justify-between gap-4 pt-3">
         <div className="min-w-0">
@@ -210,7 +210,7 @@ export function PriorityManagementPage() {
         </div>
       </header>
 
-      <section className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_430px] gap-4">
+      <section className="grid min-h-0 flex-1 grid-cols-1 gap-4 2xl:grid-cols-[minmax(0,1fr)_430px]">
         <section className="flex min-h-0 flex-col rounded-2xl border border-blue-100/70 bg-white shadow-[0_16px_36px_rgba(33,91,145,0.08)]">
           <div className="flex h-[66px] shrink-0 items-center justify-between gap-4 border-b border-blue-50 px-5">
             <div>
@@ -233,20 +233,22 @@ export function PriorityManagementPage() {
             </div>
           </div>
 
-          <div className="grid h-10 shrink-0 grid-cols-[minmax(220px,1.45fr)_112px_126px_130px_96px_120px_104px] items-center gap-3 border-b border-slate-100 px-4 text-[10px] font-black text-slate-400">
-            <span className="pl-8">사업 후보</span>
-            <span>위험유형</span>
-            <span>영향 사용자</span>
-            <span>개선 필요도</span>
-            <span>예상 난이도</span>
-            <span>담당</span>
-            <span>다음 단계</span>
-          </div>
+          <div className="min-h-0 flex-1 overflow-x-auto overflow-y-hidden">
+            <div className="grid h-10 min-w-[980px] shrink-0 grid-cols-[minmax(230px,1.35fr)_112px_126px_130px_96px_120px_118px] items-center gap-3 border-b border-slate-100 px-4 text-[10px] font-black text-slate-400">
+              <span className="pl-8">사업 후보</span>
+              <span>위험유형</span>
+              <span>영향 사용자</span>
+              <span>개선 필요도</span>
+              <span>예상 난이도</span>
+              <span>담당</span>
+              <span className="whitespace-nowrap">다음 단계</span>
+            </div>
 
-          <div className="min-h-0 flex-1 overflow-hidden">
-            {priorityDangerZones.map((zone, index) => (
-              <PriorityRow key={zone.id} zone={zone} index={index} />
-            ))}
+            <div>
+              {priorityDangerZones.map((zone, index) => (
+                <PriorityRow key={zone.id} zone={zone} index={index} />
+              ))}
+            </div>
           </div>
 
           <div className="grid h-[78px] shrink-0 grid-cols-3 gap-3 border-t border-blue-50 bg-slate-50/60 px-5 py-3">
@@ -266,7 +268,7 @@ export function PriorityManagementPage() {
           </div>
         </section>
 
-        <aside className="grid min-h-0 grid-rows-[238px_minmax(0,1fr)_214px] gap-4">
+        <aside className="grid min-h-0 gap-4 2xl:grid-rows-[238px_minmax(0,1fr)_214px]">
           <SummaryPanel />
           <MapPanel />
           <ProcessPanel />

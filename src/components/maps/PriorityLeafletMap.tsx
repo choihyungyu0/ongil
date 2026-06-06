@@ -12,14 +12,14 @@ const priorityBounds: LatLngBoundsExpression = [
 ];
 
 const zoneCoordinates: Record<string, LatLngExpression> = {
-  'priority-001': [35.15, 129.046],
-  'priority-002': [35.104, 129.01],
+  'priority-001': [35.150, 129.046],
+  'priority-002': [35.104, 129.010],
   'priority-003': [35.116, 129.036],
   'priority-004': [35.109, 129.057],
   'priority-005': [35.093, 129.122],
   'priority-006': [35.111, 129.084],
   'priority-007': [35.128, 129.099],
-  'priority-008': [35.142, 129.06],
+  'priority-008': [35.142, 129.060],
   'priority-009': [35.136, 129.124],
   'priority-010': [35.097, 129.043],
 };
@@ -97,7 +97,15 @@ export function PriorityLeafletMap() {
       role="region"
       aria-label="부산 위험구간 우선순위 Leaflet 지도"
     >
-      <MapContainer center={center} zoom={12} minZoom={10} maxZoom={17} scrollWheelZoom={false} zoomControl={false} className="h-full w-full">
+      <MapContainer
+        center={center}
+        zoom={12}
+        minZoom={10}
+        maxZoom={17}
+        scrollWheelZoom={false}
+        zoomControl={false}
+        className="h-full w-full"
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

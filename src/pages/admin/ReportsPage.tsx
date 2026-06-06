@@ -83,33 +83,33 @@ const aiReviewSteps = [
 
 function PageControls({ primaryLabel }: { primaryLabel: string }) {
   return (
-    <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+    <div className="flex w-full shrink-0 flex-wrap items-center justify-start gap-2 xl:w-auto xl:justify-end">
       <button
         type="button"
-        className="inline-flex h-10 items-center gap-2 rounded-[14px] border border-blue-100 bg-white px-3 text-[12px] font-extrabold text-slate-500 shadow-sm"
+        className="inline-flex h-10 min-w-0 flex-1 items-center justify-center gap-2 rounded-[14px] border border-blue-100 bg-white px-3 text-[12px] font-extrabold text-slate-500 shadow-sm sm:flex-none"
       >
         <CalendarDays className="h-4 w-4 text-slate-400" aria-hidden="true" />
         2026.05.11 ~ 2026.06.07
       </button>
-      <label className="relative block">
+      <label className="relative block w-full sm:w-auto">
         <span className="sr-only">지역, 위험유형, 리포트 검색</span>
         <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
         <input
           type="search"
           placeholder="지역, 위험유형, 리포트 검색"
-          className="h-10 w-[330px] rounded-[14px] border border-blue-100 bg-white pl-11 pr-4 text-[12px] font-bold text-slate-700 shadow-sm outline-none placeholder:text-slate-400 focus:border-action-500 focus:ring-2 focus:ring-action-500/20"
+          className="h-10 w-full rounded-[14px] border border-blue-100 bg-white pl-11 pr-4 text-[12px] font-bold text-slate-700 shadow-sm outline-none placeholder:text-slate-400 focus:border-action-500 focus:ring-2 focus:ring-action-500/20 sm:w-[330px]"
         />
       </label>
       <button
         type="button"
-        className="inline-flex h-10 items-center gap-2 rounded-[14px] border border-blue-100 bg-white px-3 text-[12px] font-black text-navy-800 shadow-sm"
+        className="inline-flex h-10 min-w-0 flex-1 items-center justify-center gap-2 rounded-[14px] border border-blue-100 bg-white px-3 text-[12px] font-black text-navy-800 shadow-sm sm:flex-none"
       >
         부산광역시
         <ChevronDown className="h-4 w-4 text-slate-400" aria-hidden="true" />
       </button>
       <button
         type="button"
-        className="inline-flex h-10 items-center gap-2 rounded-[14px] bg-action-500 px-4 text-[12px] font-black text-white shadow-[0_10px_18px_rgba(36,119,255,0.24)] hover:bg-action-600"
+        className="inline-flex h-10 min-w-0 flex-1 items-center justify-center gap-2 rounded-[14px] bg-action-500 px-4 text-[12px] font-black text-white shadow-[0_10px_18px_rgba(36,119,255,0.24)] hover:bg-action-600 sm:flex-none"
       >
         {primaryLabel === '검수 일괄처리' ? <SlidersHorizontal className="h-4 w-4" aria-hidden="true" /> : <FilePlus2 className="h-4 w-4" aria-hidden="true" />}
         {primaryLabel}
@@ -292,8 +292,8 @@ function DetailReportsTable({
   onSelect: (reportId: string) => void;
 }) {
   return (
-    <section className="flex min-h-0 flex-col overflow-hidden rounded-[18px] border border-blue-100/80 bg-white shadow-[0_18px_44px_rgba(33,91,145,0.08)]">
-      <div className="flex shrink-0 items-center justify-between gap-3 px-5 pb-3 pt-4">
+    <section className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-[18px] border border-blue-100/80 bg-white shadow-[0_18px_44px_rgba(33,91,145,0.08)]">
+      <div className="flex shrink-0 flex-col items-start justify-between gap-2 px-4 pb-3 pt-4 sm:flex-row sm:items-center sm:gap-3 sm:px-5">
         <div>
           <h2 className="text-[18px] font-black leading-6 text-navy-950">제보 목록</h2>
           <p className="mt-0.5 text-[11px] font-bold text-slate-400">최근 30일 기준 · 행을 선택하면 상세 검수 화면이 갱신됩니다.</p>
@@ -301,8 +301,47 @@ function DetailReportsTable({
         <span className="rounded-full bg-slate-50 px-3 py-1 text-[11px] font-black text-slate-500">최근 30일</span>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-hidden px-4 pb-4">
-        <div className="grid h-full min-w-[790px] grid-rows-[34px_repeat(8,minmax(48px,1fr))] overflow-hidden rounded-[12px] border border-slate-100">
+      <div className="grid gap-2 px-4 pb-4 md:hidden">
+        {reportInboxItems.map((report) => {
+          const isSelected = report.id === selectedReport.id;
+
+          return (
+            <button
+              key={report.id}
+              type="button"
+              aria-pressed={isSelected}
+              onClick={() => onSelect(report.id)}
+              className={[
+                'grid min-w-0 max-w-full gap-2 overflow-hidden rounded-[14px] border px-3 py-3 text-left transition',
+                isSelected ? 'border-civic-100 bg-civic-50/80 shadow-[inset_4px_0_0_#1aa6b0]' : 'border-slate-100 bg-white hover:bg-blue-50/50',
+              ].join(' ')}
+            >
+              <span className="min-w-0 max-w-full overflow-hidden">
+                <span className="min-w-0">
+                  <span className="block text-[12px] font-black text-action-600">{report.id}</span>
+                  <span className="mt-1 block truncate text-[14px] font-black text-navy-900">{report.location}</span>
+                </span>
+              </span>
+              <span className="flex min-w-0 max-w-full flex-wrap items-center gap-1.5 overflow-hidden">
+                <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${riskTone[report.riskType] ?? 'bg-slate-100 text-slate-600'}`}>
+                  {report.riskType}
+                </span>
+                <span className={`rounded-full border px-2.5 py-1 text-[11px] font-black ${statusTone[report.status]}`}>{report.status}</span>
+                <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-500">신뢰도 {report.confidence.toFixed(2)}</span>
+                <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-black text-slate-500">중복 {report.duplicateCount}건</span>
+              </span>
+              <span className="flex min-w-0 max-w-full items-center gap-2 overflow-hidden text-[11px] font-bold text-slate-400">
+                <span>{report.reporter}</span>
+                <span aria-hidden="true">·</span>
+                <span>{report.createdAt}</span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="hidden min-h-0 flex-1 overflow-x-auto overflow-y-hidden px-4 pb-4 md:block">
+        <div className="grid min-h-[430px] min-w-[790px] grid-rows-[34px_repeat(8,minmax(48px,1fr))] overflow-hidden rounded-[12px] border border-slate-100 xl:h-full xl:min-h-0">
           <div className="grid grid-cols-[78px_minmax(150px,1.1fr)_106px_84px_78px_94px_70px] items-center gap-3 bg-slate-50/70 px-3 text-[11px] font-black text-slate-400">
             <span>ID</span>
             <span>위치</span>
@@ -356,15 +395,15 @@ function DetailMetric({ label, value, tone }: { label: string; value: string; to
 
 function ReportDetail({ report }: { report: ReportInboxItem }) {
   return (
-    <section className="flex min-h-0 flex-col overflow-hidden rounded-[18px] border border-blue-100/80 bg-white shadow-[0_18px_44px_rgba(33,91,145,0.08)]">
+    <section className="flex min-h-0 min-w-0 flex-col overflow-visible rounded-[18px] border border-blue-100/80 bg-white shadow-[0_18px_44px_rgba(33,91,145,0.08)]">
       <div className="flex shrink-0 items-center justify-between gap-3 px-5 pb-3 pt-4">
         <h2 className="text-[18px] font-black leading-6 text-navy-950">선택 제보 상세</h2>
         <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-black text-emerald-700">AI 분석 완료</span>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col gap-4 px-5 pb-5">
-        <div className="grid min-h-[230px] flex-[1.15] grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] gap-3">
-          <div className="relative overflow-hidden rounded-[16px] bg-slate-100 shadow-sm">
+      <div className="flex flex-col gap-4 px-4 pb-4 sm:px-5 sm:pb-5 xl:min-h-0 xl:flex-1">
+        <div className="grid min-w-0 shrink-0 gap-3 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+          <div className="relative aspect-[16/10] min-h-[220px] overflow-hidden rounded-[16px] bg-slate-100 shadow-sm md:aspect-auto md:min-h-[260px]">
             <img src={photoByKey[report.photoKey]} alt={`${report.location} 제보 사진`} className="h-full w-full object-cover" />
             <span className="absolute left-3 top-3 rounded-full bg-rose-500 px-2.5 py-1 text-[11px] font-black text-white shadow-sm">{report.id}</span>
             <span className="absolute bottom-3 left-3 rounded-full bg-white/92 px-4 py-1.5 text-[11px] font-black text-navy-900 shadow-sm">{report.riskTags[0]}</span>
@@ -385,7 +424,7 @@ function ReportDetail({ report }: { report: ReportInboxItem }) {
           <p className="mt-1.5 text-[12px] font-semibold leading-5 text-slate-500">{report.summary}</p>
         </div>
 
-        <div className="grid shrink-0 grid-cols-2 gap-3">
+        <div className="grid shrink-0 grid-cols-1 gap-3 min-[420px]:grid-cols-2">
           {detailMetrics.map((metric) => {
             const rawValue = report[metric.key];
             const value = metric.key === 'confidence' ? (rawValue as number).toFixed(2) : `${rawValue}${metric.suffix}`;
@@ -394,19 +433,19 @@ function ReportDetail({ report }: { report: ReportInboxItem }) {
           })}
         </div>
 
-        <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_180px] gap-3">
-          <div className="rounded-[14px] border border-civic-100 bg-civic-50/70 px-4 py-3">
+        <div className="grid shrink-0 gap-3 md:grid-cols-[minmax(0,1fr)_180px]">
+          <div className="min-h-[112px] rounded-[14px] border border-civic-100 bg-civic-50/70 px-4 py-3">
             <p className="text-[12px] font-black text-civic-700">관리자 메모</p>
             <p className="mt-2 text-[12px] font-semibold leading-5 text-slate-600">{report.managementNote}</p>
           </div>
-          <div className="rounded-[14px] border border-blue-100 bg-white px-4 py-3">
+          <div className="min-h-[112px] rounded-[14px] border border-blue-100 bg-white px-4 py-3">
             <p className="text-[12px] font-black text-slate-500">관리 상태</p>
             <p className="mt-2 text-[18px] font-black text-navy-950">{report.priorityLabel}</p>
             <p className="mt-1 text-[11px] font-bold text-slate-400">{report.duplicateCount}건 묶음 검토</p>
           </div>
         </div>
 
-        <div className="grid shrink-0 grid-cols-3 gap-2">
+        <div className="grid shrink-0 grid-cols-1 gap-2 sm:grid-cols-3">
           <button type="button" className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-civic-600 text-[12px] font-black text-white hover:bg-civic-700">
             <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
             {report.priorityLabel}
@@ -435,7 +474,7 @@ function ReportDetailDashboard({
   onBack: () => void;
 }) {
   return (
-    <div className="reports-detail-screen flex flex-col gap-3 overflow-hidden py-0">
+    <div className="reports-detail-screen flex flex-col gap-3 overflow-visible py-0 xl:overflow-hidden">
       <header className="flex shrink-0 flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
         <div className="min-w-0">
           <button type="button" onClick={onBack} className="mb-1 inline-flex items-center gap-1.5 text-[12px] font-black text-civic-700 hover:text-civic-600">
@@ -451,7 +490,7 @@ function ReportDetailDashboard({
 
       <SummaryCards />
 
-      <div className="grid min-h-0 flex-1 gap-3 xl:grid-cols-[minmax(680px,1.05fr)_minmax(520px,0.95fr)]">
+      <div className="grid min-h-0 min-w-0 flex-1 items-start gap-3 xl:grid-cols-[minmax(680px,1.05fr)_minmax(520px,0.95fr)] xl:items-stretch">
         <DetailReportsTable selectedReport={selectedReport} onSelect={onSelect} />
         <ReportDetail report={selectedReport} />
       </div>
