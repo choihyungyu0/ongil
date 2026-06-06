@@ -3,6 +3,7 @@ export type ReportInboxStatus = '검수중' | '접수' | '긴급' | '병합' | '
 export type ReportInboxItem = {
   id: string;
   location: string;
+  coordinates: [number, number];
   riskType: string;
   reporter: string;
   confidence: number;
@@ -30,6 +31,7 @@ export const reportInboxItems: ReportInboxItem[] = [
   {
     id: 'R-129',
     location: '감천문화마을 입구',
+    coordinates: [35.0975, 129.0106],
     riskType: '계단·단차',
     reporter: '김서아',
     confidence: 0.86,
@@ -48,6 +50,7 @@ export const reportInboxItems: ReportInboxItem[] = [
   {
     id: 'R-128',
     location: '초량이바구길',
+    coordinates: [35.1192, 129.0369],
     riskType: '급경사',
     reporter: '관광객',
     confidence: 0.91,
@@ -66,6 +69,7 @@ export const reportInboxItems: ReportInboxItem[] = [
   {
     id: 'R-127',
     location: '부산역 복지관 앞',
+    coordinates: [35.1154, 129.043],
     riskType: '점자블록',
     reporter: '시각',
     confidence: 0.83,
@@ -84,6 +88,7 @@ export const reportInboxItems: ReportInboxItem[] = [
   {
     id: 'R-126',
     location: '영도 절영로',
+    coordinates: [35.0749, 129.0686],
     riskType: '보도파손',
     reporter: '유모차',
     confidence: 0.78,
@@ -102,6 +107,7 @@ export const reportInboxItems: ReportInboxItem[] = [
   {
     id: 'R-125',
     location: '대청로 보도',
+    coordinates: [35.1044, 129.0316],
     riskType: '볼라드',
     reporter: '김서아',
     confidence: 0.74,
@@ -120,6 +126,7 @@ export const reportInboxItems: ReportInboxItem[] = [
   {
     id: 'R-124',
     location: '부산의료원 주변',
+    coordinates: [35.1873, 129.0818],
     riskType: '횡단위험',
     reporter: '고령자',
     confidence: 0.88,
@@ -138,6 +145,7 @@ export const reportInboxItems: ReportInboxItem[] = [
   {
     id: 'R-123',
     location: '복수동 평생학습관',
+    coordinates: [35.2029, 129.0836],
     riskType: '단차',
     reporter: '관광약자',
     confidence: 0.81,
@@ -156,6 +164,7 @@ export const reportInboxItems: ReportInboxItem[] = [
   {
     id: 'R-122',
     location: '광안리 입구',
+    coordinates: [35.1532, 129.1186],
     riskType: '쉼터부족',
     reporter: '고령자',
     confidence: 0.7,

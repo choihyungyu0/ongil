@@ -7,7 +7,7 @@ import {
   Search,
   Sparkles,
 } from 'lucide-react';
-import priorityMapImage from '../../../asset/d44ecfd2-03aa-4757-97ae-169a227f42ac.png';
+import { PriorityLeafletMap } from '../../components/maps/PriorityLeafletMap';
 import { improvementPriorities, priorityDangerZones, type PriorityDangerZone } from '../../data/mockData';
 
 const filters = ['전체', '긴급', '검토', '조치 예정', '완료'];
@@ -133,8 +133,8 @@ function MapPanel() {
         <h2 className="text-sm font-black text-navy-950">개선 후보 위치</h2>
         <Sparkles className="h-4 w-4 text-action-600" aria-hidden="true" />
       </div>
-      <div className="relative mt-3 min-h-0 flex-1 overflow-hidden rounded-[14px] bg-blue-50">
-        <img src={priorityMapImage} alt="부산 개선 후보 위치 mock 지도" className="h-full w-full object-cover" />
+      <div className="mt-3 min-h-[260px] flex-1">
+        <PriorityLeafletMap />
       </div>
     </section>
   );

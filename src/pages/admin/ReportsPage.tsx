@@ -17,11 +17,10 @@ import {
 import busNightPhoto from '../../../asset/08f63d83-7fb3-40c2-b5fa-efeb7b7babf8.png';
 import tactileDamagePhoto from '../../../asset/166ffa68-77be-40bf-8119-1a42895f7ecc.png';
 import treeWalkwayPhoto from '../../../asset/464f37ab-dfc1-4fa8-b954-19e479a945be.png';
-import overviewMapImage from '../../../asset/98c5316a-7e56-4304-93da-8e5f9f0ebbd9.png';
 import tactilePathPhoto from '../../../asset/b915f762-f370-4fa6-9437-092d8f7daea1.png';
 import busStopPhoto from '../../../asset/cb44152e-dc52-498f-9458-c1f065adf032.png';
 import bollardPhoto from '../../../asset/d47adf62-6bb4-40fc-9b06-213e50e59d14.png';
-import detailMapImage from '../../../asset/ongil_map_second_image.png';
+import { ReportInboxLeafletMap } from '../../components/maps/ReportInboxLeafletMap';
 import { reportInboxItems, reportInboxStats, type ReportInboxItem, type ReportInboxStatus } from '../../data/reportInboxData';
 
 const photoByKey: Record<ReportInboxItem['photoKey'], string> = {
@@ -225,8 +224,8 @@ function MapPreviewCard() {
   return (
     <section className="flex h-full min-h-0 flex-1 flex-col rounded-[22px] border border-blue-100/70 bg-white p-5 shadow-[0_18px_45px_rgba(33,91,145,0.08)]">
       <h2 className="shrink-0 text-[17px] font-black text-navy-950">제보 위치 미리보기</h2>
-      <div className="relative mt-4 min-h-0 flex-1 overflow-hidden rounded-2xl border border-blue-100 bg-blue-50">
-        <img src={overviewMapImage} alt="부산 제보 위치 mock 지도" className="h-full w-full object-cover" />
+      <div className="relative mt-4 min-h-0 flex-1">
+        <ReportInboxLeafletMap reports={reportInboxItems.slice(0, 6)} />
       </div>
       <div className="mt-4 rounded-2xl border border-civic-100 bg-civic-50 px-4 py-3">
         <p className="text-[12px] font-bold leading-5 text-civic-700">관리자는 AI 판독 오류를 줄이기 위해 신뢰도와 사진 검수 상태를 함께 확인합니다.</p>
@@ -371,14 +370,7 @@ function ReportDetail({ report }: { report: ReportInboxItem }) {
             <span className="absolute bottom-3 left-3 rounded-full bg-white/92 px-4 py-1.5 text-[11px] font-black text-navy-900 shadow-sm">{report.riskTags[0]}</span>
           </div>
 
-          <div className="relative overflow-hidden rounded-[16px] border border-blue-100 bg-blue-50 shadow-sm">
-            <img src={detailMapImage} alt="제보 위치 mock 지도" className="h-full w-full object-cover" />
-            <span className="absolute left-[47%] top-[33%] rounded-full bg-white px-3 py-1 text-[11px] font-black text-navy-900 shadow-[0_4px_14px_rgba(15,29,51,0.14)]">
-              <span className="mr-1 inline-block h-2 w-2 rounded-full bg-rose-500" />
-              {report.id}
-            </span>
-            <span className="absolute bottom-3 right-3 rounded-full bg-civic-600 px-3 py-1 text-[11px] font-black text-white shadow-sm">위치 확인</span>
-          </div>
+          <ReportInboxLeafletMap className="shadow-sm" compact reports={reportInboxItems} selectedReport={report} />
         </div>
 
         <div className="shrink-0">
