@@ -19,13 +19,13 @@ type HeatmapCircle = {
 };
 
 const routeBounds: LatLngBoundsExpression = [
-  [35.0969, 129.0098],
-  [35.1245, 129.0642],
+  [35.1142, 129.0333],
+  [35.1212, 129.0432],
 ];
 
 const compactRouteBounds: LatLngBoundsExpression = [
-  [35.0967, 129.0088],
-  [35.1242, 129.0598],
+  [35.114, 129.033],
+  [35.1214, 129.0435],
 ];
 
 const routePaths = [
@@ -35,12 +35,12 @@ const routePaths = [
     color: '#18c5ad',
     weight: 3,
     positions: [
-      [35.10035, 129.0148],
-      [35.10365, 129.0213],
-      [35.10728, 129.02915],
-      [35.11135, 129.0378],
-      [35.11568, 129.0462],
-      [35.12042, 129.0589],
+      [35.11518, 129.04225],
+      [35.11572, 129.0408],
+      [35.11642, 129.03942],
+      [35.11735, 129.03822],
+      [35.11862, 129.03682],
+      [35.12035, 129.03535],
     ],
   },
   {
@@ -50,12 +50,12 @@ const routePaths = [
     weight: 2.5,
     dashArray: '10 12',
     positions: [
-      [35.1002, 129.0146],
-      [35.1024, 129.0249],
-      [35.10458, 129.0364],
-      [35.10718, 129.04735],
-      [35.11325, 129.0571],
-      [35.11998, 129.0621],
+      [35.11504, 129.04268],
+      [35.1152, 129.0411],
+      [35.11588, 129.03936],
+      [35.1168, 129.03772],
+      [35.11842, 129.03612],
+      [35.12016, 129.03505],
     ],
   },
   {
@@ -64,9 +64,9 @@ const routePaths = [
     color: '#ef4444',
     weight: 2,
     positions: [
-      [35.11335, 129.0278],
-      [35.11542, 129.0357],
-      [35.11742, 129.0439],
+      [35.11635, 129.03962],
+      [35.1172, 129.03842],
+      [35.11795, 129.03735],
     ],
   },
   {
@@ -75,9 +75,10 @@ const routePaths = [
     color: '#f97316',
     weight: 2,
     positions: [
-      [35.1062, 129.0316],
-      [35.10955, 129.03735],
-      [35.1127, 129.0435],
+      [35.11575, 129.04045],
+      [35.11652, 129.03928],
+      [35.11745, 129.03818],
+      [35.11838, 129.03708],
     ],
   },
   {
@@ -86,10 +87,9 @@ const routePaths = [
     color: '#8b5cf6',
     weight: 2,
     positions: [
-      [35.1032, 129.0223],
-      [35.1079, 129.0302],
-      [35.11205, 129.0386],
-      [35.11535, 129.0455],
+      [35.11528, 129.04135],
+      [35.11605, 129.04018],
+      [35.1169, 129.03908],
     ],
   },
 ] satisfies RoutePath[];
@@ -101,11 +101,11 @@ const compactRoutePaths = [
     color: '#16b8a5',
     weight: 2.5,
     positions: [
-      [35.10005, 129.0146],
-      [35.1042, 129.0236],
-      [35.10875, 129.032],
-      [35.11425, 129.044],
-      [35.1209, 129.0564],
+      [35.11518, 129.04225],
+      [35.11585, 129.04032],
+      [35.11668, 129.0389],
+      [35.1182, 129.03705],
+      [35.12035, 129.03535],
     ],
   },
   {
@@ -114,10 +114,10 @@ const compactRoutePaths = [
     color: '#ef4444',
     weight: 2,
     positions: [
-      [35.1026, 129.0125],
-      [35.1081, 129.0245],
-      [35.1147, 129.0402],
-      [35.1222, 129.0574],
+      [35.11518, 129.04225],
+      [35.11638, 129.03955],
+      [35.1176, 129.0377],
+      [35.12035, 129.03535],
     ],
   },
   {
@@ -126,29 +126,30 @@ const compactRoutePaths = [
     color: '#2477ff',
     weight: 2,
     positions: [
-      [35.09955, 129.0175],
-      [35.10475, 129.028],
-      [35.1112, 129.0406],
-      [35.11965, 129.0553],
+      [35.11504, 129.04268],
+      [35.1156, 129.04088],
+      [35.11678, 129.03812],
+      [35.11885, 129.03622],
+      [35.12016, 129.03505],
     ],
   },
 ] satisfies RoutePath[];
 
 const routePointMarkers = [
   {
-    label: '감천문화마을',
-    tone: 'safe',
-    position: [35.1006, 129.0146],
+    label: '부산역',
+    tone: 'station',
+    position: [35.11518, 129.04225],
   },
   {
-    label: '현재 위험구간',
+    label: '급경사 위험구간',
     tone: 'risk',
-    position: [35.11545, 129.0361],
+    position: [35.11745, 129.03855],
   },
   {
     label: '도착 초량이바구길',
     tone: 'place',
-    position: [35.1205, 129.0574],
+    position: [35.12035, 129.03535],
   },
 ] satisfies Array<{
   label: string;
@@ -157,36 +158,36 @@ const routePointMarkers = [
 }>;
 
 const heatmapCircles = [
-  { center: [35.11575, 129.0374] as LatLngExpression, color: '#ef4444', radius: 190 },
-  { center: [35.1086, 129.0343] as LatLngExpression, color: '#f97316', radius: 240 },
-  { center: [35.116, 129.0472] as LatLngExpression, color: '#18c5ad', radius: 210 },
+  { center: [35.11745, 129.03855] as LatLngExpression, color: '#ef4444', radius: 120 },
+  { center: [35.11845, 129.03695] as LatLngExpression, color: '#f97316', radius: 150 },
+  { center: [35.11535, 129.0412] as LatLngExpression, color: '#18c5ad', radius: 110 },
 ] satisfies HeatmapCircle[];
 
 const compactHeatmapCircles = [
-  { center: [35.1112, 129.0325] as LatLngExpression, color: '#facc15', radius: 520, fillOpacity: 0.18 },
-  { center: [35.1194, 129.0404] as LatLngExpression, color: '#ef4444', radius: 370, fillOpacity: 0.13 },
-  { center: [35.1042, 129.0218] as LatLngExpression, color: '#18c5ad', radius: 260, fillOpacity: 0.12 },
+  { center: [35.11745, 129.03855] as LatLngExpression, color: '#facc15', radius: 190, fillOpacity: 0.18 },
+  { center: [35.1186, 129.0368] as LatLngExpression, color: '#ef4444', radius: 150, fillOpacity: 0.13 },
+  { center: [35.11535, 129.0412] as LatLngExpression, color: '#18c5ad', radius: 120, fillOpacity: 0.12 },
 ] satisfies HeatmapCircle[];
 
 const compactPointMarkers = [
   {
-    label: '초량이바구길 위험 4.8',
+    label: '부산역',
+    tone: 'station',
+    position: [35.11518, 129.04225],
+  },
+  {
+    label: '도착 초량이바구길',
+    tone: 'place',
+    position: [35.12035, 129.03535],
+  },
+  {
+    label: '급경사 위험구간',
     tone: 'risk',
-    position: [35.12065, 129.0384],
-  },
-  {
-    label: '감천문화마을',
-    tone: 'safe',
-    position: [35.10105, 129.0145],
-  },
-  {
-    label: '계단·단차',
-    tone: 'warning',
-    position: [35.1132, 129.0427],
+    position: [35.11745, 129.03855],
   },
 ] satisfies Array<{
   label: string;
-  tone: 'risk' | 'safe' | 'warning';
+  tone: 'place' | 'risk' | 'safe' | 'station' | 'warning';
   position: LatLngExpression;
 }>;
 
@@ -278,7 +279,7 @@ export function AccessibleRouteLeafletMap({ className = '', compact = false }: A
       aria-label="부산역에서 초량이바구길까지 실제 지도 배경 위에 표시한 무장애 경로 비교"
     >
       <MapContainer
-        center={compact ? [35.1115, 129.0348] : [35.1182, 129.0384]}
+        center={compact ? [35.1178, 129.0387] : [35.1179, 129.0389]}
         className="h-full w-full"
         dragging
         scrollWheelZoom={false}
@@ -325,7 +326,7 @@ export function AccessibleRouteLeafletMap({ className = '', compact = false }: A
               <Marker key={marker.label} icon={createRoutePointIcon(marker)} interactive={false} position={marker.position} />
             ))}
         {!compact && <ZoomControl position="bottomright" />}
-        <FitRouteBounds bounds={activeBounds} maxZoom={compact ? 13 : 14} padding={compact ? [10, 10] : [18, 18]} />
+        <FitRouteBounds bounds={activeBounds} maxZoom={15} padding={compact ? [12, 12] : [18, 18]} />
       </MapContainer>
 
       {!compact && (
