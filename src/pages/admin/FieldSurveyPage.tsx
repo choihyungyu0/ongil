@@ -114,8 +114,8 @@ export function FieldSurveyPage() {
         </div>
       </header>
 
-      <section className="grid min-h-0 w-full max-w-full flex-1 gap-5 2xl:grid-cols-[minmax(0,1fr)_minmax(360px,430px)]">
-        <section className="flex min-w-0 flex-col rounded-[20px] border border-blue-100/70 bg-white p-4 shadow-[0_18px_45px_rgba(33,91,145,0.08)] sm:p-6 2xl:min-h-0 2xl:rounded-[24px] 2xl:p-7">
+      <section className="grid min-h-0 w-full max-w-full flex-1 gap-5 2xl:grid-cols-[minmax(0,1fr)_minmax(360px,430px)] 2xl:overflow-hidden">
+        <section className="flex min-w-0 flex-col overflow-hidden rounded-[20px] border border-blue-100/70 bg-white p-4 shadow-[0_18px_45px_rgba(33,91,145,0.08)] sm:p-6 2xl:min-h-0 2xl:rounded-[24px] 2xl:p-7">
           <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4 2xl:h-[52px]">
             <div>
               <h2 className="text-[19px] font-black leading-6 text-navy-950">오늘의 조사 대상 지도</h2>
