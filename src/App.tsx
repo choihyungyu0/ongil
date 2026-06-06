@@ -5,6 +5,7 @@ import { AdminRoutesPage } from './pages/admin/AdminRoutesPage';
 import { AnalysisPage } from './pages/admin/AnalysisPage';
 import { FieldSurveyPage } from './pages/admin/FieldSurveyPage';
 import { ImprovementsPage } from './pages/admin/ImprovementsPage';
+import { MobileScreensPage } from './pages/admin/MobileScreensPage';
 import { PhotoAnalysisPage } from './pages/admin/PhotoAnalysisPage';
 import { PriorityManagementPage } from './pages/admin/PriorityManagementPage';
 import { ReportExportPage } from './pages/admin/ReportExportPage';
@@ -27,6 +28,8 @@ export default function App() {
         <Route path="analysis" element={<AnalysisPage />} />
         <Route path="photo-analysis" element={<PhotoAnalysisPage />} />
         <Route path="routes" element={<AdminRoutesPage />} />
+        <Route path="safe-route" element={<AdminRoutesPage />} />
+        <Route path="mobile-screens" element={<MobileScreensPage />} />
         <Route path="improvements" element={<ImprovementsPage />} />
         <Route path="field-survey" element={<FieldSurveyPage />} />
         <Route path="layers" element={<Navigate to="/admin/settings" replace />} />
