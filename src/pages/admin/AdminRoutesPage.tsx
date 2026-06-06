@@ -1,6 +1,7 @@
 import { ChevronDown, Search, Share2, ShieldCheck, Siren, Sparkles, Smartphone } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { AccessibleRouteLeafletMap } from '../../components/maps/AccessibleRouteLeafletMap';
+import { LeafFieldSurveyMap } from '../../components/maps/LeafFieldSurveyMap';
 import { citizenReports, routeOptions, userTypes } from '../../data/mockData';
 
 const routeCards = [
@@ -195,7 +196,7 @@ function CitizenSafeRouteView() {
           </div>
 
           <div className="mt-4 h-[420px] overflow-hidden rounded-[18px] sm:h-[520px] xl:h-auto xl:min-h-0 xl:flex-1">
-            <AccessibleRouteLeafletMap compact />
+            <LeafFieldSurveyMap />
           </div>
         </section>
 

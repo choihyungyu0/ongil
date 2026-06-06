@@ -1,5 +1,5 @@
 import { CalendarCheck, Check, ChevronDown, Clock3, MapPin, Plus, Search } from 'lucide-react';
-import { LeafFieldSurveyMap } from '../../components/maps/LeafFieldSurveyMap';
+import { AccessibleRouteLeafletMap } from '../../components/maps/AccessibleRouteLeafletMap';
 import { fieldSurveyAssignments } from '../../data/mockData';
 
 const assignments = [
@@ -128,7 +128,7 @@ export function FieldSurveyPage() {
           </div>
 
           <div className="relative mt-4 h-[430px] min-h-0 w-full max-w-full overflow-hidden rounded-[18px] sm:h-[520px] 2xl:h-auto 2xl:flex-1">
-            <LeafFieldSurveyMap />
+            <AccessibleRouteLeafletMap compact />
           </div>
         </section>
 
