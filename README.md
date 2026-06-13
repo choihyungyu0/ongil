@@ -206,8 +206,8 @@ npm run lint
 
 | [이연수]() | [하승민]() | [최현규](https://github.com/choihyungyu0) | [이진재]() | [조창래]() | [차서빈]() |
 |:---:|:---:|:---:|:---:|:---:|:---:|
-| <img src="https://github.com/user-attachments/assets/e2bf251a-7061-4877-bf7d-5afa50d4260f" alt="이연수" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/19eeef8c-8743-4b44-a44e-e07e40d0a87f" alt="하승민" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/fc6bed17-e14f-4dc7-8ca4-9aba9800aca8" alt="최현규" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/c6e70c89-c803-4c3a-8471-1f0c3e755b57" alt="이진재" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/f872465b-ed90-470c-9f80-08aa2d8bd035" alt="조창래" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/0c4c6908-f5d3-407c-b4d2-bd2bbd372ad8" alt="차서빈" width="140" height="140" /> |
-| Data Analyst | Data Analyst | Full-Stack Developer | Project Manager | Designer | Full-Stack Developer |
+| <img src="https://github.com/user-attachments/assets/e2bf251a-7061-4877-bf7d-5afa50d4260f" alt="이연수" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/19eeef8c-8743-4b44-a44e-e07e40d0a87f" alt="하승민" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/fc6bed17-e14f-4dc7-8ca4-9aba9800aca8" alt="최현규" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/c6e70c89-c803-4c3a-8471-1f0c3e755b57" alt="이진재" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/f872465b-ed90-470c-9f80-08aa2d8bd035" alt="조창래" width="140" height="140" /> | <img src="https://github.com/user-attachments/assets/19eeef8c-8743-4b44-a44e-e07e40d0a87f" alt="차서빈" width="140" height="140" /> |
+| Data Analyst | Data Analyst | Full-Stack Developer | Project Manager | Full-Stack Developer | Designer |
 <br>
 
 ## 💡 Commit Convention
