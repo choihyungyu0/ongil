@@ -4,6 +4,12 @@ dist
 .env.local
 .DS_Store
 *.log
+/*.err
+/*.out
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
 .vite-dev.err
 .vite-*.err
 .vite-*.out
@@ -11,6 +17,7 @@ dist
 .chrome-*
 dashboard-audit-*.png
 dashboard-audit-results.json
+routes-dom.txt
 *.tsbuildinfo
 pdf-reference-page.png
 .pdf-reference-page.png
