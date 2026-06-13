@@ -17,6 +17,12 @@
 
 <br />
 
+## 🌐 Deployment
+
+- Frontend: [https://ongil-gt67.vercel.app/admin](https://ongil-gt67.vercel.app/admin)
+
+<br />
+
 ## ☁️ Introduction
 
 부산 온길 AI는 부산의 경사로, 계단, 단차, 점자블록 훼손, 노면 파손 등 보행 환경 위험을 시각화하고, 행정 담당자가 개선 우선순위를 검토할 수 있도록 돕는 프론트엔드 프로토타입입니다.
