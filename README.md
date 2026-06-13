@@ -203,8 +203,11 @@ npm run lint
 ## 👥 Member
 
 팀원 정보와 GitHub 프로필은 프로젝트 발표 자료 정리 후 업데이트합니다.
-
-<br />
+|                                   [이연수]()                                   |                                   [하승민]()                                    |                                    [최현규](https://github.com/choihyungyu0)                                     |                                 [이진재]()                                  |                                 [조창래]()                                  |                                    [차서빈]()                                     |
+|:---------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:|
+| <img src="https://github.com/user-attachments/assets/5aadcf75-013c-498d-8092-444250ffab3f" width="160" /> | <img src="https://github.com/user-attachments/assets/ad7c9c6e-b8b7-453e-a23b-909ea759d7c4" width="160"/> | <img src="https://github.com/user-attachments/assets/19eeef8c-8743-4b44-a44e-e07e40d0a87f" width="160"/> | <img src="https://github.com/user-attachments/assets/e27b14cc-586e-4b9f-8b00-9f8f2ad6350e" width=160 /> | <img src="https://github.com/user-attachments/assets/62b74060-b937-46c7-94eb-2bcb80b2d20c" width=160 /> | <img src="https://github.com/user-attachments/assets/0c4c6908-f5d3-407c-b4d2-bd2bbd372ad8" width="160"/> |
+|                                              Project Manager                                              |                                            Frontend Developer                                            |                                            Frontend Developer                                            |                                            Backend Developer                                            |                                            Full-Stack Developer                                            |                                                 Designer                                                 |
+<br>
 
 ## 💡 Commit Convention
 
